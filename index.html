@@ -252,20 +252,139 @@ button{
     padding:0 18px 22px;
 }
 
-.feature-grid{
+.total-box{
+    background:#292929;
+    color:#fff;
+    border-radius:18px;
+    padding:18px;
+}
+
+.total-label{
+    font-size:11px;
+    opacity:.65;
+}
+
+.total-value{
+    margin-top:5px;
+    font-size:28px;
+    font-weight:900;
+}
+
+.booking-list{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
     gap:9px;
 }
 
-.feature-btn{
+.booking-card{
     background:#fff;
     border:1px solid #e1e0dc;
-    border-radius:14px;
-    padding:13px;
-    text-align:left;
+    border-radius:17px;
+    padding:15px;
+}
+
+.booking-type{
+    color:#999;
+    font-size:11px;
+    margin-bottom:4px;
+}
+
+.booking-title{
+    font-size:17px;
+    font-weight:800;
+}
+
+.booking-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+    margin-top:12px;
+}
+
+.booking-info-box{
+    background:#f5f4f1;
+    border-radius:10px;
+    padding:9px;
+}
+
+.booking-label{
+    color:#999;
+    font-size:10px;
+}
+
+.booking-value{
+    font-size:13px;
+    font-weight:600;
+    margin-top:3px;
+}
+
+.booking-note{
+    margin-top:9px;
+    font-size:12px;
+    color:#777;
+    line-height:1.6;
+}
+
+.stay-list{
+    display:grid;
+    gap:9px;
+}
+
+.stay-card{
+    background:#fff;
+    border:1px solid #e1e0dc;
+    border-radius:17px;
+    padding:15px;
+}
+
+.stay-name{
+    font-size:17px;
+    font-weight:800;
+}
+
+.stay-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+    margin-top:12px;
+}
+
+.stay-info-box{
+    background:#f5f4f1;
+    border-radius:10px;
+    padding:9px;
+}
+
+.stay-label{
+    color:#999;
+    font-size:10px;
+}
+
+.stay-value{
+    font-size:13px;
+    font-weight:600;
+    margin-top:3px;
+}
+
+.stay-platform{
+    margin-top:9px;
+    color:#777;
+    font-size:12px;
+}
+
+.stay-note{
+    margin-top:9px;
+    color:#777;
+    font-size:12px;
+    line-height:1.6;
+}
+
+.stay-link{
+    display:inline-block;
+    margin-top:10px;
+    color:#292929;
     font-size:12px;
     font-weight:700;
+    text-decoration:none;
 }
 
 .day-list{
@@ -405,83 +524,6 @@ button{
     font-size:10px;
 }
 
-.total-box{
-    background:#292929;
-    color:#fff;
-    border-radius:18px;
-    padding:18px;
-}
-
-.total-label{
-    font-size:11px;
-    opacity:.65;
-}
-
-.total-value{
-    margin-top:5px;
-    font-size:28px;
-    font-weight:900;
-}
-
-.list-box{
-    display:grid;
-    gap:9px;
-}
-
-.simple-card{
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:15px;
-    padding:13px;
-}
-
-.simple-title{
-    font-weight:800;
-    font-size:14px;
-}
-
-.simple-text{
-    margin-top:5px;
-    color:#777;
-    font-size:12px;
-    line-height:1.6;
-}
-
-.photo-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:9px;
-}
-
-.photo-card{
-    background:#fff;
-    border-radius:14px;
-    overflow:hidden;
-    border:1px solid #e1e0dc;
-}
-
-.photo-card img{
-    width:100%;
-    aspect-ratio:1/1;
-    object-fit:cover;
-    display:block;
-}
-
-.photo-info{
-    padding:9px;
-}
-
-.photo-place{
-    font-size:12px;
-    font-weight:700;
-}
-
-.photo-note{
-    margin-top:4px;
-    font-size:11px;
-    color:#888;
-}
-
 .modal-bg{
     display:none;
     position:fixed;
@@ -588,29 +630,6 @@ button{
     border-color:#292929;
 }
 
-.check-item{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:13px;
-    padding:11px;
-}
-
-.check-left{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:12px;
-}
-
-.check-left.done{
-    text-decoration:line-through;
-    color:#999;
-}
-
 .toast{
     position:fixed;
     left:50%;
@@ -638,7 +657,9 @@ button{
         grid-template-columns:1fr;
     }
 
-    .itinerary-info{
+    .itinerary-info,
+    .booking-info,
+    .stay-info{
         grid-template-columns:1fr 1fr;
     }
 
@@ -754,44 +775,84 @@ class="detail-note">
 </header>
 
 
+<!-- 總花費 -->
+
 <section class="detail-section">
 
-<div class="feature-grid">
+<div class="total-box">
 
-<button
-class="feature-btn"
-onclick="openVisaModal()">
-🛂 簽證資訊
-</button>
+<div class="total-label">
+目前預估總花費
+</div>
 
-<button
-class="feature-btn"
-onclick="openChecklistModal()">
-📋 出發前清單
-</button>
-
-<button
-class="feature-btn"
-onclick="openStayModal()">
-🏨 住宿資訊
-</button>
-
-<button
-class="feature-btn"
-onclick="openBookingModal()">
-✈️ 旅遊資訊
-</button>
-
-<button
-class="feature-btn"
-onclick="openPhotoModal()">
-📷 旅行照片
-</button>
+<div
+id="totalValue"
+class="total-value">
+NT$ 0
+</div>
 
 </div>
 
 </section>
 
+
+<!-- 班機資訊 -->
+
+<section class="detail-section">
+
+<div class="section-title">
+
+<h2>
+✈️ 班機資訊
+</h2>
+
+<button
+class="btn btn-light"
+onclick="openBookingModal()">
+
+＋ 新增
+
+</button>
+
+</div>
+
+<div
+id="bookingList"
+class="booking-list">
+</div>
+
+</section>
+
+
+<!-- 住宿資訊 -->
+
+<section class="detail-section">
+
+<div class="section-title">
+
+<h2>
+🏨 住宿資訊
+</h2>
+
+<button
+class="btn btn-light"
+onclick="openStayModal()">
+
+＋ 新增
+
+</button>
+
+</div>
+
+<div
+id="stayList"
+class="stay-list">
+</div>
+
+</section>
+
+
+<!-- 每日行程 -->
 
 <section class="detail-section">
 
@@ -814,155 +875,6 @@ onclick="addDay()">
 <div
 id="dayList"
 class="day-list">
-</div>
-
-</section>
-
-
-<section class="detail-section">
-
-<div class="section-title">
-
-<h2>
-🛂 簽證資訊
-</h2>
-
-<button
-class="btn btn-light"
-onclick="openVisaModal()">
-
-＋ 新增
-
-</button>
-
-</div>
-
-<div
-id="visaList"
-class="list-box">
-</div>
-
-</section>
-
-
-<section class="detail-section">
-
-<div class="section-title">
-
-<h2>
-📋 出發前清單
-</h2>
-
-<button
-class="btn btn-light"
-onclick="openChecklistModal()">
-
-＋ 新增
-
-</button>
-
-</div>
-
-<div
-id="checklistList"
-class="list-box">
-</div>
-
-</section>
-
-
-<section class="detail-section">
-
-<div class="section-title">
-
-<h2>
-🏨 住宿資訊
-</h2>
-
-<button
-class="btn btn-light"
-onclick="openStayModal()">
-
-＋ 新增
-
-</button>
-
-</div>
-
-<div
-id="stayList"
-class="list-box">
-</div>
-
-</section>
-
-
-<section class="detail-section">
-
-<div class="section-title">
-
-<h2>
-📷 旅行照片
-</h2>
-
-<button
-class="btn btn-light"
-onclick="openPhotoModal()">
-
-＋ 新增
-
-</button>
-
-</div>
-
-<div
-id="photoList"
-class="photo-grid">
-</div>
-
-</section>
-
-
-<section class="detail-section">
-
-<div class="section-title">
-
-<h2>
-✈️ 旅遊資訊
-</h2>
-
-<button
-class="btn btn-light"
-onclick="openBookingModal()">
-
-＋ 新增
-
-</button>
-
-</div>
-
-<div
-id="bookingList"
-class="list-box">
-</div>
-
-</section>
-
-
-<section class="detail-section">
-
-<div class="total-box">
-
-<div class="total-label">
-目前預估總花費
-</div>
-
-<div
-id="totalValue"
-class="total-value">
-NT$ 0
-</div>
-
 </div>
 
 </section>
@@ -1167,7 +1079,6 @@ placeholder="Klook / 官網 / 現場">
 
 </div>
 
-
 <div class="form-group">
 
 <label>
@@ -1181,7 +1092,6 @@ placeholder="https://...">
 
 </div>
 
-
 <div class="form-group">
 
 <label>
@@ -1193,7 +1103,6 @@ id="itineraryAddress"
 placeholder="例如：大阪府大阪市中央区...">
 
 </div>
-
 
 <div class="form-group">
 
@@ -1249,7 +1158,6 @@ value="👎🏻 不用去">
 
 </div>
 
-
 <div class="form-group">
 
 <label>
@@ -1261,7 +1169,6 @@ id="itineraryNote"
 placeholder="例如：建議先買票、要注意末班車"></textarea>
 
 </div>
-
 
 <div class="modal-actions">
 
@@ -1380,144 +1287,6 @@ onclick="savePartner()">
 </div>
 
 
-<!-- Visa Modal -->
-
-<div
-class="modal-bg"
-id="visaModal">
-
-<div class="modal">
-
-<h2>
-新增簽證資訊
-</h2>
-
-<div class="form-group">
-
-<label>
-國家
-</label>
-
-<input
-id="visaCountry"
-placeholder="例如：日本">
-
-</div>
-
-<div class="form-group">
-
-<label>
-項目
-</label>
-
-<input
-id="visaTitle"
-placeholder="例如：台灣護照免簽">
-
-</div>
-
-<div class="form-group">
-
-<label>
-狀態
-</label>
-
-<input
-id="visaNeed"
-placeholder="免簽 / 需要申請">
-
-</div>
-
-<div class="form-group">
-
-<label>
-官方網站
-</label>
-
-<input
-id="visaUrl"
-type="url"
-placeholder="https://...">
-
-</div>
-
-<div class="form-group">
-
-<label>
-備注
-</label>
-
-<textarea
-id="visaNote"></textarea>
-
-</div>
-
-<div class="modal-actions">
-
-<button
-class="btn btn-light"
-onclick="closeModals()">
-取消
-</button>
-
-<button
-class="btn"
-onclick="saveVisa()">
-儲存
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- Checklist Modal -->
-
-<div
-class="modal-bg"
-id="checklistModal">
-
-<div class="modal">
-
-<h2>
-新增出發前清單
-</h2>
-
-<div class="form-group">
-
-<label>
-事項
-</label>
-
-<input
-id="checklistText"
-placeholder="例如：確認護照">
-
-</div>
-
-<div class="modal-actions">
-
-<button
-class="btn btn-light"
-onclick="closeModals()">
-取消
-</button>
-
-<button
-class="btn"
-onclick="saveChecklist()">
-新增
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
 <!-- Stay Modal -->
 
 <div
@@ -1602,7 +1371,7 @@ type="date">
 <div class="form-group">
 
 <label>
-訂房連結
+住宿連結
 </label>
 
 <input
@@ -1644,75 +1413,6 @@ onclick="saveStay()">
 </div>
 
 
-<!-- Photo Modal -->
-
-<div
-class="modal-bg"
-id="photoModal">
-
-<div class="modal">
-
-<h2>
-新增旅行照片
-</h2>
-
-<div class="form-group">
-
-<label>
-照片
-</label>
-
-<input
-id="photoFile"
-type="file"
-accept="image/*">
-
-</div>
-
-<div class="form-group">
-
-<label>
-地點
-</label>
-
-<input
-id="photoPlace"
-placeholder="例如：清水寺">
-
-</div>
-
-<div class="form-group">
-
-<label>
-備注
-</label>
-
-<textarea
-id="photoNote"></textarea>
-
-</div>
-
-<div class="modal-actions">
-
-<button
-class="btn btn-light"
-onclick="closeModals()">
-取消
-</button>
-
-<button
-class="btn"
-onclick="savePhoto()">
-新增
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
 <!-- Booking Modal -->
 
 <div
@@ -1722,58 +1422,37 @@ id="bookingModal">
 <div class="modal">
 
 <h2>
-新增旅遊資訊
+新增班機資訊
 </h2>
 
 <div class="form-group">
 
 <label>
-類型
-</label>
-
-<select id="bookingType">
-
-<option value="flight">✈️ 機票</option>
-<option value="hotel">🏨 住宿</option>
-<option value="car">🚗 租車</option>
-<option value="esim">📱 eSIM</option>
-<option value="ticket">🎟️ 票券</option>
-<option value="train">🚆 火車</option>
-<option value="restaurant">🍽️ 餐廳</option>
-<option value="other">🔗 其他</option>
-
-</select>
-
-</div>
-
-<div class="form-group">
-
-<label>
-名稱
+航班名稱
 </label>
 
 <input
 id="bookingTitle"
-placeholder="例如：桃園 → 大阪機票">
+placeholder="例如：桃園 → 大阪">
 
 </div>
 
 <div class="form-group">
 
 <label>
-平台
+航空公司／平台
 </label>
 
 <input
 id="bookingPlatform"
-placeholder="例如：KKday">
+placeholder="例如：Peach / 長榮">
 
 </div>
 
 <div class="form-group">
 
 <label>
-價格
+花費（台幣）
 </label>
 
 <input
@@ -1790,7 +1469,8 @@ placeholder="0">
 </label>
 
 <textarea
-id="bookingNote"></textarea>
+id="bookingNote"
+placeholder="例如：23:55 起飛、含 20kg 行李"></textarea>
 
 </div>
 
@@ -1829,7 +1509,6 @@ const TRIP_KEY =
 const PARTNER_KEY =
 "ERICA_GOES_PARTNERS";
 
-
 let trips =
 JSON.parse(
 localStorage.getItem(TRIP_KEY) ||
@@ -1841,7 +1520,6 @@ JSON.parse(
 localStorage.getItem(PARTNER_KEY) ||
 "[]"
 );
-
 
 let currentTripId =
 null;
@@ -2406,17 +2084,11 @@ function renderDetail(){
 
     }
 
-    renderDays();
-
-    renderVisa();
-
-    renderChecklist();
+    renderBookings();
 
     renderStays();
 
-    renderPhotos();
-
-    renderBookings();
+    renderDays();
 
     updateTotal();
 
@@ -2477,8 +2149,10 @@ function deleteDay(dayId){
 
     trip.days.forEach(
         (day,index) => {
+
             day.day =
             index + 1;
+
         }
     );
 
@@ -2611,10 +2285,12 @@ function renderDays(){
                                         </div>
 
                                         <div class="info-value">
+
                                             ${escapeHTML(
                                                 item.time ||
                                                 "未設定"
                                             )}
+
                                         </div>
 
                                     </div>
@@ -2626,16 +2302,17 @@ function renderDays(){
                                     ?
                                     `
                                     <div class="itinerary-platform">
+
                                         訂購平台：
                                         ${escapeHTML(
                                             item.platform
                                         )}
+
                                     </div>
                                     `
                                     :
                                     ""
                                 }
-
 
                                 ${
                                     item.shopUrl
@@ -2654,7 +2331,6 @@ function renderDays(){
                                     :
                                     ""
                                 }
-
 
                                 ${
                                     item.address
@@ -2685,7 +2361,6 @@ function renderDays(){
                                     ""
                                 }
 
-
                                 ${
                                     item.recommendation
                                     ?
@@ -2703,7 +2378,6 @@ function renderDays(){
                                     :
                                     ""
                                 }
-
 
                                 ${
                                     item.note
@@ -2726,7 +2400,9 @@ function renderDays(){
                                         ${day.id},
                                         ${item.id}
                                     )">
+
                                         編輯
+
                                     </button>
 
                                     <button
@@ -2734,7 +2410,9 @@ function renderDays(){
                                         ${day.id},
                                         ${item.id}
                                     )">
+
                                         刪除
+
                                     </button>
 
                                 </div>
@@ -2846,18 +2524,15 @@ function editItinerary(
     ).value =
     item.platform || "";
 
-
     document.getElementById(
         "itineraryShopUrl"
     ).value =
     item.shopUrl || "";
 
-
     document.getElementById(
         "itineraryAddress"
     ).value =
     item.address || "";
-
 
     document.getElementById(
         "itineraryNote"
@@ -2953,18 +2628,15 @@ function saveItinerary(){
             "itineraryPlatform"
         ).value.trim(),
 
-
         shopUrl:
         document.getElementById(
             "itineraryShopUrl"
         ).value.trim(),
 
-
         address:
         document.getElementById(
             "itineraryAddress"
         ).value.trim(),
-
 
         recommendation:
         selectedRecommendation
@@ -3084,16 +2756,13 @@ function clearItineraryForm(){
         "itineraryPlatform"
     ).value = "";
 
-
     document.getElementById(
         "itineraryShopUrl"
     ).value = "";
 
-
     document.getElementById(
         "itineraryAddress"
     ).value = "";
-
 
     document.getElementById(
         "itineraryNote"
@@ -3335,348 +3004,6 @@ function deletePartner(id){
 }
 
 
-function openVisaModal(){
-
-    document.getElementById(
-        "visaCountry"
-    ).value = "";
-
-    document.getElementById(
-        "visaTitle"
-    ).value = "";
-
-    document.getElementById(
-        "visaNeed"
-    ).value = "";
-
-    document.getElementById(
-        "visaUrl"
-    ).value = "";
-
-    document.getElementById(
-        "visaNote"
-    ).value = "";
-
-    document.getElementById(
-        "visaModal"
-    ).classList.add("show");
-
-}
-
-
-function saveVisa(){
-
-    const trip =
-    getCurrentTrip();
-
-    if(!trip) return;
-
-    trip.visa.push({
-
-        id:Date.now(),
-
-        country:
-        document.getElementById(
-            "visaCountry"
-        ).value.trim(),
-
-        title:
-        document.getElementById(
-            "visaTitle"
-        ).value.trim(),
-
-        need:
-        document.getElementById(
-            "visaNeed"
-        ).value.trim(),
-
-        url:
-        document.getElementById(
-            "visaUrl"
-        ).value.trim(),
-
-        note:
-        document.getElementById(
-            "visaNote"
-        ).value.trim()
-
-    });
-
-    saveData();
-
-    renderVisa();
-
-    closeModals();
-
-}
-
-
-function renderVisa(){
-
-    const trip =
-    getCurrentTrip();
-
-    const list =
-    document.getElementById(
-        "visaList"
-    );
-
-    if(!trip || !trip.visa.length){
-
-        list.innerHTML = `
-        <div class="empty">
-            還沒有簽證資訊
-        </div>
-        `;
-
-        return;
-
-    }
-
-    list.innerHTML =
-    trip.visa.map(
-        item => `
-
-        <div class="simple-card">
-
-            <div class="simple-title">
-                ${escapeHTML(
-                    item.country
-                )}
-                ${escapeHTML(
-                    item.title
-                )}
-            </div>
-
-            <div class="simple-text">
-                ${escapeHTML(
-                    item.need
-                )}
-            </div>
-
-            ${
-                item.url
-                ?
-                `
-                <a
-                    class="partner-link"
-                    href="${safeUrl(item.url)}"
-                    target="_blank"
-                    rel="noopener noreferrer">
-                    🔗 官方網站
-                </a>
-                `
-                :
-                ""
-            }
-
-            ${
-                item.note
-                ?
-                `
-                <div class="simple-text">
-                    ${escapeHTML(item.note)}
-                </div>
-                `
-                :
-                ""
-            }
-
-            <div class="item-actions">
-
-                <button
-                onclick="deleteVisa(${item.id})">
-                    刪除
-                </button>
-
-            </div>
-
-        </div>
-
-        `
-    ).join("");
-
-}
-
-
-function deleteVisa(id){
-
-    const trip =
-    getCurrentTrip();
-
-    if(!trip) return;
-
-    trip.visa =
-    trip.visa.filter(
-        item =>
-        item.id !== id
-    );
-
-    saveData();
-
-    renderVisa();
-
-}
-
-
-function openChecklistModal(){
-
-    document.getElementById(
-        "checklistText"
-    ).value = "";
-
-    document.getElementById(
-        "checklistModal"
-    ).classList.add("show");
-
-}
-
-
-function saveChecklist(){
-
-    const trip =
-    getCurrentTrip();
-
-    if(!trip) return;
-
-    const text =
-    document.getElementById(
-        "checklistText"
-    ).value.trim();
-
-    if(!text){
-
-        alert("請輸入事項");
-
-        return;
-
-    }
-
-    trip.checklist.push({
-
-        id:Date.now(),
-
-        text,
-
-        done:false
-
-    });
-
-    saveData();
-
-    renderChecklist();
-
-    closeModals();
-
-}
-
-
-function renderChecklist(){
-
-    const trip =
-    getCurrentTrip();
-
-    const list =
-    document.getElementById(
-        "checklistList"
-    );
-
-    if(!trip || !trip.checklist.length){
-
-        list.innerHTML = `
-        <div class="empty">
-            還沒有出發前清單
-        </div>
-        `;
-
-        return;
-
-    }
-
-    list.innerHTML =
-    trip.checklist.map(
-        item => `
-
-        <div class="check-item">
-
-            <div
-            class="check-left ${
-                item.done
-                ?
-                "done"
-                :
-                ""
-            }">
-
-                <input
-                type="checkbox"
-                ${item.done ? "checked" : ""}
-                onchange="toggleChecklist(${item.id})">
-
-                <span>
-                    ${escapeHTML(item.text)}
-                </span>
-
-            </div>
-
-            <button
-            class="btn btn-danger"
-            onclick="deleteChecklist(${item.id})">
-                刪除
-            </button>
-
-        </div>
-
-        `
-    ).join("");
-
-}
-
-
-function toggleChecklist(id){
-
-    const trip =
-    getCurrentTrip();
-
-    if(!trip) return;
-
-    const item =
-    trip.checklist.find(
-        i => i.id === id
-    );
-
-    if(!item) return;
-
-    item.done =
-    !item.done;
-
-    saveData();
-
-    renderChecklist();
-
-}
-
-
-function deleteChecklist(id){
-
-    const trip =
-    getCurrentTrip();
-
-    if(!trip) return;
-
-    trip.checklist =
-    trip.checklist.filter(
-        item =>
-        item.id !== id
-    );
-
-    saveData();
-
-    renderChecklist();
-
-}
-
-
 function openStayModal(){
 
     document.getElementById(
@@ -3782,6 +3109,10 @@ function saveStay(){
 
     closeModals();
 
+    showToast(
+        "住宿已新增"
+    );
+
 }
 
 
@@ -3846,38 +3177,81 @@ function renderStays(){
 
             return `
 
-            <div class="simple-card">
+            <div class="stay-card">
 
-                <div class="simple-title">
-                    ${escapeHTML(item.name)}
-                </div>
-
-                <div class="simple-text">
-
-                    NT$ ${
-                        Number(
-                            item.price || 0
-                        ).toLocaleString()
-                    }
-                    ／晚
-
-                    ・ ${nights} 晚
-
-                </div>
-
-                <div class="simple-text">
-
+                <div class="stay-name">
                     ${escapeHTML(
-                        item.checkIn || ""
+                        item.name
                     )}
+                </div>
 
-                    ${
-                        item.checkOut
-                        ?
-                        ` ～ ${escapeHTML(item.checkOut)}`
-                        :
-                        ""
-                    }
+                <div class="stay-info">
+
+                    <div class="stay-info-box">
+
+                        <div class="stay-label">
+                            💰 價格／晚
+                        </div>
+
+                        <div class="stay-value">
+
+                            NT$ ${
+                                Number(
+                                    item.price || 0
+                                ).toLocaleString()
+                            }
+
+                        </div>
+
+                    </div>
+
+                    <div class="stay-info-box">
+
+                        <div class="stay-label">
+                            🌙 住宿晚數
+                        </div>
+
+                        <div class="stay-value">
+
+                            ${nights} 晚
+
+                        </div>
+
+                    </div>
+
+                    <div class="stay-info-box">
+
+                        <div class="stay-label">
+                            🏨 入住
+                        </div>
+
+                        <div class="stay-value">
+
+                            ${escapeHTML(
+                                item.checkIn ||
+                                "未設定"
+                            )}
+
+                        </div>
+
+                    </div>
+
+                    <div class="stay-info-box">
+
+                        <div class="stay-label">
+                            🏨 退房
+                        </div>
+
+                        <div class="stay-value">
+
+                            ${escapeHTML(
+                                item.checkOut ||
+                                "未設定"
+                            )}
+
+                        </div>
+
+                    </div>
 
                 </div>
 
@@ -3885,8 +3259,13 @@ function renderStays(){
                     item.platform
                     ?
                     `
-                    <div class="simple-text">
-                        ${escapeHTML(item.platform)}
+                    <div class="stay-platform">
+
+                        訂房網站：
+                        ${escapeHTML(
+                            item.platform
+                        )}
+
                     </div>
                     `
                     :
@@ -3898,11 +3277,13 @@ function renderStays(){
                     ?
                     `
                     <a
-                    class="partner-link"
-                    href="${safeUrl(item.url)}"
-                    target="_blank"
-                    rel="noopener noreferrer">
-                        🔗 訂房連結
+                        class="stay-link"
+                        href="${safeUrl(item.url)}"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                        🔗 開啟住宿連結
+
                     </a>
                     `
                     :
@@ -3913,8 +3294,13 @@ function renderStays(){
                     item.note
                     ?
                     `
-                    <div class="simple-text">
-                        ${escapeHTML(item.note)}
+                    <div class="stay-note">
+
+                        備注：
+                        ${escapeHTML(
+                            item.note
+                        )}
+
                     </div>
                     `
                     :
@@ -3925,7 +3311,9 @@ function renderStays(){
 
                     <button
                     onclick="deleteStay(${item.id})">
+
                         刪除
+
                     </button>
 
                 </div>
@@ -3959,185 +3347,9 @@ function deleteStay(id){
 
     updateTotal();
 
-}
-
-
-function openPhotoModal(){
-
-    document.getElementById(
-        "photoFile"
-    ).value = "";
-
-    document.getElementById(
-        "photoPlace"
-    ).value = "";
-
-    document.getElementById(
-        "photoNote"
-    ).value = "";
-
-    document.getElementById(
-        "photoModal"
-    ).classList.add("show");
-
-}
-
-
-function savePhoto(){
-
-    const trip =
-    getCurrentTrip();
-
-    if(!trip) return;
-
-    const file =
-    document.getElementById(
-        "photoFile"
-    ).files[0];
-
-    if(!file){
-
-        alert("請選擇照片");
-
-        return;
-
-    }
-
-    const reader =
-    new FileReader();
-
-    reader.onload =
-    function(e){
-
-        trip.photos.push({
-
-            id:Date.now(),
-
-            src:e.target.result,
-
-            place:
-            document.getElementById(
-                "photoPlace"
-            ).value.trim(),
-
-            note:
-            document.getElementById(
-                "photoNote"
-            ).value.trim()
-
-        });
-
-        saveData();
-
-        renderPhotos();
-
-        closeModals();
-
-        showToast(
-            "照片已新增"
-        );
-
-    };
-
-    reader.readAsDataURL(file);
-
-}
-
-
-function renderPhotos(){
-
-    const trip =
-    getCurrentTrip();
-
-    const list =
-    document.getElementById(
-        "photoList"
+    showToast(
+        "住宿已刪除"
     );
-
-    if(!trip || !trip.photos.length){
-
-        list.innerHTML = `
-        <div class="empty"
-        style="grid-column:1/-1">
-            還沒有旅行照片
-        </div>
-        `;
-
-        return;
-
-    }
-
-    list.innerHTML =
-    trip.photos.map(
-        item => `
-
-        <div class="photo-card">
-
-            <img
-            src="${item.src}"
-            alt="旅行照片">
-
-            <div class="photo-info">
-
-                ${
-                    item.place
-                    ?
-                    `
-                    <div class="photo-place">
-                        ${escapeHTML(item.place)}
-                    </div>
-                    `
-                    :
-                    ""
-                }
-
-                ${
-                    item.note
-                    ?
-                    `
-                    <div class="photo-note">
-                        ${escapeHTML(item.note)}
-                    </div>
-                    `
-                    :
-                    ""
-                }
-
-                <div class="item-actions">
-
-                    <button
-                    onclick="deletePhoto(${item.id})">
-                        刪除
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        `
-    ).join("");
-
-}
-
-
-function deletePhoto(id){
-
-    const trip =
-    getCurrentTrip();
-
-    if(!trip) return;
-
-    trip.photos =
-    trip.photos.filter(
-        item =>
-        item.id !== id
-    );
-
-    saveData();
-
-    renderPhotos();
 
 }
 
@@ -4181,7 +3393,7 @@ function saveBooking(){
 
     if(!title){
 
-        alert("請輸入名稱");
+        alert("請輸入航班名稱");
 
         return;
 
@@ -4191,10 +3403,7 @@ function saveBooking(){
 
         id:Date.now(),
 
-        type:
-        document.getElementById(
-            "bookingType"
-        ).value,
+        type:"flight",
 
         title,
 
@@ -4225,6 +3434,10 @@ function saveBooking(){
 
     closeModals();
 
+    showToast(
+        "班機資訊已新增"
+    );
+
 }
 
 
@@ -4242,7 +3455,7 @@ function renderBookings(){
 
         list.innerHTML = `
         <div class="empty">
-            還沒有旅遊資訊
+            還沒有班機資訊
         </div>
         `;
 
@@ -4250,55 +3463,60 @@ function renderBookings(){
 
     }
 
-    const typeMap = {
-
-        flight:"✈️ 機票",
-        hotel:"🏨 住宿",
-        car:"🚗 租車",
-        esim:"📱 eSIM",
-        ticket:"🎟️ 票券",
-        train:"🚆 火車",
-        restaurant:"🍽️ 餐廳",
-        other:"🔗 其他"
-
-    };
-
     list.innerHTML =
     trip.bookings.map(
         item => `
 
-        <div class="simple-card">
+        <div class="booking-card">
 
-            <div class="simple-title">
+            <div class="booking-type">
+                ✈️ 班機
+            </div>
 
-                ${typeMap[item.type] || "🔗 其他"}
+            <div class="booking-title">
 
-                ・
-
-                ${escapeHTML(item.title)}
+                ${escapeHTML(
+                    item.title
+                )}
 
             </div>
 
-            ${
-                item.platform
-                ?
-                `
-                <div class="simple-text">
-                    平台：
-                    ${escapeHTML(item.platform)}
+            <div class="booking-info">
+
+                <div class="booking-info-box">
+
+                    <div class="booking-label">
+                        航空公司／平台
+                    </div>
+
+                    <div class="booking-value">
+
+                        ${escapeHTML(
+                            item.platform ||
+                            "未設定"
+                        )}
+
+                    </div>
+
                 </div>
-                `
-                :
-                ""
-            }
 
-            <div class="simple-text">
+                <div class="booking-info-box">
 
-                NT$ ${
-                    Number(
-                        item.price || 0
-                    ).toLocaleString()
-                }
+                    <div class="booking-label">
+                        💰 花費
+                    </div>
+
+                    <div class="booking-value">
+
+                        NT$ ${
+                            Number(
+                                item.price || 0
+                            ).toLocaleString()
+                        }
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -4306,8 +3524,13 @@ function renderBookings(){
                 item.note
                 ?
                 `
-                <div class="simple-text">
-                    ${escapeHTML(item.note)}
+                <div class="booking-note">
+
+                    備注：
+                    ${escapeHTML(
+                        item.note
+                    )}
+
                 </div>
                 `
                 :
@@ -4318,7 +3541,9 @@ function renderBookings(){
 
                 <button
                 onclick="deleteBooking(${item.id})">
+
                     刪除
+
                 </button>
 
             </div>
@@ -4349,6 +3574,10 @@ function deleteBooking(id){
     renderBookings();
 
     updateTotal();
+
+    showToast(
+        "班機資訊已刪除"
+    );
 
 }
 
