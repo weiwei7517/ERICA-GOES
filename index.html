@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ERICA GOES｜躺平也能玩，小資也能飛</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#f5f4f1;
+    color:#292929;
+    font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Noto Sans TC",Arial,sans-serif;
+}
+
+button,
+input,
+textarea,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.header{
+    background:#f5f4f1;
+    padding:28px 18px 18px;
+    position:sticky;
+    top:0;
+    z-index:20;
+    border-bottom:1px solid #deddd9;
+}
+
+.brand{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    max-width:720px;
+    margin:auto;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.tagline{
+    margin-top:5px;
+    font-size:13px;
+    color:#777;
+    letter-spacing:1px;
+}
+
+.add-main{
+    border:0;
+    background:#292929;
+    color:white;
+    border-radius:30px;
+    padding:11px 17px;
+    font-weight:700;
+}
+
+.container{
+    max-width:720px;
+    margin:auto;
+    padding:22px 16px 80px;
+}
+
+.hero{
+    padding:15px 3px 28px;
+}
+
+.hero h1{
+    font-size:31px;
+    margin:0 0 8px;
+    letter-spacing:-1px;
+}
+
+.hero p{
+    margin:0;
+    color:#777;
+    line-height:1.7;
+}
+
+.trip-list{
+    display:grid;
+    gap:14px;
+}
+
+.trip-card{
+    background:#fff;
+    border:1px solid #e1e0dc;
+    border-radius:20px;
+    padding:18px;
+    box-shadow:0 3px 12px rgba(0,0,0,.035);
+}
+
+.trip-top{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.trip-country{
+    font-size:12px;
+    color:#888;
+    margin-bottom:5px;
+}
+
+.trip-name{
+    font-size:22px;
+    font-weight:800;
+}
+
+.trip-date{
+    color:#888;
+    font-size:13px;
+    margin-top:7px;
+}
+
+.trip-total{
+    margin-top:16px;
+    padding-top:14px;
+    border-top:1px solid #eee;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.trip-total span{
+    color:#888;
+    font-size:13px;
+}
+
+.trip-total strong{
+    font-size:20px;
+}
+
+.trip-actions{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+.btn{
+    border:1px solid #ddd;
+    background:#fff;
+    padding:9px 13px;
+    border-radius:12px;
+    font-size:13px;
+}
+
+.btn.dark{
+    background:#292929;
+    color:#fff;
+    border-color:#292929;
+}
+
+.empty{
+    text-align:center;
+    padding:65px 20px;
+    color:#888;
+}
+
+.empty-icon{
+    font-size:40px;
+    margin-bottom:12px;
+}
+
+/* 頁面 */
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.back{
+    border:0;
+    background:none;
+    padding:0;
+    color:#666;
+    margin-bottom:18px;
+}
+
+.trip-header{
+    margin-bottom:25px;
+}
+
+.trip-header h2{
+    margin:0;
+    font-size:28px;
+}
+
+.trip-header p{
+    color:#888;
+    margin:7px 0 0;
+}
+
+/* 照片 */
+
+.photo-section{
+    margin-top:25px;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:13px;
+}
+
+.section-title h3{
+    margin:0;
+    font-size:18px;
+}
+
+.section-title button{
+    border:0;
+    background:#292929;
+    color:#fff;
+    border-radius:20px;
+    padding:8px 13px;
+    font-size:12px;
+}
+
+.photo-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.photo-card{
+    background:#fff;
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid #e0dfdb;
+}
+
+.photo{
+    width:100%;
+    aspect-ratio:1/1;
+    background:#e9e8e4;
+    overflow:hidden;
+    position:relative;
+}
+
+.photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.photo-info{
+    padding:12px;
+}
+
+.photo-place{
+    font-weight:800;
+    font-size:15px;
+}
+
+.photo-note{
+    color:#777;
+    font-size:12px;
+    line-height:1.6;
+    margin-top:5px;
+    min-height:20px;
+}
+
+.photo-meta{
+    margin-top:8px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+}
+
+.tag{
+    background:#f0efeb;
+    border-radius:20px;
+    padding:4px 7px;
+    font-size:10px;
+    color:#666;
+}
+
+.card-buttons{
+    display:flex;
+    gap:5px;
+    margin-top:10px;
+}
+
+.card-buttons button{
+    flex:1;
+    border:1px solid #ddd;
+    background:#fff;
+    border-radius:9px;
+    padding:7px;
+    font-size:11px;
+}
+
+/* 資訊 */
+
+.info-section{
+    margin-top:28px;
+}
+
+.info-list{
+    display:grid;
+    gap:9px;
+}
+
+.info-item{
+    background:#fff;
+    border:1px solid #e1e0dc;
+    border-radius:15px;
+    padding:14px;
+}
+
+.info-item-top{
+    display:flex;
+    justify-content:space-between;
+}
+
+.info-type{
+    font-size:12px;
+    color:#888;
+}
+
+.info-title{
+    font-size:16px;
+    font-weight:800;
+    margin-top:3px;
+}
+
+.info-detail{
+    margin-top:8px;
+    font-size:13px;
+    color:#666;
+    line-height:1.7;
+}
+
+.info-price{
+    font-weight:800;
+}
+
+.small-actions{
+    display:flex;
+    gap:6px;
+    margin-top:10px;
+}
+
+.small-actions button{
+    border:1px solid #ddd;
+    background:#fff;
+    border-radius:8px;
+    padding:5px 9px;
+    font-size:11px;
+}
+
+/* Modal */
+
+.modal-bg{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    z-index:100;
+}
+
+.modal-bg.show{
+    display:flex;
+}
+
+.modal{
+    width:100%;
+    max-width:720px;
+    max-height:92vh;
+    overflow:auto;
+    background:#fff;
+    border-radius:25px 25px 0 0;
+    padding:22px 18px 30px;
+}
+
+.modal h2{
+    margin:0 0 18px;
+    font-size:21px;
+}
+
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-group label{
+    display:block;
+    font-size:12px;
+    color:#777;
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+    width:100%;
+    border:1px solid #ddd;
+    border-radius:11px;
+    padding:11px;
+    background:#fafafa;
+    outline:none;
+}
+
+.form-group textarea{
+    min-height:85px;
+    resize:vertical;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.modal-buttons{
+    display:flex;
+    gap:8px;
+    margin-top:20px;
+}
+
+.modal-buttons button{
+    flex:1;
+    border:0;
+    padding:12px;
+    border-radius:12px;
+}
+
+.cancel{
+    background:#eee;
+}
+
+.save{
+    background:#292929;
+    color:#fff;
+}
+
+/* 裁切 */
+
+.crop-area{
+    width:100%;
+    aspect-ratio:1/1;
+    max-height:70vh;
+    background:#111;
+    border-radius:15px;
+    overflow:hidden;
+    position:relative;
+    margin-bottom:15px;
+}
+
+.crop-area img{
+    position:absolute;
+    max-width:none;
+    user-select:none;
+    -webkit-user-drag:none;
+    cursor:grab;
+}
+
+.crop-area img:active{
+    cursor:grabbing;
+}
+
+.crop-help{
+    color:#888;
+    font-size:12px;
+    text-align:center;
+    margin-bottom:12px;
+}
+
+.range{
+    width:100%;
+}
+
+/* 桌機 */
+
+@media(min-width:650px){
+    .photo-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+/* Toast */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translateX(-50%) translateY(20px);
+    background:#292929;
+    color:white;
+    padding:11px 17px;
+    border-radius:30px;
+    font-size:13px;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s;
+    z-index:200;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="brand">
+        <div>
+            <div class="logo">ERICA GOES</div>
+            <div class="tagline">躺平也能玩，小資也能飛。</div>
+        </div>
+
+        <button class="add-main" onclick="openTripModal()">＋ 新增旅行</button>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- 首頁 -->
+    <section id="homePage" class="page active">
+
+        <div class="hero">
+            <h1>去哪裡玩？</h1>
+            <p>
+                把旅行記下來。<br>
+                行程、照片、花費、交通、預訂資訊，一次整理好。
+            </p>
+        </div>
+
+        <div id="tripList" class="trip-list"></div>
+
+    </section>
+
+    <!-- 旅行詳細頁 -->
+    <section id="tripPage" class="page">
+
+        <button class="back" onclick="goHome()">← 我的旅行</button>
+
+        <div class="trip-header">
+            <h2 id="detailTripName"></h2>
+            <p id="detailTripInfo"></p>
+        </div>
+
+        <div class="photo-section">
+
+            <div class="section-title">
+                <h3>📷 旅行照片</h3>
+                <button onclick="openPhotoModal()">＋ 新增照片</button>
+            </div>
+
+            <div id="photoGrid" class="photo-grid"></div>
+
+        </div>
+
+        <div class="info-section">
+
+            <div class="section-title">
+                <h3>✈️ 旅遊資訊</h3>
+                <button onclick="openInfoModal()">＋ 新增</button>
+            </div>
+
+            <div id="infoList" class="info-list"></div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- 新增旅行 -->
+<div class="modal-bg" id="tripModal">
+
+    <div class="modal">
+
+        <h2 id="tripModalTitle">新增旅行</h2>
+
+        <div class="form-group">
+            <label>國家 / 地區</label>
+            <input id="tripCountry" placeholder="例如：日本 🇯🇵">
+        </div>
+
+        <div class="form-group">
+            <label>旅行名稱</label>
+            <input id="tripName" placeholder="例如：大阪京都 5日">
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group">
+                <label>開始日期</label>
+                <input id="tripStart" type="date">
+            </div>
+
+            <div class="form-group">
+                <label>結束日期</label>
+                <input id="tripEnd" type="date">
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label>旅遊預算（台幣）</label>
+            <input id="tripBudget" type="number" placeholder="例如：20000">
+        </div>
+
+        <div class="form-group">
+            <label>旅行備注</label>
+            <textarea id="tripNote" placeholder="例如：這次主打小資、不購物版本"></textarea>
+        </div>
+
+        <div class="modal-buttons">
+            <button class="cancel" onclick="closeModals()">取消</button>
+            <button class="save" onclick="saveTrip()">儲存旅行</button>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- 新增照片 -->
+<div class="modal-bg" id="photoModal">
+
+    <div class="modal">
+
+        <h2>新增旅行照片</h2>
+
+        <div class="form-group">
+            <label>選擇照片</label>
+            <input id="photoFile" type="file" accept="image/*" onchange="loadPhoto(event)">
+        </div>
+
+        <div id="cropArea" class="crop-area" style="display:none;">
+            <img id="cropImage">
+        </div>
+
+        <div id="cropHelp" class="crop-help" style="display:none;">
+            拖曳照片調整位置，下面滑桿調整大小
+        </div>
+
+        <input
+            id="zoomRange"
+            class="range"
+            type="range"
+            min="1"
+            max="3"
+            step="0.01"
+            value="1"
+            style="display:none;"
+            oninput="updateCrop()"
+        >
+
+        <div class="form-group">
+            <label>地點</label>
+            <input id="photoPlace" placeholder="例如：道頓堀">
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group">
+                <label>第幾天</label>
+                <select id="photoDay">
+                    <option value="">未指定</option>
+                    <option>Day 1</option>
+                    <option>Day 2</option>
+                    <option>Day 3</option>
+                    <option>Day 4</option>
+                    <option>Day 5</option>
+                    <option>Day 6</option>
+                    <option>Day 7</option>
+                    <option>Day 8</option>
+                    <option>Day 9</option>
+                    <option>Day 10</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>花費（台幣）</label>
+                <input id="photoPrice" type="number" placeholder="0">
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label>交通工具</label>
+            <input id="photoTransport" placeholder="例如：地鐵 / JR / 步行">
+        </div>
+
+        <div class="form-group">
+            <label>備注</label>
+            <textarea id="photoNote" placeholder="想記錄什麼都可以"></textarea>
+        </div>
+
+        <div class="modal-buttons">
+            <button class="cancel" onclick="closeModals()">取消</button>
+            <button class="save" onclick="savePhoto()">新增照片</button>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- 新增旅遊資訊 -->
+<div class="modal-bg" id="infoModal">
+
+    <div class="modal">
+
+        <h2>新增旅遊資訊</h2>
+
+        <div class="form-group">
+            <label>類型</label>
+            <select id="infoType">
+                <option>✈️ 機票</option>
+                <option>🏨 住宿</option>
+                <option>🚐 包車</option>
+                <option>📱 網卡 / eSIM</option>
+                <option>🎟️ 門票</option>
+                <option>🚆 車票</option>
+                <option>🍽️ 餐廳</option>
+                <option>🛍️ 其他</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>名稱</label>
+            <input id="infoTitle" placeholder="例如：台北 → 大阪">
+        </div>
+
+        <div class="form-group">
+            <label>訂購平台</label>
+            <input id="infoPlatform" placeholder="例如：Klook / Agoda / 官網">
+        </div>
+
+        <div class="form-group">
+            <label>金額（台幣）</label>
+            <input id="infoPrice" type="number" placeholder="0">
+        </div>
+
+        <div class="form-group">
+            <label>備注</label>
+            <textarea id="infoNote" placeholder="訂單資訊、時間、注意事項等等"></textarea>
+        </div>
+
+        <div class="modal-buttons">
+            <button class="cancel" onclick="closeModals()">取消</button>
+            <button class="save" onclick="saveInfo()">新增資訊</button>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+let trips = JSON.parse(localStorage.getItem("ERICA_GOES_TRIPS") || "[]");
+
+let currentTripId = null;
+
+let editingTripId = null;
+
+let cropImageData = {
+    src:"",
+    x:0,
+    y:0,
+    zoom:1,
+    dragging:false,
+    startX:0,
+    startY:0
+};
+
+
+/* =========================
+   儲存
+========================= */
+
+function saveData(){
+
+    localStorage.setItem(
+        "ERICA_GOES_TRIPS",
+        JSON.stringify(trips)
+    );
+
+}
+
+
+/* =========================
+   首頁
+========================= */
+
+function renderTrips(){
+
+    const list = document.getElementById("tripList");
+
+    if(!trips.length){
+
+        list.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">🛋️</div>
+                <div>還沒有旅行</div>
+                <div style="font-size:12px;margin-top:6px;">
+                    開始新增你的第一趟小資旅行吧。
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+    list.innerHTML = trips.map(trip => {
+
+        const total = getTripTotal(trip);
+
+        return `
+            <div class="trip-card">
+
+                <div class="trip-top">
+
+                    <div>
+                        <div class="trip-country">
+                            ${escapeHTML(trip.country || "")}
+                        </div>
+
+                        <div class="trip-name">
+                            ${escapeHTML(trip.name || "未命名旅行")}
+                        </div>
+
+                        <div class="trip-date">
+                            ${trip.start || "未設定"}
+                            ${trip.end ? " — " + trip.end : ""}
+                        </div>
+                    </div>
+
+                    <div style="font-size:25px;">
+                        🧳
+                    </div>
+
+                </div>
+
+                <div class="trip-total">
+                    <span>目前旅遊花費</span>
+                    <strong>NT$ ${total.toLocaleString()}</strong>
+                </div>
+
+                <div class="trip-actions">
+
+                    <button class="btn dark"
+                        onclick="openTrip(${trip.id})">
+                        查看旅行
+                    </button>
+
+                    <button class="btn"
+                        onclick="editTrip(${trip.id})">
+                        編輯
+                    </button>
+
+                    <button class="btn"
+                        onclick="deleteTrip(${trip.id})">
+                        刪除
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+
+}
+
+
+/* =========================
+   新增旅行
+========================= */
+
+function openTripModal(){
+
+    editingTripId = null;
+
+    document.getElementById("tripModalTitle").textContent = "新增旅行";
+
+    clearTripForm();
+
+    document.getElementById("tripModal").classList.add("show");
+
+}
+
+
+function editTrip(id){
+
+    const trip = trips.find(t => t.id === id);
+
+    if(!trip) return;
+
+    editingTripId = id;
+
+    document.getElementById("tripModalTitle").textContent = "編輯旅行";
+
+    document.getElementById("tripCountry").value = trip.country || "";
+
+    document.getElementById("tripName").value = trip.name || "";
+
+    document.getElementById("tripStart").value = trip.start || "";
+
+    document.getElementById("tripEnd").value = trip.end || "";
+
+    document.getElementById("tripBudget").value = trip.budget || "";
+
+    document.getElementById("tripNote").value = trip.note || "";
+
+    document.getElementById("tripModal").classList.add("show");
+
+}
+
+
+function saveTrip(){
+
+    const country = document.getElementById("tripCountry").value.trim();
+
+    const name = document.getElementById("tripName").value.trim();
+
+    if(!name){
+
+        alert("請輸入旅行名稱");
+
+        return;
+    }
+
+    if(editingTripId){
+
+        const trip = trips.find(t => t.id === editingTripId);
+
+        trip.country = country;
+        trip.name = name;
+        trip.start = document.getElementById("tripStart").value;
+        trip.end = document.getElementById("tripEnd").value;
+        trip.budget = Number(document.getElementById("tripBudget").value) || 0;
+        trip.note = document.getElementById("tripNote").value.trim();
+
+        showToast("旅行已更新");
+
+    }else{
+
+        trips.push({
+
+            id:Date.now(),
+
+            country:country,
+
+            name:name,
+
+            start:document.getElementById("tripStart").value,
+
+            end:document.getElementById("tripEnd").value,
+
+            budget:Number(document.getElementById("tripBudget").value) || 0,
+
+            note:document.getElementById("tripNote").value.trim(),
+
+            photos:[],
+
+            infos:[]
+
+        });
+
+        showToast("旅行已新增");
+
+    }
+
+    saveData();
+
+    renderTrips();
+
+    closeModals();
+
+}
+
+
+function deleteTrip(id){
+
+    if(!confirm("確定要刪除這趟旅行嗎？")) return;
+
+    trips = trips.filter(t => t.id !== id);
+
+    saveData();
+
+    renderTrips();
+
+    showToast("已刪除");
+
+}
+
+
+function clearTripForm(){
+
+    document.getElementById("tripCountry").value = "";
+
+    document.getElementById("tripName").value = "";
+
+    document.getElementById("tripStart").value = "";
+
+    document.getElementById("tripEnd").value = "";
+
+    document.getElementById("tripBudget").value = "";
+
+    document.getElementById("tripNote").value = "";
+
+}
+
+
+/* =========================
+   旅行詳細頁
+========================= */
+
+function openTrip(id){
+
+    currentTripId = id;
+
+    const trip = trips.find(t => t.id === id);
+
+    if(!trip) return;
+
+    document.getElementById("homePage").classList.remove("active");
+
+    document.getElementById("tripPage").classList.add("active");
+
+    document.getElementById("detailTripName").textContent =
+        trip.name;
+
+    document.getElementById("detailTripInfo").textContent =
+        `${trip.country || ""}  ${trip.start || ""} ${trip.end ? "— " + trip.end : ""}`;
+
+    renderPhotos();
+
+    renderInfos();
+
+    window.scrollTo(0,0);
+
+}
+
+
+function goHome(){
+
+    document.getElementById("tripPage").classList.remove("active");
+
+    document.getElementById("homePage").classList.add("active");
+
+    renderTrips();
+
+    window.scrollTo(0,0);
+
+}
+
+
+/* =========================
+   照片
+========================= */
+
+function openPhotoModal(){
+
+    clearPhotoForm();
+
+    document.getElementById("photoModal").classList.add("show");
+
+}
+
+
+function loadPhoto(event){
+
+    const file = event.target.files[0];
+
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        cropImageData.src = e.target.result;
+
+        cropImageData.x = 0;
+
+        cropImageData.y = 0;
+
+        cropImageData.zoom = 1;
+
+        const img = document.getElementById("cropImage");
+
+        img.src = cropImageData.src;
+
+        document.getElementById("cropArea").style.display = "block";
+
+        document.getElementById("cropHelp").style.display = "block";
+
+        document.getElementById("zoomRange").style.display = "block";
+
+        setTimeout(updateCrop,50);
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+
+function updateCrop(){
+
+    const img = document.getElementById("cropImage");
+
+    const area = document.getElementById("cropArea");
+
+    if(!img.naturalWidth) return;
+
+    const baseScale = Math.max(
+        area.clientWidth / img.naturalWidth,
+        area.clientHeight / img.naturalHeight
+    );
+
+    const scale = baseScale * cropImageData.zoom;
+
+    img.style.width = (img.naturalWidth * scale) + "px";
+
+    img.style.height = (img.naturalHeight * scale) + "px";
+
+    img.style.left =
+        ((area.clientWidth - img.naturalWidth * scale) / 2 + cropImageData.x)
+        + "px";
+
+    img.style.top =
+        ((area.clientHeight - img.naturalHeight * scale) / 2 + cropImageData.y)
+        + "px";
+
+}
+
+
+/* 拖曳照片 */
+
+const cropArea = document.getElementById("cropArea");
+
+cropArea.addEventListener("pointerdown", function(e){
+
+    if(!cropImageData.src) return;
+
+    cropImageData.dragging = true;
+
+    cropImageData.startX = e.clientX - cropImageData.x;
+
+    cropImageData.startY = e.clientY - cropImageData.y;
+
+    cropArea.setPointerCapture(e.pointerId);
+
+});
+
+
+cropArea.addEventListener("pointermove", function(e){
+
+    if(!cropImageData.dragging) return;
+
+    cropImageData.x = e.clientX - cropImageData.startX;
+
+    cropImageData.y = e.clientY - cropImageData.startY;
+
+    updateCrop();
+
+});
+
+
+cropArea.addEventListener("pointerup", function(){
+
+    cropImageData.dragging = false;
+
+});
+
+
+function createCroppedImage(){
+
+    const area = document.getElementById("cropArea");
+
+    const img = document.getElementById("cropImage");
+
+    const canvas = document.createElement("canvas");
+
+    canvas.width = 700;
+
+    canvas.height = 700;
+
+    const ctx = canvas.getContext("2d");
+
+    const areaSize = area.clientWidth;
+
+    const scale =
+        img.naturalWidth /
+        parseFloat(img.style.width);
+
+    const x =
+        (area.clientWidth / 2 - cropImageData.x -
+        img.naturalWidth *
+        (area.clientWidth / img.naturalWidth *
+        cropImageData.zoom) / 2);
+
+    const displayedWidth = parseFloat(img.style.width);
+
+    const displayedHeight = parseFloat(img.style.height);
+
+    const left = parseFloat(img.style.left);
+
+    const top = parseFloat(img.style.top);
+
+    ctx.fillStyle = "#eee";
+
+    ctx.fillRect(0,0,700,700);
+
+    ctx.drawImage(
+        img,
+        -left * (700 / areaSize),
+        -top * (700 / areaSize),
+        displayedWidth * (700 / areaSize),
+        displayedHeight * (700 / areaSize)
+    );
+
+    return canvas.toDataURL("image/jpeg",.85);
+
+}
+
+
+function savePhoto(){
+
+    if(!cropImageData.src){
+
+        alert("請先選擇照片");
+
+        return;
+
+    }
+
+    const trip = trips.find(t => t.id === currentTripId);
+
+    if(!trip) return;
+
+    const image = createCroppedImage();
+
+    trip.photos.push({
+
+        id:Date.now(),
+
+        image:image,
+
+        place:document.getElementById("photoPlace").value.trim(),
+
+        day:document.getElementById("photoDay").value,
+
+        price:Number(document.getElementById("photoPrice").value) || 0,
+
+        transport:document.getElementById("photoTransport").value.trim(),
+
+        note:document.getElementById("photoNote").value.trim()
+
+    });
+
+    saveData();
+
+    renderPhotos();
+
+    closeModals();
+
+    showToast("照片已新增");
+
+}
+
+
+function renderPhotos(){
+
+    const trip = trips.find(t => t.id === currentTripId);
+
+    const grid = document.getElementById("photoGrid");
+
+    if(!trip || !trip.photos.length){
+
+        grid.innerHTML = `
+            <div class="empty" style="grid-column:1/-1;">
+                <div class="empty-icon">📷</div>
+                <div>還沒有旅行照片</div>
+                <div style="font-size:12px;margin-top:6px;">
+                    把旅途中值得記住的地方留下來。
+                </div>
+            </div>
+        `;
+
+        return;
+
+    }
+
+    grid.innerHTML = trip.photos.map(photo => {
+
+        return `
+            <div class="photo-card">
+
+                <div class="photo">
+                    <img src="${photo.image}">
+                </div>
+
+                <div class="photo-info">
+
+                    <div class="photo-place">
+                        ${escapeHTML(photo.place || "未命名地點")}
+                    </div>
+
+                    <div class="photo-meta">
+
+                        ${photo.day ? `<span class="tag">${escapeHTML(photo.day)}</span>` : ""}
+
+                        ${photo.transport ? `<span class="tag">🚆 ${escapeHTML(photo.transport)}</span>` : ""}
+
+                        ${photo.price ? `<span class="tag">NT$ ${photo.price.toLocaleString()}</span>` : ""}
+
+                    </div>
+
+                    <div class="photo-note">
+                        ${escapeHTML(photo.note || "")}
+                    </div>
+
+                    <div class="card-buttons">
+
+                        <button onclick="editPhoto(${photo.id})">
+                            編輯
+                        </button>
+
+                        <button onclick="deletePhoto(${photo.id})">
+                            刪除
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+
+}
+
+
+function deletePhoto(id){
+
+    const trip = trips.find(t => t.id === currentTripId);
+
+    if(!trip) return;
+
+    if(!confirm("確定刪除這張照片？")) return;
+
+    trip.photos = trip.photos.filter(p => p.id !== id);
+
+    saveData();
+
+    renderPhotos();
+
+}
+
+
+function editPhoto(id){
+
+    const trip = trips.find(t => t.id === currentTripId);
+
+    const photo = trip.photos.find(p => p.id === id);
+
+    if(!photo) return;
+
+    document.getElementById("photoPlace").value = photo.place || "";
+
+    document.getElementById("photoDay").value = photo.day || "";
+
+    document.getElementById("photoPrice").value = photo.price || "";
+
+    document.getElementById("photoTransport").value = photo.transport || "";
+
+    document.getElementById("photoNote").value = photo.note || "";
+
+    alert("目前版本先提供照片資訊修改；照片本身維持原本裁切。");
+
+    document.getElementById("photoModal").classList.add("show");
+
+}
+
+
+/* =========================
+   旅遊資訊
+========================= */
+
+function openInfoModal(){
+
+    clearInfoForm();
+
+    document.getElementById("infoModal").classList.add("show");
+
+}
+
+
+function saveInfo(){
+
+    const trip = trips.find(t => t.id === currentTripId);
+
+    if(!trip) return;
+
+    const title = document.getElementById("infoTitle").value.trim();
+
+    if(!title){
+
+        alert("請輸入名稱");
+
+        return;
+
+    }
+
+    trip.infos.push({
+
+        id:Date.now(),
+
+        type:document.getElementById("infoType").value,
+
+        title:title,
+
+        platform:document.getElementById("infoPlatform").value.trim(),
+
+        price:Number(document.getElementById("infoPrice").value) || 0,
+
+        note:document.getElementById("infoNote").value.trim()
+
+    });
+
+    saveData();
+
+    renderInfos();
+
+    closeModals();
+
+    showToast("旅遊資訊已新增");
+
+}
+
+
+function renderInfos(){
+
+    const trip = trips.find(t => t.id === currentTripId);
+
+    const list = document.getElementById("infoList");
+
+    if(!trip || !trip.infos.length){
+
+        list.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">🎫</div>
+                <div>還沒有旅遊資訊</div>
+            </div>
+        `;
+
+        return;
+
+    }
+
+    list.innerHTML = trip.infos.map(info => {
+
+        return `
+            <div class="info-item">
+
+                <div class="info-item-top">
+
+                    <div>
+                        <div class="info-type">
+                            ${escapeHTML(info.type)}
+                        </div>
+
+                        <div class="info-title">
+                            ${escapeHTML(info.title)}
+                        </div>
+                    </div>
+
+                    <div class="info-price">
+                        NT$ ${info.price.toLocaleString()}
+                    </div>
+
+                </div>
+
+                <div class="info-detail">
+
+                    ${info.platform ? `🛒 ${escapeHTML(info.platform)}<br>` : ""}
+
+                    ${info.note ? `📝 ${escapeHTML(info.note)}` : ""}
+
+                </div>
+
+                <div class="small-actions">
+
+                    <button onclick="deleteInfo(${info.id})">
+                        刪除
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+
+}
+
+
+function deleteInfo(id){
+
+    const trip = trips.find(t => t.id === currentTripId);
+
+    if(!trip) return;
+
+    if(!confirm("確定刪除這筆資訊？")) return;
+
+    trip.infos = trip.infos.filter(i => i.id !== id);
+
+    saveData();
+
+    renderInfos();
+
+}
+
+
+/* =========================
+   花費
+========================= */
+
+function getTripTotal(trip){
+
+    const photoTotal = (trip.photos || []).reduce(
+        (sum,p) => sum + Number(p.price || 0),
+        0
+    );
+
+    const infoTotal = (trip.infos || []).reduce(
+        (sum,i) => sum + Number(i.price || 0),
+        0
+    );
+
+    return photoTotal + infoTotal;
+
+}
+
+
+/* =========================
+   清除表單
+========================= */
+
+function clearPhotoForm(){
+
+    document.getElementById("photoFile").value = "";
+
+    document.getElementById("photoPlace").value = "";
+
+    document.getElementById("photoDay").value = "";
+
+    document.getElementById("photoPrice").value = "";
+
+    document.getElementById("photoTransport").value = "";
+
+    document.getElementById("photoNote").value = "";
+
+    document.getElementById("cropArea").style.display = "none";
+
+    document.getElementById("cropHelp").style.display = "none";
+
+    document.getElementById("zoomRange").style.display = "none";
+
+    cropImageData.src = "";
+
+}
+
+
+function clearInfoForm(){
+
+    document.getElementById("infoType").value = "✈️ 機票";
+
+    document.getElementById("infoTitle").value = "";
+
+    document.getElementById("infoPlatform").value = "";
+
+    document.getElementById("infoPrice").value = "";
+
+    document.getElementById("infoNote").value = "";
+
+}
+
+
+/* =========================
+   Modal
+========================= */
+
+function closeModals(){
+
+    document.querySelectorAll(".modal-bg")
+        .forEach(el => el.classList.remove("show"));
+
+}
+
+
+/* =========================
+   小工具
+========================= */
+
+function showToast(text){
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = text;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    },1800);
+
+}
+
+
+function escapeHTML(text){
+
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   啟動
+========================= */
+
+renderTrips();
+
+</script>
+
+</body>
+</html>
