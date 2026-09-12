@@ -625,8 +625,110 @@ a{
    PHOTO PAGE
 ========================= */
 
+.photo-toolbar{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
+}
+
+.photo-add-btn{
+    border:1px dashed #c8c6c1;
+    background:#fff;
+    color:#555;
+    border-radius:14px;
+    padding:12px 15px;
+    font-size:13px;
+}
+
+.photo-paste-box{
+    background:white;
+    border:1px dashed #d5d2cb;
+    border-radius:18px;
+    padding:15px;
+    margin-bottom:15px;
+}
+
+.photo-paste-title{
+    font-size:14px;
+    color:#555;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+.photo-paste-input{
+    width:100%;
+    min-height:70px;
+    border:1px solid #e4e1db;
+    background:#faf9f6;
+    border-radius:12px;
+    padding:12px;
+    outline:none;
+    resize:vertical;
+    color:#777;
+}
+
+.photo-paste-input:focus{
+    background:white;
+    border-color:#bbb7af;
+}
+
+.photo-list{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.photo-note-card{
+    background:white;
+    border-radius:20px;
+    padding:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.035);
+}
+
+.photo-note-image-wrap{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    background:#f5f4f1;
+    border-radius:15px;
+    overflow:hidden;
+}
+
+.photo-note-image{
+    display:block;
+    width:100%;
+    max-height:520px;
+    object-fit:contain;
+}
+
+.photo-note-text{
+    width:100%;
+    min-height:90px;
+    margin-top:12px;
+    border:1px solid #e5e2dc;
+    background:#faf9f6;
+    border-radius:12px;
+    padding:12px;
+    outline:none;
+    resize:vertical;
+    line-height:1.7;
+}
+
+.photo-note-text:focus{
+    background:white;
+    border-color:#bbb7af;
+}
+
+.photo-note-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:7px;
+    margin-top:9px;
+}
+
 .photo-empty{
-    min-height:420px;
+    min-height:300px;
     background:white;
     border-radius:22px;
     display:flex;
@@ -872,6 +974,10 @@ a{
     .modal{
         border-radius:24px 24px 0 0;
         max-height:94vh;
+    }
+
+    .photo-note-image{
+        max-height:420px;
     }
 }
 </style>
@@ -1379,6 +1485,18 @@ a{
         </div>
 
 
+        <div class="field">
+
+            <label>其他</label>
+
+            <textarea
+                id="itemOtherInput"
+                placeholder="可以補充其他資訊"
+            ></textarea>
+
+        </div>
+
+
         <div class="modal-footer">
 
             <button
@@ -1543,6 +1661,20 @@ a{
     </div>
 
 </div>
+
+
+<!-- =========================
+     PHOTO FILE INPUT
+========================= -->
+
+<input
+    id="photoFileInput"
+    type="file"
+    accept="image/*"
+    multiple
+    style="display:none;"
+    onchange="handlePhotoFiles(event)"
+>
 
 
 <script>
@@ -1724,6 +1856,366 @@ function saveCooperationData(
             description,
             link
         })
+    );
+
+}
+
+
+/* =====================================================
+   PHOTO NOTES
+===================================================== */
+
+function getPhotoStorageKey(){
+
+    if(!currentTrip){
+
+        return "";
+
+    }
+
+    return (
+        "goya_trip_photos_" +
+        String(currentTrip.id)
+    );
+
+}
+
+
+function getTripPhotos(){
+
+    const key =
+        getPhotoStorageKey();
+
+    if(!key){
+
+        return [];
+
+    }
+
+    const saved =
+        localStorage.getItem(key);
+
+    if(!saved){
+
+        return [];
+
+    }
+
+    try{
+
+        const parsed =
+            JSON.parse(saved);
+
+        return Array.isArray(parsed)
+            ? parsed
+            : [];
+
+    }catch(e){
+
+        return [];
+
+    }
+
+}
+
+
+function saveTripPhotos(photos){
+
+    const key =
+        getPhotoStorageKey();
+
+    if(!key){
+
+        return;
+
+    }
+
+    try{
+
+        localStorage.setItem(
+            key,
+            JSON.stringify(photos)
+        );
+
+    }catch(e){
+
+        alert(
+            "照片太多，手機儲存空間可能不足。\n\n可以先刪除一些照片再試一次。"
+        );
+
+    }
+
+}
+
+
+function openPhotoFilePicker(){
+
+    const input =
+        document.getElementById(
+            "photoFileInput"
+        );
+
+    if(input){
+
+        input.value = "";
+
+        input.click();
+
+    }
+
+}
+
+
+async function handlePhotoFiles(event){
+
+    const files =
+        Array.from(
+            event.target.files || []
+        );
+
+    if(!files.length){
+
+        return;
+
+    }
+
+    for(const file of files){
+
+        if(!file.type.startsWith("image/")){
+
+            continue;
+
+        }
+
+        try{
+
+            const dataUrl =
+                await readFileAsDataURL(
+                    file
+                );
+
+            addPhotoNote(
+                dataUrl,
+                ""
+            );
+
+        }catch(e){
+
+            console.error(e);
+
+        }
+
+    }
+
+    renderPhotoPage();
+
+}
+
+
+function readFileAsDataURL(file){
+
+    return new Promise(
+        (
+            resolve,
+            reject
+        ) => {
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                () => resolve(
+                    reader.result
+                );
+
+            reader.onerror =
+                () => reject(
+                    reader.error
+                );
+
+            reader.readAsDataURL(
+                file
+            );
+
+        }
+    );
+
+}
+
+
+function addPhotoNote(
+    image,
+    text
+){
+
+    const photos =
+        getTripPhotos();
+
+    photos.push({
+
+        id:
+            Date.now().toString() +
+            "_" +
+            Math.random()
+                .toString(36)
+                .slice(2),
+
+        image,
+
+        text:
+            text || "",
+
+        createdAt:
+            new Date().toISOString()
+
+    });
+
+    saveTripPhotos(
+        photos
+    );
+
+}
+
+
+function updatePhotoText(
+    photoId,
+    text
+){
+
+    const photos =
+        getTripPhotos();
+
+    const photo =
+        photos.find(
+            item =>
+                item.id === photoId
+        );
+
+    if(!photo){
+
+        return;
+
+    }
+
+    photo.text =
+        text;
+
+    saveTripPhotos(
+        photos
+    );
+
+}
+
+
+function deletePhoto(
+    photoId
+){
+
+    if(
+        !confirm(
+            "確定要刪除這張照片嗎？"
+        )
+    ){
+
+        return;
+
+    }
+
+    const photos =
+        getTripPhotos()
+            .filter(
+                item =>
+                    item.id !== photoId
+            );
+
+    saveTripPhotos(
+        photos
+    );
+
+    renderPhotoPage();
+
+}
+
+
+/* =====================================================
+   PASTE PHOTO
+===================================================== */
+
+function setupPhotoPaste(){
+
+    const pasteBox =
+        document.getElementById(
+            "photoPasteInput"
+        );
+
+    if(!pasteBox){
+
+        return;
+
+    }
+
+    pasteBox.addEventListener(
+        "paste",
+        async function(event){
+
+            const items =
+                Array.from(
+                    event.clipboardData?.items || []
+                );
+
+            const imageItems =
+                items.filter(
+                    item =>
+                        item.type.startsWith(
+                            "image/"
+                        )
+                );
+
+            if(!imageItems.length){
+
+                return;
+
+            }
+
+            event.preventDefault();
+
+            for(const item of imageItems){
+
+                const file =
+                    item.getAsFile();
+
+                if(!file){
+
+                    continue;
+
+                }
+
+                try{
+
+                    const dataUrl =
+                        await readFileAsDataURL(
+                            file
+                        );
+
+                    addPhotoNote(
+                        dataUrl,
+                        ""
+                    );
+
+                }catch(e){
+
+                    console.error(e);
+
+                }
+
+            }
+
+            pasteBox.value =
+                "";
+
+            renderPhotoPage();
+
+        }
     );
 
 }
@@ -3404,6 +3896,11 @@ async function deleteJourney(
         order
     );
 
+    localStorage.removeItem(
+        "goya_trip_photos_" +
+        String(tripId)
+    );
+
     await renderJourneys();
 
 }
@@ -3457,6 +3954,71 @@ async function openTrip(
 
 function openPhotoPage(){
 
+    currentPage =
+        "photos";
+
+    renderPhotoPage();
+
+}
+
+
+function renderPhotoPage(){
+
+    if(!currentTrip){
+
+        return;
+
+    }
+
+    const photos =
+        getTripPhotos();
+
+    let photoHtml = "";
+
+    photos.forEach(
+        photo => {
+
+            photoHtml += `
+
+                <div class="photo-note-card">
+
+                    <div class="photo-note-image-wrap">
+
+                        <img
+                            class="photo-note-image"
+                            src="${photo.image}"
+                            alt="旅程照片"
+                        >
+
+                    </div>
+
+                    <textarea
+                        class="photo-note-text"
+                        placeholder="在這裡寫下這張照片的備註……"
+                        oninput="updatePhotoText('${escapeJs(photo.id)}', this.value)"
+                    >${escapeHtml(
+                        photo.text || ""
+                    )}</textarea>
+
+                    <div class="photo-note-actions">
+
+                        <button
+                            class="text-action delete"
+                            onclick="deletePhoto('${escapeJs(photo.id)}')"
+                        >
+                            刪除
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
     document.getElementById(
         "app"
     ).innerHTML = `
@@ -3497,7 +4059,7 @@ function openPhotoPage(){
 
                         <div class="section-description">
                             ${escapeHtml(
-                                currentTrip?.title ||
+                                currentTrip.title ||
                                 ""
                             )}
                         </div>
@@ -3507,29 +4069,72 @@ function openPhotoPage(){
                 </div>
 
 
-                <div class="photo-empty">
+                <div class="photo-toolbar">
 
-                    <div class="photo-empty-inner">
+                    <button
+                        class="photo-add-btn"
+                        onclick="openPhotoFilePicker()"
+                    >
+                        ＋ 從相簿加入照片
+                    </button>
 
-                        <div class="photo-empty-title">
-                            照片區
-                        </div>
+                </div>
 
-                        <div class="photo-empty-text">
-                            這裡之後可以放旅程照片。
-                            <br>
-                            目前先保留空白頁面。
+
+                <div class="photo-paste-box">
+
+                    <div class="photo-paste-title">
+                        也可以直接貼上照片
+                    </div>
+
+                    <textarea
+                        id="photoPasteInput"
+                        class="photo-paste-input"
+                        placeholder="在這裡點一下，然後貼上你複製的照片……"
+                    ></textarea>
+
+                </div>
+
+
+                ${
+                    photos.length
+                    ?
+                    `
+                    <div class="photo-list">
+                        ${photoHtml}
+                    </div>
+                    `
+                    :
+                    `
+                    <div class="photo-empty">
+
+                        <div class="photo-empty-inner">
+
+                            <div class="photo-empty-title">
+                                還沒有照片
+                            </div>
+
+                            <div class="photo-empty-text">
+                                可以從手機相簿加入照片，
+                                <br>
+                                或直接貼上複製的照片。
+                                <br><br>
+                                每張照片下面都可以寫文字。
+                            </div>
+
                         </div>
 
                     </div>
-
-                </div>
+                    `
+                }
 
             </section>
 
         </div>
 
     `;
+
+    setupPhotoPaste();
 
 }
 
@@ -3542,6 +4147,15 @@ async function renderTripDetail(){
 
     const trip =
         currentTrip;
+
+    if(!trip){
+
+        return;
+
+    }
+
+    currentPage =
+        "detail";
 
     const info =
         parseTripDescription(
@@ -3679,7 +4293,13 @@ async function renderTripDetail(){
             days[day].forEach(
                 item => {
 
+                    const itemExtra =
+                        parseItemNotes(
+                            item.notes
+                        );
+
                     const rating =
+                        itemExtra.rating ||
                         item.rating ||
                         "";
 
@@ -3745,10 +4365,21 @@ async function renderTripDetail(){
 
 
                                 ${
-                                    item.notes
+                                    itemExtra.other
+                                    ?
+                                    `其他：${escapeHtml(
+                                        itemExtra.other
+                                    )}<br>`
+                                    :
+                                    ""
+                                }
+
+
+                                ${
+                                    itemExtra.text
                                     ?
                                     `備註：${escapeHtml(
-                                        item.notes
+                                        itemExtra.text
                                     )}`
                                     :
                                     ""
@@ -4144,6 +4775,8 @@ async function renderTripDetail(){
 
                     <div style="display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;">
 
+                        <!-- 照片維持原本小小的位置 -->
+
                         <button
                             class="btn btn-light btn-small"
                             onclick="openPhotoPage()"
@@ -4399,6 +5032,11 @@ function openItemModal(
         ).value =
             "";
 
+        document.getElementById(
+            "itemOtherInput"
+        ).value =
+            "";
+
         document.querySelectorAll(
             'input[name="itemRating"]'
         ).forEach(
@@ -4449,6 +5087,11 @@ async function loadItemForEdit(
 
     }
 
+    const extra =
+        parseItemNotes(
+            item.notes
+        );
+
     currentDay =
         item.day_number;
 
@@ -4485,7 +5128,12 @@ async function loadItemForEdit(
     document.getElementById(
         "itemNotesInput"
     ).value =
-        item.notes || "";
+        extra.text || "";
+
+    document.getElementById(
+        "itemOtherInput"
+    ).value =
+        extra.other || "";
 
 
     document.querySelectorAll(
@@ -4496,6 +5144,7 @@ async function loadItemForEdit(
             radio.checked =
                 radio.value ===
                 (
+                    extra.rating ||
                     item.rating ||
                     ""
                 );
@@ -4535,6 +5184,21 @@ async function saveItem(){
         document.querySelector(
             'input[name="itemRating"]:checked'
         );
+
+
+    const notesText =
+        document.getElementById(
+            "itemNotesInput"
+        )
+        .value
+        .trim();
+
+    const otherText =
+        document.getElementById(
+            "itemOtherInput"
+        )
+        .value
+        .trim();
 
 
     const payload = {
@@ -4578,37 +5242,22 @@ async function saveItem(){
             .trim(),
 
         notes:
-            document.getElementById(
-                "itemNotesInput"
-            )
-            .value
-            .trim()
+            JSON.stringify({
+                text:
+                    notesText,
+
+                rating:
+                    selectedRating
+                    ?
+                    selectedRating.value
+                    :
+                    "",
+
+                other:
+                    otherText
+            })
 
     };
-
-
-    /*
-       rating 若資料庫目前有欄位就直接儲存。
-       若沒有欄位，下面會自動使用 notes JSON
-       保存，避免你需要立刻修改資料表。
-    */
-
-    payload.notes =
-        JSON.stringify({
-            text:
-                document.getElementById(
-                    "itemNotesInput"
-                )
-                .value
-                .trim(),
-
-            rating:
-                selectedRating
-                ?
-                selectedRating.value
-                :
-                ""
-        });
 
 
     let result;
@@ -4638,19 +5287,7 @@ async function saveItem(){
     }
 
 
-    /*
-       如果你的資料表沒有 rating 欄位，
-       這版不會使用 rating 欄位，
-       而是將評價放進 notes JSON。
-    */
-
-
     if(result.error){
-
-        /*
-           某些舊資料可能是一般文字，
-           新版仍然可以正常讀取。
-        */
 
         alert(
             result.error.message
@@ -5193,7 +5830,8 @@ function parseItemNotes(
 
         return {
             text:"",
-            rating:""
+            rating:"",
+            other:""
         };
 
     }
@@ -5216,6 +5854,10 @@ function parseItemNotes(
 
                 rating:
                     parsed.rating ||
+                    "",
+
+                other:
+                    parsed.other ||
                     ""
 
             };
@@ -5227,7 +5869,8 @@ function parseItemNotes(
     return {
 
         text:value,
-        rating:""
+        rating:"",
+        other:""
 
     };
 
