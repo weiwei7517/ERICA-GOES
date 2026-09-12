@@ -1002,6 +1002,7 @@ a{
             <h2>編輯主頁文案</h2>
 
             <button
+                type="button"
                 class="close-btn"
                 onclick="closeModal('introModal')"
             >
@@ -1011,7 +1012,6 @@ a{
 
         <div class="field">
             <label>主標題</label>
-
             <input
                 id="introTitleInput"
                 type="text"
@@ -1021,7 +1021,6 @@ a{
 
         <div class="field">
             <label>副標題</label>
-
             <input
                 id="introSubtitleInput"
                 type="text"
@@ -1030,8 +1029,8 @@ a{
         </div>
 
         <div class="modal-footer">
-
             <button
+                type="button"
                 class="btn btn-light"
                 onclick="closeModal('introModal')"
             >
@@ -1039,12 +1038,12 @@ a{
             </button>
 
             <button
+                type="button"
                 class="btn"
                 onclick="saveIntro()"
             >
                 儲存
             </button>
-
         </div>
 
     </div>
@@ -1055,62 +1054,49 @@ a{
 ========================= -->
 
 <div id="cooperationModal" class="modal-backdrop">
-
     <div class="modal">
 
         <div class="modal-header">
-
-            <h2>
-                編輯合作
-            </h2>
+            <h2>編輯合作</h2>
 
             <button
+                type="button"
                 class="close-btn"
                 onclick="closeModal('cooperationModal')"
             >
                 ×
             </button>
-
         </div>
 
         <div class="field">
-
             <label>合作名稱</label>
-
             <input
                 id="cooperationTitleInput"
                 type="text"
                 placeholder="例如：eSIM 網路"
             >
-
         </div>
 
         <div class="field">
-
             <label>合作說明</label>
-
             <textarea
                 id="cooperationDescriptionInput"
                 placeholder="例如：出國上網推薦使用這個 eSIM"
             ></textarea>
-
         </div>
 
         <div class="field">
-
             <label>合作連結</label>
-
             <input
                 id="cooperationLinkInput"
                 type="url"
                 placeholder="https://..."
             >
-
         </div>
 
         <div class="modal-footer">
-
             <button
+                type="button"
                 class="btn btn-light"
                 onclick="closeModal('cooperationModal')"
             >
@@ -1118,16 +1104,15 @@ a{
             </button>
 
             <button
+                type="button"
                 class="btn"
                 onclick="saveCooperation()"
             >
                 儲存
             </button>
-
         </div>
 
     </div>
-
 </div>
 
 <!-- =========================
@@ -1135,26 +1120,23 @@ a{
 ========================= -->
 
 <div id="destinationModal" class="modal-backdrop">
-
     <div class="modal">
 
         <div class="modal-header">
-
             <h2 id="destinationModalTitle">
                 新增目的地
             </h2>
 
             <button
+                type="button"
                 class="close-btn"
                 onclick="closeModal('destinationModal')"
             >
                 ×
             </button>
-
         </div>
 
         <div class="field">
-
             <label>目的地名稱</label>
 
             <input
@@ -1162,12 +1144,11 @@ a{
                 type="text"
                 placeholder="例如：日本"
             >
-
         </div>
 
         <div class="modal-footer">
-
             <button
+                type="button"
                 class="btn btn-light"
                 onclick="closeModal('destinationModal')"
             >
@@ -1175,16 +1156,15 @@ a{
             </button>
 
             <button
+                type="button"
                 class="btn"
                 onclick="saveDestination()"
             >
                 儲存
             </button>
-
         </div>
 
     </div>
-
 </div>
 
 <!-- =========================
@@ -1192,26 +1172,23 @@ a{
 ========================= -->
 
 <div id="journeyModal" class="modal-backdrop">
-
     <div class="modal">
 
         <div class="modal-header">
-
             <h2 id="journeyModalTitle">
                 新增旅程
             </h2>
 
             <button
+                type="button"
                 class="close-btn"
                 onclick="closeModal('journeyModal')"
             >
                 ×
             </button>
-
         </div>
 
         <div class="field">
-
             <label>主標題</label>
 
             <input
@@ -1219,11 +1196,9 @@ a{
                 type="text"
                 placeholder="例如：大阪 5 天 4 夜"
             >
-
         </div>
 
         <div class="field">
-
             <label>副標題</label>
 
             <input
@@ -1231,11 +1206,9 @@ a{
                 type="text"
                 placeholder="例如：五天四夜只要兩萬"
             >
-
         </div>
 
         <div class="field">
-
             <label>創作者名稱</label>
 
             <input
@@ -1243,60 +1216,49 @@ a{
                 type="text"
                 placeholder="例如：IVY"
             >
-
         </div>
 
         <div class="row">
-
             <div class="field">
-
                 <label>開始日期</label>
 
                 <input
                     id="journeyStartInput"
                     type="date"
                 >
-
             </div>
 
             <div class="field">
-
                 <label>結束日期</label>
 
                 <input
                     id="journeyEndInput"
                     type="date"
                 >
-
             </div>
-
         </div>
 
         <div class="field">
-
             <label>旅程介紹</label>
 
             <textarea
                 id="journeyDescriptionInput"
                 placeholder="可以寫這趟旅程的特色、適合誰等等"
             ></textarea>
-
         </div>
 
         <div class="field">
-
             <label>其他</label>
 
             <textarea
                 id="journeyOtherInput"
                 placeholder="其他想補充的資訊"
             ></textarea>
-
         </div>
 
         <div class="modal-footer">
-
             <button
+                type="button"
                 class="btn btn-light"
                 onclick="closeModal('journeyModal')"
             >
@@ -1304,16 +1266,15 @@ a{
             </button>
 
             <button
+                type="button"
                 class="btn"
                 onclick="saveJourney()"
             >
                 儲存
             </button>
-
         </div>
 
     </div>
-
 </div>
 
 <!-- =========================
@@ -1321,26 +1282,23 @@ a{
 ========================= -->
 
 <div id="itemModal" class="modal-backdrop">
-
     <div class="modal">
 
         <div class="modal-header">
-
             <h2 id="itemModalTitle">
                 新增行程
             </h2>
 
             <button
+                type="button"
                 class="close-btn"
                 onclick="closeModal('itemModal')"
             >
                 ×
             </button>
-
         </div>
 
         <div class="field">
-
             <label>行程名稱</label>
 
             <input
@@ -1348,11 +1306,9 @@ a{
                 type="text"
                 placeholder="例如：伏見稻荷大社"
             >
-
         </div>
 
         <div class="field">
-
             <label>地址</label>
 
             <input
@@ -1360,11 +1316,9 @@ a{
                 type="text"
                 placeholder="輸入完整地址"
             >
-
         </div>
 
         <div class="field">
-
             <label>交通</label>
 
             <input
@@ -1372,13 +1326,10 @@ a{
                 type="text"
                 placeholder="例如：搭 JR"
             >
-
         </div>
 
         <div class="row">
-
             <div class="field">
-
                 <label>價格（台幣）</label>
 
                 <input
@@ -1387,11 +1338,9 @@ a{
                     min="0"
                     placeholder="0"
                 >
-
             </div>
 
             <div class="field">
-
                 <label>需要時間</label>
 
                 <input
@@ -1399,19 +1348,15 @@ a{
                     type="text"
                     placeholder="例如：2 小時"
                 >
-
             </div>
-
         </div>
 
         <div class="field">
-
             <label>推薦程度</label>
 
             <div class="rating-group">
 
                 <div class="rating-option">
-
                     <input
                         type="radio"
                         name="itemRating"
@@ -1422,11 +1367,9 @@ a{
                     <label for="ratingRecommend">
                         👍🏻 推薦
                     </label>
-
                 </div>
 
                 <div class="rating-option">
-
                     <input
                         type="radio"
                         name="itemRating"
@@ -1437,11 +1380,9 @@ a{
                     <label for="ratingNormal">
                         👌 普通
                     </label>
-
                 </div>
 
                 <div class="rating-option">
-
                     <input
                         type="radio"
                         name="itemRating"
@@ -1452,38 +1393,33 @@ a{
                     <label for="ratingNo">
                         👎🏻 不用去
                     </label>
-
                 </div>
 
             </div>
-
         </div>
 
         <div class="field">
-
             <label>備註</label>
 
             <textarea
                 id="itemNotesInput"
                 placeholder="例如：記得提前預約"
             ></textarea>
-
         </div>
 
         <div class="field">
-
             <label>其他</label>
 
             <textarea
                 id="itemOtherInput"
                 placeholder="可以補充其他資訊"
             ></textarea>
-
         </div>
 
         <div class="modal-footer">
 
             <button
+                type="button"
                 class="btn btn-light"
                 onclick="closeModal('itemModal')"
             >
@@ -1491,6 +1427,8 @@ a{
             </button>
 
             <button
+                id="saveItemButton"
+                type="button"
                 class="btn"
                 onclick="saveItem()"
             >
@@ -1500,7 +1438,6 @@ a{
         </div>
 
     </div>
-
 </div>
 
 <!-- =========================
@@ -1508,7 +1445,6 @@ a{
 ========================= -->
 
 <div id="stayModal" class="modal-backdrop">
-
     <div class="modal">
 
         <div class="modal-header">
@@ -1518,6 +1454,7 @@ a{
             </h2>
 
             <button
+                type="button"
                 class="close-btn"
                 onclick="closeModal('stayModal')"
             >
@@ -1527,7 +1464,6 @@ a{
         </div>
 
         <div class="field">
-
             <label>住宿名稱</label>
 
             <input
@@ -1535,11 +1471,9 @@ a{
                 type="text"
                 placeholder="例如：大阪難波飯店"
             >
-
         </div>
 
         <div class="field">
-
             <label>地址</label>
 
             <input
@@ -1547,37 +1481,31 @@ a{
                 type="text"
                 placeholder="住宿地址"
             >
-
         </div>
 
         <div class="row">
 
             <div class="field">
-
                 <label>入住</label>
 
                 <input
                     id="stayCheckInInput"
                     type="date"
                 >
-
             </div>
 
             <div class="field">
-
                 <label>退房</label>
 
                 <input
                     id="stayCheckOutInput"
                     type="date"
                 >
-
             </div>
 
         </div>
 
         <div class="field">
-
             <label>價格（台幣）</label>
 
             <input
@@ -1586,11 +1514,9 @@ a{
                 min="0"
                 placeholder="0"
             >
-
         </div>
 
         <div class="field">
-
             <label>訂房資訊</label>
 
             <input
@@ -1598,34 +1524,30 @@ a{
                 type="text"
                 placeholder="例如：Booking.com"
             >
-
         </div>
 
         <div class="field">
-
             <label>其他</label>
 
             <textarea
                 id="stayOtherInput"
                 placeholder="例如：含早餐、可以寄放行李等等"
             ></textarea>
-
         </div>
 
         <div class="field">
-
             <label>備註</label>
 
             <textarea
                 id="stayNotesInput"
                 placeholder="其他備註"
             ></textarea>
-
         </div>
 
         <div class="modal-footer">
 
             <button
+                type="button"
                 class="btn btn-light"
                 onclick="closeModal('stayModal')"
             >
@@ -1633,6 +1555,7 @@ a{
             </button>
 
             <button
+                type="button"
                 class="btn"
                 onclick="saveStay()"
             >
@@ -1642,12 +1565,7 @@ a{
         </div>
 
     </div>
-
 </div>
-
-<!-- =========================
-     PHOTO FILE INPUT
-========================= -->
 
 <input
     id="photoFileInput"
@@ -1659,10 +1577,6 @@ a{
 >
 
 <script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
 
 const SUPABASE_URL =
     "https://vkwriekcbvvvkmsmlbzu.supabase.co";
@@ -1676,10 +1590,6 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
-/* =====================================================
-   DEFAULT DATA
-===================================================== */
-
 const DEFAULT_DESTINATIONS = [
     "日本",
     "韓國",
@@ -1687,31 +1597,15 @@ const DEFAULT_DESTINATIONS = [
     "黃刀鎮極光"
 ];
 
-/* =====================================================
-   STATE
-===================================================== */
-
 let currentPage = "home";
-
 let currentDestination = "";
-
 let currentTrip = null;
-
 let currentDay = 1;
-
 let editingDestinationIndex = -1;
-
 let editingJourneyId = null;
-
 let editingItemId = null;
-
 let editingStayId = null;
-
 let currentTrips = [];
-
-/* =====================================================
-   LOCAL STORAGE
-===================================================== */
 
 function getDestinations(){
 
@@ -1726,16 +1620,13 @@ function getDestinations(){
         );
 
         return [...DEFAULT_DESTINATIONS];
+
     }
 
     try{
-
         return JSON.parse(saved);
-
     }catch(e){
-
         return [...DEFAULT_DESTINATIONS];
-
     }
 }
 
@@ -1745,25 +1636,23 @@ function saveDestinations(list){
         "goya_destinations",
         JSON.stringify(list)
     );
+
 }
 
 function getIntro(){
 
     return {
-
         title:
             localStorage.getItem(
                 "goya_intro_title"
-            )
-            || "去哪裡玩？",
+            ) || "去哪裡玩？",
 
         subtitle:
             localStorage.getItem(
                 "goya_intro_subtitle"
-            )
-            || "小資也能輕鬆飛"
-
+            ) || "小資也能輕鬆飛"
     };
+
 }
 
 function saveIntroData(title, subtitle){
@@ -1777,11 +1666,8 @@ function saveIntroData(title, subtitle){
         "goya_intro_subtitle",
         subtitle
     );
-}
 
-/* =====================================================
-   COOPERATION
-===================================================== */
+}
 
 function getCooperation(){
 
@@ -1801,17 +1687,13 @@ function getCooperation(){
     }
 
     try{
-
         return JSON.parse(saved);
-
     }catch(e){
-
         return {
             title:"",
             description:"",
             link:""
         };
-
     }
 
 }
@@ -1833,16 +1715,10 @@ function saveCooperationData(
 
 }
 
-/* =====================================================
-   PHOTO NOTES
-===================================================== */
-
 function getPhotoStorageKey(){
 
     if(!currentTrip){
-
         return "";
-
     }
 
     return (
@@ -1858,18 +1734,14 @@ function getTripPhotos(){
         getPhotoStorageKey();
 
     if(!key){
-
         return [];
-
     }
 
     const saved =
         localStorage.getItem(key);
 
     if(!saved){
-
         return [];
-
     }
 
     try{
@@ -1895,9 +1767,7 @@ function saveTripPhotos(photos){
         getPhotoStorageKey();
 
     if(!key){
-
         return;
-
     }
 
     try{
@@ -1927,7 +1797,6 @@ function openPhotoFilePicker(){
     if(input){
 
         input.value = "";
-
         input.click();
 
     }
@@ -1942,25 +1811,19 @@ async function handlePhotoFiles(event){
         );
 
     if(!files.length){
-
         return;
-
     }
 
     for(const file of files){
 
         if(!file.type.startsWith("image/")){
-
             continue;
-
         }
 
         try{
 
             const dataUrl =
-                await readFileAsDataURL(
-                    file
-                );
+                await readFileAsDataURL(file);
 
             addPhotoNote(
                 dataUrl,
@@ -1982,37 +1845,25 @@ async function handlePhotoFiles(event){
 function readFileAsDataURL(file){
 
     return new Promise(
-        (
-            resolve,
-            reject
-        ) => {
+        (resolve, reject) => {
 
             const reader =
                 new FileReader();
 
             reader.onload =
-                () => resolve(
-                    reader.result
-                );
+                () => resolve(reader.result);
 
             reader.onerror =
-                () => reject(
-                    reader.error
-                );
+                () => reject(reader.error);
 
-            reader.readAsDataURL(
-                file
-            );
+            reader.readAsDataURL(file);
 
         }
     );
 
 }
 
-function addPhotoNote(
-    image,
-    text
-){
+function addPhotoNote(image, text){
 
     const photos =
         getTripPhotos();
@@ -2036,9 +1887,7 @@ function addPhotoNote(
 
     });
 
-    saveTripPhotos(
-        photos
-    );
+    saveTripPhotos(photos);
 
 }
 
@@ -2057,32 +1906,23 @@ function updatePhotoText(
         );
 
     if(!photo){
-
         return;
-
     }
 
-    photo.text =
-        text;
+    photo.text = text;
 
-    saveTripPhotos(
-        photos
-    );
+    saveTripPhotos(photos);
 
 }
 
-function deletePhoto(
-    photoId
-){
+function deletePhoto(photoId){
 
     if(
         !confirm(
             "確定要刪除這張照片嗎？"
         )
     ){
-
         return;
-
     }
 
     const photos =
@@ -2092,17 +1932,11 @@ function deletePhoto(
                     item.id !== photoId
             );
 
-    saveTripPhotos(
-        photos
-    );
+    saveTripPhotos(photos);
 
     renderPhotoPage();
 
 }
-
-/* =====================================================
-   PASTE PHOTO
-===================================================== */
 
 function setupPhotoPaste(){
 
@@ -2112,9 +1946,7 @@ function setupPhotoPaste(){
         );
 
     if(!pasteBox){
-
         return;
-
     }
 
     pasteBox.addEventListener(
@@ -2129,15 +1961,11 @@ function setupPhotoPaste(){
             const imageItems =
                 items.filter(
                     item =>
-                        item.type.startsWith(
-                            "image/"
-                        )
+                        item.type.startsWith("image/")
                 );
 
             if(!imageItems.length){
-
                 return;
-
             }
 
             event.preventDefault();
@@ -2148,17 +1976,13 @@ function setupPhotoPaste(){
                     item.getAsFile();
 
                 if(!file){
-
                     continue;
-
                 }
 
                 try{
 
                     const dataUrl =
-                        await readFileAsDataURL(
-                            file
-                        );
+                        await readFileAsDataURL(file);
 
                     addPhotoNote(
                         dataUrl,
@@ -2173,8 +1997,7 @@ function setupPhotoPaste(){
 
             }
 
-            pasteBox.value =
-                "";
+            pasteBox.value = "";
 
             renderPhotoPage();
 
@@ -2182,10 +2005,6 @@ function setupPhotoPaste(){
     );
 
 }
-
-/* =====================================================
-   JOURNEY ORDER
-===================================================== */
 
 function getJourneyOrder(destination){
 
@@ -2201,18 +2020,17 @@ function getJourneyOrder(destination){
     }
 
     try{
-
         return JSON.parse(saved);
-
     }catch(e){
-
         return [];
-
     }
 
 }
 
-function saveJourneyOrder(destination, ids){
+function saveJourneyOrder(
+    destination,
+    ids
+){
 
     localStorage.setItem(
         "goya_journey_order_" + destination,
@@ -2229,9 +2047,7 @@ function sortTripsBySavedOrder(trips){
         );
 
     if(!order.length){
-
         return trips;
-
     }
 
     const map = new Map(
@@ -2260,18 +2076,12 @@ function sortTripsBySavedOrder(trips){
     });
 
     map.forEach(trip => {
-
         result.push(trip);
-
     });
 
     return result;
 
 }
-
-/* =====================================================
-   INIT
-===================================================== */
 
 async function init(){
 
@@ -2293,10 +2103,6 @@ async function init(){
     renderHome();
 
 }
-
-/* =====================================================
-   LOGIN
-===================================================== */
 
 function renderLogin(){
 
@@ -2335,6 +2141,7 @@ function renderLogin(){
             </div>
 
             <button
+                type="button"
                 class="btn"
                 style="width:100%;"
                 onclick="login()"
@@ -2350,6 +2157,7 @@ function renderLogin(){
         </div>
 
     `;
+
 }
 
 async function login(){
@@ -2393,6 +2201,7 @@ async function login(){
     }
 
     renderHome();
+
 }
 
 async function logout(){
@@ -2402,18 +2211,13 @@ async function logout(){
         .signOut();
 
     renderLogin();
-}
 
-/* =====================================================
-   HOME
-===================================================== */
+}
 
 async function renderHome(){
 
     currentPage = "home";
-
     currentDestination = "";
-
     currentTrip = null;
 
     const {
@@ -2450,6 +2254,7 @@ async function renderHome(){
                     </div>
 
                     <button
+                        type="button"
                         class="btn btn-light btn-small"
                         onclick="logout()"
                     >
@@ -2481,6 +2286,7 @@ async function renderHome(){
                     </div>
 
                     <button
+                        type="button"
                         class="edit-intro-btn"
                         onclick="openIntroModal()"
                     >
@@ -2539,6 +2345,7 @@ async function renderHome(){
                     </div>
 
                     <button
+                        type="button"
                         class="edit-intro-btn"
                         onclick="openCooperationModal()"
                     >
@@ -2579,7 +2386,7 @@ async function renderHome(){
                             `
                             <a
                                 class="cooperation-link"
-                                href="${escapeHtml(
+                                href="${safeUrl(
                                     cooperation.link
                                 )}"
                                 target="_blank"
@@ -2595,6 +2402,7 @@ async function renderHome(){
                         <div class="cooperation-actions">
 
                             <button
+                                type="button"
                                 class="text-action"
                                 onclick="openCooperationModal()"
                             >
@@ -2602,6 +2410,7 @@ async function renderHome(){
                             </button>
 
                             <button
+                                type="button"
                                 class="text-action delete"
                                 onclick="deleteCooperation()"
                             >
@@ -2643,9 +2452,7 @@ async function renderDestinations(){
         );
 
     if(!container){
-
         return;
-
     }
 
     let html = "";
@@ -2688,6 +2495,7 @@ async function renderDestinations(){
                 <div class="destination-actions">
 
                     <button
+                        type="button"
                         class="icon-btn"
                         title="往上"
                         onclick="moveDestination(${i}, -1)"
@@ -2697,6 +2505,7 @@ async function renderDestinations(){
                     </button>
 
                     <button
+                        type="button"
                         class="icon-btn"
                         title="往下"
                         onclick="moveDestination(${i}, 1)"
@@ -2706,6 +2515,7 @@ async function renderDestinations(){
                     </button>
 
                     <button
+                        type="button"
                         class="text-action"
                         title="編輯"
                         onclick="openDestinationModal(${i})"
@@ -2714,6 +2524,7 @@ async function renderDestinations(){
                     </button>
 
                     <button
+                        type="button"
                         class="text-action delete"
                         title="刪除"
                         onclick="deleteDestination(${i})"
@@ -2731,6 +2542,7 @@ async function renderDestinations(){
     html += `
 
         <button
+            type="button"
             class="add-destination"
             onclick="openDestinationModal(-1)"
         >
@@ -2739,8 +2551,7 @@ async function renderDestinations(){
 
     `;
 
-    container.innerHTML =
-        html;
+    container.innerHTML = html;
 
 }
 
@@ -2771,10 +2582,6 @@ async function getDestinationCount(
 
 }
 
-/* =====================================================
-   INTRO EDIT
-===================================================== */
-
 function openIntroModal(){
 
     const intro =
@@ -2790,9 +2597,7 @@ function openIntroModal(){
     ).value =
         intro.subtitle;
 
-    openModal(
-        "introModal"
-    );
+    openModal("introModal");
 
 }
 
@@ -2819,17 +2624,11 @@ function saveIntro(){
         subtitle || "小資也能輕鬆飛"
     );
 
-    closeModal(
-        "introModal"
-    );
+    closeModal("introModal");
 
     renderHome();
 
 }
-
-/* =====================================================
-   COOPERATION EDIT
-===================================================== */
 
 function openCooperationModal(){
 
@@ -2851,9 +2650,7 @@ function openCooperationModal(){
     ).value =
         cooperation.link || "";
 
-    openModal(
-        "cooperationModal"
-    );
+    openModal("cooperationModal");
 
 }
 
@@ -2889,9 +2686,7 @@ function saveCooperation(){
         link
     );
 
-    closeModal(
-        "cooperationModal"
-    );
+    closeModal("cooperationModal");
 
     renderHome();
 
@@ -2904,9 +2699,7 @@ function deleteCooperation(){
             "確定要刪除合作資訊嗎？"
         )
     ){
-
         return;
-
     }
 
     localStorage.removeItem(
@@ -2916,10 +2709,6 @@ function deleteCooperation(){
     renderHome();
 
 }
-
-/* =====================================================
-   DESTINATION
-===================================================== */
 
 function openDestinationModal(index){
 
@@ -2955,9 +2744,7 @@ function openDestinationModal(index){
 
     }
 
-    openModal(
-        "destinationModal"
-    );
+    openModal("destinationModal");
 
 }
 
@@ -2973,9 +2760,7 @@ async function saveDestination(){
 
     if(!name){
 
-        alert(
-            "請輸入目的地名稱"
-        );
+        alert("請輸入目的地名稱");
 
         return;
 
@@ -2992,9 +2777,7 @@ async function saveDestination(){
         )
     ){
 
-        alert(
-            "這個目的地已經存在"
-        );
+        alert("這個目的地已經存在");
 
         return;
 
@@ -3006,26 +2789,19 @@ async function saveDestination(){
 
         list.push(name);
 
-        saveDestinations(
-            list
-        );
+        saveDestinations(list);
 
     }else{
 
         const oldName =
-            list[
-                editingDestinationIndex
-            ];
+            list[editingDestinationIndex];
 
         if(oldName !== name){
 
-            list[
-                editingDestinationIndex
-            ] = name;
+            list[editingDestinationIndex] =
+                name;
 
-            saveDestinations(
-                list
-            );
+            saveDestinations(list);
 
             await supabaseClient
                 .from("trips")
@@ -3060,9 +2836,7 @@ async function saveDestination(){
 
     }
 
-    closeModal(
-        "destinationModal"
-    );
+    closeModal("destinationModal");
 
     await renderHome();
 
@@ -3082,19 +2856,12 @@ async function deleteDestination(index){
         );
 
     if(!ok){
-
         return;
-
     }
 
-    list.splice(
-        index,
-        1
-    );
+    list.splice(index,1);
 
-    saveDestinations(
-        list
-    );
+    saveDestinations(list);
 
     await renderHome();
 
@@ -3115,9 +2882,7 @@ function moveDestination(
         newIndex < 0 ||
         newIndex >= list.length
     ){
-
         return;
-
     }
 
     [
@@ -3129,17 +2894,11 @@ function moveDestination(
         list[index]
     ];
 
-    saveDestinations(
-        list
-    );
+    saveDestinations(list);
 
     renderHome();
 
 }
-
-/* =====================================================
-   DESTINATION PAGE
-===================================================== */
 
 async function openDestination(
     destination
@@ -3164,6 +2923,7 @@ async function openDestination(
                 </div>
 
                 <button
+                    type="button"
                     class="btn btn-light btn-small"
                     onclick="renderHome()"
                 >
@@ -3175,6 +2935,7 @@ async function openDestination(
             <section class="section">
 
                 <button
+                    type="button"
                     class="back-btn"
                     onclick="renderHome()"
                 >
@@ -3198,6 +2959,7 @@ async function openDestination(
                     </div>
 
                     <button
+                        type="button"
                         class="btn btn-small"
                         onclick="openJourneyModal(null)"
                     >
@@ -3210,11 +2972,9 @@ async function openDestination(
                     id="journeyList"
                     class="journey-list"
                 >
-
                     <div class="loading">
                         載入中……
                     </div>
-
                 </div>
 
             </section>
@@ -3235,9 +2995,7 @@ async function renderJourneys(){
         );
 
     if(!container){
-
         return;
-
     }
 
     const {
@@ -3255,13 +3013,11 @@ async function renderJourneys(){
     if(error){
 
         container.innerHTML = `
-
             <div class="empty">
                 ${escapeHtml(
                     error.message
                 )}
             </div>
-
         `;
 
         return;
@@ -3284,6 +3040,7 @@ async function renderJourneys(){
                 <br><br>
 
                 <button
+                    type="button"
                     class="btn"
                     onclick="openJourneyModal(null)"
                 >
@@ -3344,6 +3101,7 @@ async function renderJourneys(){
                             }
 
                             <div class="journey-creator">
+
                                 ${
                                     info.creator
                                     ?
@@ -3353,6 +3111,7 @@ async function renderJourneys(){
                                     :
                                     "尚未設定創作者"
                                 }
+
                             </div>
 
                         </div>
@@ -3360,6 +3119,7 @@ async function renderJourneys(){
                         <div class="journey-actions">
 
                             <button
+                                type="button"
                                 class="icon-btn"
                                 onclick="moveJourney(${index}, -1)"
                                 ${index === 0 ? "disabled" : ""}
@@ -3368,6 +3128,7 @@ async function renderJourneys(){
                             </button>
 
                             <button
+                                type="button"
                                 class="icon-btn"
                                 onclick="moveJourney(${index}, 1)"
                                 ${index === currentTrips.length - 1 ? "disabled" : ""}
@@ -3376,6 +3137,7 @@ async function renderJourneys(){
                             </button>
 
                             <button
+                                type="button"
                                 class="text-action"
                                 onclick="openJourneyModal('${escapeJs(trip.id)}')"
                             >
@@ -3383,6 +3145,7 @@ async function renderJourneys(){
                             </button>
 
                             <button
+                                type="button"
                                 class="text-action delete"
                                 onclick="deleteJourney('${escapeJs(trip.id)}')"
                             >
@@ -3405,10 +3168,6 @@ async function renderJourneys(){
 
 }
 
-/* =====================================================
-   JOURNEY ORDER
-===================================================== */
-
 function moveJourney(
     index,
     direction
@@ -3421,9 +3180,7 @@ function moveJourney(
         newIndex < 0 ||
         newIndex >= currentTrips.length
     ){
-
         return;
-
     }
 
     const ids =
@@ -3449,10 +3206,6 @@ function moveJourney(
 
 }
 
-/* =====================================================
-   JOURNEY MODAL
-===================================================== */
-
 function openJourneyModal(
     tripId
 ){
@@ -3469,38 +3222,31 @@ function openJourneyModal(
 
         document.getElementById(
             "journeyTitleInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "journeySubtitleInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "journeyCreatorInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "journeyStartInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "journeyEndInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "journeyDescriptionInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "journeyOtherInput"
-        ).value =
-            "";
+        ).value = "";
 
     }else{
 
@@ -3511,9 +3257,7 @@ function openJourneyModal(
             );
 
         if(!trip){
-
             return;
-
         }
 
         const info =
@@ -3563,9 +3307,7 @@ function openJourneyModal(
 
     }
 
-    openModal(
-        "journeyModal"
-    );
+    openModal("journeyModal");
 
 }
 
@@ -3581,9 +3323,7 @@ async function saveJourney(){
 
     if(!title){
 
-        alert(
-            "請輸入旅程主標題"
-        );
+        alert("請輸入旅程主標題");
 
         return;
 
@@ -3610,16 +3350,14 @@ async function saveJourney(){
             .getElementById(
                 "journeyStartInput"
             )
-            .value ||
-        null;
+            .value || null;
 
     const endDate =
         document
             .getElementById(
                 "journeyEndInput"
             )
-            .value ||
-        null;
+            .value || null;
 
     const description =
         document
@@ -3645,6 +3383,14 @@ async function saveJourney(){
         await supabaseClient
             .auth
             .getUser();
+
+    if(!user){
+
+        alert("登入狀態已失效，請重新登入。");
+
+        return;
+
+    }
 
     const descriptionJson =
         JSON.stringify({
@@ -3687,9 +3433,7 @@ async function saveJourney(){
 
         if(error){
 
-            alert(
-                error.message
-            );
+            alert(error.message);
 
             return;
 
@@ -3700,9 +3444,7 @@ async function saveJourney(){
                 currentDestination
             );
 
-        order.push(
-            data.id
-        );
+        order.push(data.id);
 
         saveJourneyOrder(
             currentDestination,
@@ -3737,9 +3479,7 @@ async function saveJourney(){
 
         if(error){
 
-            alert(
-                error.message
-            );
+            alert(error.message);
 
             return;
 
@@ -3747,17 +3487,11 @@ async function saveJourney(){
 
     }
 
-    closeModal(
-        "journeyModal"
-    );
+    closeModal("journeyModal");
 
     await renderJourneys();
 
 }
-
-/* =====================================================
-   DELETE JOURNEY
-===================================================== */
 
 async function deleteJourney(
     tripId
@@ -3769,9 +3503,7 @@ async function deleteJourney(
         );
 
     if(!ok){
-
         return;
-
     }
 
     const {
@@ -3787,9 +3519,7 @@ async function deleteJourney(
 
     if(error){
 
-        alert(
-            error.message
-        );
+        alert(error.message);
 
         return;
 
@@ -3818,16 +3548,11 @@ async function deleteJourney(
 
 }
 
-/* =====================================================
-   TRIP DETAIL
-===================================================== */
-
 async function openTrip(
     tripId
 ){
 
-    currentPage =
-        "detail";
+    currentPage = "detail";
 
     const {
         data:trip,
@@ -3844,29 +3569,21 @@ async function openTrip(
 
     if(error){
 
-        alert(
-            error.message
-        );
+        alert(error.message);
 
         return;
 
     }
 
-    currentTrip =
-        trip;
+    currentTrip = trip;
 
     await renderTripDetail();
 
 }
 
-/* =====================================================
-   TRIP PHOTOS PAGE
-===================================================== */
-
 function openPhotoPage(){
 
-    currentPage =
-        "photos";
+    currentPage = "photos";
 
     renderPhotoPage();
 
@@ -3875,9 +3592,7 @@ function openPhotoPage(){
 function renderPhotoPage(){
 
     if(!currentTrip){
-
         return;
-
     }
 
     const photos =
@@ -3913,6 +3628,7 @@ function renderPhotoPage(){
                     <div class="photo-note-actions">
 
                         <button
+                            type="button"
                             class="text-action delete"
                             onclick="deletePhoto('${escapeJs(photo.id)}')"
                         >
@@ -3941,6 +3657,7 @@ function renderPhotoPage(){
                 </div>
 
                 <button
+                    type="button"
                     class="btn btn-light btn-small"
                     onclick="renderTripDetail()"
                 >
@@ -3952,6 +3669,7 @@ function renderPhotoPage(){
             <section class="section">
 
                 <button
+                    type="button"
                     class="back-btn"
                     onclick="renderTripDetail()"
                 >
@@ -3968,8 +3686,7 @@ function renderPhotoPage(){
 
                         <div class="section-description">
                             ${escapeHtml(
-                                currentTrip.title ||
-                                ""
+                                currentTrip.title || ""
                             )}
                         </div>
 
@@ -3980,6 +3697,7 @@ function renderPhotoPage(){
                 <div class="photo-toolbar">
 
                     <button
+                        type="button"
                         class="photo-add-btn"
                         onclick="openPhotoFilePicker()"
                     >
@@ -4044,23 +3762,16 @@ function renderPhotoPage(){
 
 }
 
-/* =====================================================
-   TRIP DETAIL RENDER
-===================================================== */
-
 async function renderTripDetail(){
 
     const trip =
         currentTrip;
 
     if(!trip){
-
         return;
-
     }
 
-    currentPage =
-        "detail";
+    currentPage = "detail";
 
     const info =
         parseTripDescription(
@@ -4099,6 +3810,24 @@ async function renderTripDetail(){
                 )
 
         ]);
+
+    if(itineraryResult.error){
+
+        console.error(
+            "itineraries:",
+            itineraryResult.error
+        );
+
+    }
+
+    if(staysResult.error){
+
+        console.error(
+            "stays:",
+            staysResult.error
+        );
+
+    }
 
     const items =
         itineraryResult.data || [];
@@ -4141,19 +3870,11 @@ async function renderTripDetail(){
     items.forEach(
         item => {
 
-            if(!days[
-                item.day_number
-            ]){
-
-                days[
-                    item.day_number
-                ] = [];
-
+            if(!days[item.day_number]){
+                days[item.day_number] = [];
             }
 
-            days[
-                item.day_number
-            ].push(item);
+            days[item.day_number].push(item);
 
         }
     );
@@ -4164,8 +3885,7 @@ async function renderTripDetail(){
         Object.keys(days)
             .map(Number)
             .sort(
-                (a,b) =>
-                    a-b
+                (a,b) => a-b
             );
 
     dayNumbers.forEach(
@@ -4182,6 +3902,7 @@ async function renderTripDetail(){
                         </div>
 
                         <button
+                            type="button"
                             class="btn btn-light btn-small"
                             onclick="openItemModal(${day}, null)"
                         >
@@ -4230,7 +3951,9 @@ async function renderTripDetail(){
 
                                     <a
                                         class="map-link"
-                                        href="${getMapUrl(item.location)}"
+                                        href="${getMapUrl(
+                                            item.location
+                                        )}"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
@@ -4318,6 +4041,7 @@ async function renderTripDetail(){
                             <div class="item-actions">
 
                                 <button
+                                    type="button"
                                     class="btn btn-light btn-small"
                                     onclick="openItemModal(${item.day_number}, '${escapeJs(item.id)}')"
                                 >
@@ -4325,6 +4049,7 @@ async function renderTripDetail(){
                                 </button>
 
                                 <button
+                                    type="button"
                                     class="btn btn-danger btn-small"
                                     onclick="deleteItem('${escapeJs(item.id)}')"
                                 >
@@ -4343,6 +4068,7 @@ async function renderTripDetail(){
             daysHtml += `
 
                     <button
+                        type="button"
                         class="add-item-btn"
                         onclick="openItemModal(${day}, null)"
                     >
@@ -4367,6 +4093,7 @@ async function renderTripDetail(){
                 <br><br>
 
                 <button
+                    type="button"
                     class="btn"
                     onclick="addDayAndItem()"
                 >
@@ -4414,7 +4141,9 @@ async function renderTripDetail(){
 
                             <a
                                 class="map-link"
-                                href="${getMapUrl(stay.address)}"
+                                href="${getMapUrl(
+                                    stay.address
+                                )}"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
@@ -4498,6 +4227,7 @@ async function renderTripDetail(){
                     <div class="item-actions">
 
                         <button
+                            type="button"
                             class="btn btn-light btn-small"
                             onclick="openStayModal('${escapeJs(stay.id)}')"
                         >
@@ -4505,6 +4235,7 @@ async function renderTripDetail(){
                         </button>
 
                         <button
+                            type="button"
                             class="btn btn-danger btn-small"
                             onclick="deleteStay('${escapeJs(stay.id)}')"
                         >
@@ -4533,6 +4264,7 @@ async function renderTripDetail(){
                 </div>
 
                 <button
+                    type="button"
                     class="btn btn-light btn-small"
                     onclick="openDestination(currentDestination)"
                 >
@@ -4654,17 +4386,11 @@ async function renderTripDetail(){
                     <div style="display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;">
 
                         <button
+                            type="button"
                             class="btn btn-light btn-small"
                             onclick="openPhotoPage()"
                         >
                             📷 照片
-                        </button>
-
-                        <button
-                            class="btn btn-small"
-                            onclick="addNextDay()"
-                        >
-                            ＋ 新增一天
                         </button>
 
                     </div>
@@ -4690,6 +4416,7 @@ async function renderTripDetail(){
                         <div class="info-box-actions">
 
                             <button
+                                type="button"
                                 class="text-action"
                                 onclick="openJourneyModal('${escapeJs(trip.id)}')"
                             >
@@ -4715,6 +4442,7 @@ async function renderTripDetail(){
                         </h3>
 
                         <button
+                            type="button"
                             class="btn btn-light btn-small"
                             onclick="openStayModal(null)"
                         >
@@ -4742,11 +4470,11 @@ async function renderTripDetail(){
 
 }
 
-/* =====================================================
-   ADD DAY
-===================================================== */
-
 async function addNextDay(){
+
+    if(!currentTrip){
+        return;
+    }
 
     const {
         data
@@ -4792,62 +4520,51 @@ async function addDayAndItem(){
 
 }
 
-/* =====================================================
-   ITEM MODAL
-===================================================== */
-
 function openItemModal(
     day,
     itemId
 ){
 
     currentDay =
-        day;
+        Number(day) || 1;
 
     editingItemId =
-        itemId;
+        itemId || null;
 
-    if(!itemId){
+    if(!editingItemId){
 
         document.getElementById(
             "itemModalTitle"
         ).textContent =
-            `Day ${day}｜新增行程`;
+            `Day ${currentDay}｜新增行程`;
 
         document.getElementById(
             "itemTitleInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "itemLocationInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "itemTransportInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "itemPriceInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "itemDurationInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "itemNotesInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "itemOtherInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.querySelectorAll(
             'input[name="itemRating"]'
@@ -4857,16 +4574,24 @@ function openItemModal(
             }
         );
 
-        openModal(
-            "itemModal"
-        );
+        openModal("itemModal");
+
+        setTimeout(() => {
+
+            document
+                .getElementById(
+                    "itemTitleInput"
+                )
+                ?.focus();
+
+        },100);
 
         return;
 
     }
 
     loadItemForEdit(
-        itemId
+        editingItemId
     );
 
 }
@@ -4890,9 +4615,7 @@ async function loadItemForEdit(
 
     if(error){
 
-        alert(
-            error.message
-        );
+        alert(error.message);
 
         return;
 
@@ -4903,13 +4626,16 @@ async function loadItemForEdit(
             item.notes
         );
 
+    editingItemId =
+        item.id;
+
     currentDay =
-        item.day_number;
+        Number(item.day_number) || 1;
 
     document.getElementById(
         "itemModalTitle"
     ).textContent =
-        `Day ${item.day_number}｜編輯行程`;
+        `Day ${currentDay}｜編輯行程`;
 
     document.getElementById(
         "itemTitleInput"
@@ -4962,25 +4688,89 @@ async function loadItemForEdit(
         }
     );
 
-    openModal(
-        "itemModal"
-    );
+    openModal("itemModal");
 
 }
 
 async function saveItem(){
 
-    const title =
+    if(!currentTrip){
+
+        alert(
+            "目前沒有選擇旅程，請回到旅程後再新增。"
+        );
+
+        return;
+
+    }
+
+    const titleInput =
         document.getElementById(
             "itemTitleInput"
-        )
-        .value
-        .trim();
+        );
+
+    if(!titleInput){
+
+        alert(
+            "找不到行程輸入欄位，請重新整理頁面後再試。"
+        );
+
+        return;
+
+    }
+
+    const title =
+        titleInput.value.trim();
 
     if(!title){
 
+        alert("請輸入行程名稱");
+
+        titleInput.focus();
+
+        return;
+
+    }
+
+    const dayNumber =
+        Number(currentDay);
+
+    if(
+        !Number.isFinite(dayNumber) ||
+        dayNumber < 1
+    ){
+
+        alert("Day 資料有問題，請重新新增行程。");
+
+        return;
+
+    }
+
+    const {
+        data:{
+            user
+        },
+        error:userError
+    } =
+        await supabaseClient
+            .auth
+            .getUser();
+
+    if(userError){
+
         alert(
-            "請輸入行程名稱"
+            "無法確認登入狀態：\n\n" +
+            userError.message
+        );
+
+        return;
+
+    }
+
+    if(!user){
+
+        alert(
+            "登入狀態已失效，請重新登入。"
         );
 
         return;
@@ -4995,59 +4785,68 @@ async function saveItem(){
     const notesText =
         document.getElementById(
             "itemNotesInput"
-        )
-        .value
-        .trim();
+        ).value.trim();
 
     const otherText =
         document.getElementById(
             "itemOtherInput"
-        )
-        .value
-        .trim();
+        ).value.trim();
+
+    const priceValue =
+        document.getElementById(
+            "itemPriceInput"
+        ).value;
+
+    const price =
+        priceValue === ""
+        ?
+        0
+        :
+        Number(priceValue);
+
+    if(!Number.isFinite(price)){
+
+        alert(
+            "價格格式不正確。"
+        );
+
+        return;
+
+    }
 
     const payload = {
+
+        owner_id:
+            user.id,
 
         trip_id:
             currentTrip.id,
 
         day_number:
-            currentDay,
+            dayNumber,
 
         title,
 
         location:
             document.getElementById(
                 "itemLocationInput"
-            )
-            .value
-            .trim(),
+            ).value.trim(),
 
         transport:
             document.getElementById(
                 "itemTransportInput"
-            )
-            .value
-            .trim(),
+            ).value.trim(),
 
-        price:
-            Number(
-                document.getElementById(
-                    "itemPriceInput"
-                )
-                .value ||
-                0
-            ),
+        price,
 
         duration:
             document.getElementById(
                 "itemDurationInput"
-            )
-            .value
-            .trim(),
+            ).value.trim(),
 
         notes:
             JSON.stringify({
+
                 text:
                     notesText,
 
@@ -5060,51 +4859,102 @@ async function saveItem(){
 
                 other:
                     otherText
+
             })
 
     };
 
-    let result;
-
-    if(editingItemId){
-
-        result =
-            await supabaseClient
-                .from("itineraries")
-                .update(
-                    payload
-                )
-                .eq(
-                    "id",
-                    editingItemId
-                );
-
-    }else{
-
-        result =
-            await supabaseClient
-                .from("itineraries")
-                .insert(
-                    payload
-                );
-
-    }
-
-    if(result.error){
-
-        alert(
-            result.error.message
+    const saveButton =
+        document.getElementById(
+            "saveItemButton"
         );
 
-        return;
+    if(saveButton){
+
+        saveButton.disabled = true;
+        saveButton.textContent = "儲存中……";
 
     }
 
-    closeModal(
-        "itemModal"
-    );
+    try{
 
-    await renderTripDetail();
+        let result;
+
+        if(editingItemId){
+
+            result =
+                await supabaseClient
+                    .from("itineraries")
+                    .update(
+                        payload
+                    )
+                    .eq(
+                        "id",
+                        editingItemId
+                    )
+                    .select()
+                    .single();
+
+        }else{
+
+            result =
+                await supabaseClient
+                    .from("itineraries")
+                    .insert(
+                        payload
+                    )
+                    .select()
+                    .single();
+
+        }
+
+        if(result.error){
+
+            console.error(
+                "儲存行程失敗：",
+                result.error
+            );
+
+            alert(
+                "行程儲存失敗：\n\n" +
+                result.error.message
+            );
+
+            return;
+
+        }
+
+        closeModal("itemModal");
+
+        editingItemId = null;
+
+        await renderTripDetail();
+
+    }catch(error){
+
+        console.error(
+            "saveItem exception:",
+            error
+        );
+
+        alert(
+            "行程儲存時發生錯誤：\n\n" +
+            (
+                error?.message ||
+                String(error)
+            )
+        );
+
+    }finally{
+
+        if(saveButton){
+
+            saveButton.disabled = false;
+            saveButton.textContent = "儲存";
+
+        }
+
+    }
 
 }
 
@@ -5117,9 +4967,7 @@ async function deleteItem(
             "確定要刪除這個行程嗎？"
         )
     ){
-
         return;
-
     }
 
     const {
@@ -5135,9 +4983,7 @@ async function deleteItem(
 
     if(error){
 
-        alert(
-            error.message
-        );
+        alert(error.message);
 
         return;
 
@@ -5146,10 +4992,6 @@ async function deleteItem(
     await renderTripDetail();
 
 }
-
-/* =====================================================
-   STAY MODAL
-===================================================== */
 
 function openStayModal(
     stayId
@@ -5167,55 +5009,43 @@ function openStayModal(
 
         document.getElementById(
             "stayNameInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "stayAddressInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "stayCheckInInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "stayCheckOutInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "stayPriceInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "stayBookingInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "stayOtherInput"
-        ).value =
-            "";
+        ).value = "";
 
         document.getElementById(
             "stayNotesInput"
-        ).value =
-            "";
+        ).value = "";
 
-        openModal(
-            "stayModal"
-        );
+        openModal("stayModal");
 
         return;
 
     }
 
-    loadStayForEdit(
-        stayId
-    );
+    loadStayForEdit(stayId);
 
 }
 
@@ -5238,9 +5068,7 @@ async function loadStayForEdit(
 
     if(error){
 
-        alert(
-            error.message
-        );
+        alert(error.message);
 
         return;
 
@@ -5296,9 +5124,7 @@ async function loadStayForEdit(
     ).value =
         extra.notes || "";
 
-    openModal(
-        "stayModal"
-    );
+    openModal("stayModal");
 
 }
 
@@ -5307,15 +5133,11 @@ async function saveStay(){
     const name =
         document.getElementById(
             "stayNameInput"
-        )
-        .value
-        .trim();
+        ).value.trim();
 
     if(!name){
 
-        alert(
-            "請輸入住宿名稱"
-        );
+        alert("請輸入住宿名稱");
 
         return;
 
@@ -5324,16 +5146,12 @@ async function saveStay(){
     const other =
         document.getElementById(
             "stayOtherInput"
-        )
-        .value
-        .trim();
+        ).value.trim();
 
     const notes =
         document.getElementById(
             "stayNotesInput"
-        )
-        .value
-        .trim();
+        ).value.trim();
 
     const payload = {
 
@@ -5345,39 +5163,29 @@ async function saveStay(){
         address:
             document.getElementById(
                 "stayAddressInput"
-            )
-            .value
-            .trim(),
+            ).value.trim(),
 
         check_in:
             document.getElementById(
                 "stayCheckInInput"
-            )
-            .value ||
-            null,
+            ).value || null,
 
         check_out:
             document.getElementById(
                 "stayCheckOutInput"
-            )
-            .value ||
-            null,
+            ).value || null,
 
         price:
             Number(
                 document.getElementById(
                     "stayPriceInput"
-                )
-                .value ||
-                0
+                ).value || 0
             ),
 
         booking_info:
             document.getElementById(
                 "stayBookingInput"
-            )
-            .value
-            .trim(),
+            ).value.trim(),
 
         notes:
             JSON.stringify({
@@ -5394,9 +5202,7 @@ async function saveStay(){
         result =
             await supabaseClient
                 .from("stays")
-                .update(
-                    payload
-                )
+                .update(payload)
                 .eq(
                     "id",
                     editingStayId
@@ -5407,25 +5213,19 @@ async function saveStay(){
         result =
             await supabaseClient
                 .from("stays")
-                .insert(
-                    payload
-                );
+                .insert(payload);
 
     }
 
     if(result.error){
 
-        alert(
-            result.error.message
-        );
+        alert(result.error.message);
 
         return;
 
     }
 
-    closeModal(
-        "stayModal"
-    );
+    closeModal("stayModal");
 
     await renderTripDetail();
 
@@ -5440,9 +5240,7 @@ async function deleteStay(
             "確定要刪除這個住宿嗎？"
         )
     ){
-
         return;
-
     }
 
     const {
@@ -5458,9 +5256,7 @@ async function deleteStay(
 
     if(error){
 
-        alert(
-            error.message
-        );
+        alert(error.message);
 
         return;
 
@@ -5469,10 +5265,6 @@ async function deleteStay(
     await renderTripDetail();
 
 }
-
-/* =====================================================
-   MODAL
-===================================================== */
 
 function openModal(id){
 
@@ -5491,10 +5283,6 @@ function closeModal(id){
         .remove("show");
 
 }
-
-/* =====================================================
-   HELPERS
-===================================================== */
 
 function parseTripDescription(
     value
@@ -5518,31 +5306,25 @@ function parseTripDescription(
             JSON.parse(value);
 
         if(
-            typeof parsed ===
-            "object"
+            typeof parsed === "object"
         ){
 
             return {
 
                 subtitle:
-                    parsed.subtitle ||
-                    "",
+                    parsed.subtitle || "",
 
                 creator:
-                    parsed.creator ||
-                    "",
+                    parsed.creator || "",
 
                 description:
-                    parsed.description ||
-                    "",
+                    parsed.description || "",
 
                 visa:
-                    parsed.visa ||
-                    [],
+                    parsed.visa || [],
 
                 other:
-                    parsed.other ||
-                    ""
+                    parsed.other || ""
 
             };
 
@@ -5581,19 +5363,16 @@ function parseStayNotes(
             JSON.parse(value);
 
         if(
-            typeof parsed ===
-            "object"
+            typeof parsed === "object"
         ){
 
             return {
 
                 other:
-                    parsed.other ||
-                    "",
+                    parsed.other || "",
 
                 notes:
-                    parsed.notes ||
-                    ""
+                    parsed.notes || ""
 
             };
 
@@ -5630,23 +5409,19 @@ function parseItemNotes(
             JSON.parse(value);
 
         if(
-            typeof parsed ===
-            "object"
+            typeof parsed === "object"
         ){
 
             return {
 
                 text:
-                    parsed.text ||
-                    "",
+                    parsed.text || "",
 
                 rating:
-                    parsed.rating ||
-                    "",
+                    parsed.rating || "",
 
                 other:
-                    parsed.other ||
-                    ""
+                    parsed.other || ""
 
             };
 
@@ -5690,9 +5465,7 @@ function getMapUrl(
 
     return (
         "https://www.google.com/maps/search/?api=1&query=" +
-        encodeURIComponent(
-            address
-        )
+        encodeURIComponent(address)
     );
 
 }
@@ -5707,20 +5480,14 @@ function safeUrl(
         ).trim();
 
     if(!value){
-
         return "#";
-
     }
 
     if(
-        /^https?:\/\//i.test(
-            value
-        )
+        /^https?:\/\//i.test(value)
     ){
 
-        return escapeHtml(
-            value
-        );
+        return escapeHtml(value);
 
     }
 
@@ -5746,9 +5513,7 @@ function formatDate(
 ){
 
     if(!value){
-
         return "";
-
     }
 
     return value.replaceAll(
@@ -5765,26 +5530,11 @@ function escapeHtml(
     return String(
         value ?? ""
     )
-    .replaceAll(
-        "&",
-        "&amp;"
-    )
-    .replaceAll(
-        "<",
-        "&lt;"
-    )
-    .replaceAll(
-        ">",
-        "&gt;"
-    )
-    .replaceAll(
-        '"',
-        "&quot;"
-    )
-    .replaceAll(
-        "'",
-        "&#039;"
-    );
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
 
@@ -5795,28 +5545,12 @@ function escapeJs(
     return String(
         value ?? ""
     )
-    .replaceAll(
-        "\\",
-        "\\\\"
-    )
-    .replaceAll(
-        "'",
-        "\\'"
-    )
-    .replaceAll(
-        "\n",
-        "\\n"
-    )
-    .replaceAll(
-        "\r",
-        "\\r"
-    );
+    .replaceAll("\\","\\\\")
+    .replaceAll("'","\\'")
+    .replaceAll("\n","\\n")
+    .replaceAll("\r","\\r");
 
 }
-
-/* =====================================================
-   START
-===================================================== */
 
 init();
 
