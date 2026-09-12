@@ -1508,13 +1508,13 @@ a{
 
             <div class="field">
 
-                <label>價格（台幣）</label>
+                <label>價格</label>
 
                 <input
                     id="itemPriceInput"
-                    type="number"
-                    min="0"
-                    placeholder="0"
+                    type="text"
+                    inputmode="text"
+                    placeholder="例如：NT$500、USD 20、免費"
                 >
 
             </div>
@@ -1708,13 +1708,13 @@ a{
 
         <div class="field">
 
-            <label>價格（台幣）</label>
+            <label>價格</label>
 
             <input
                 id="stayPriceInput"
-                type="number"
-                min="0"
-                placeholder="0"
+                type="text"
+                inputmode="text"
+                placeholder="例如：NT$3,500、JPY 20,000、USD 120"
             >
 
         </div>
@@ -2371,6 +2371,7 @@ function saveJourneyOrder(destination, ids){
         "goya_journey_order_" + destination,
         JSON.stringify(ids)
     );
+
 }
 
 
@@ -2419,6 +2420,7 @@ function sortTripsBySavedOrder(trips){
     });
 
     return result;
+
 }
 
 
@@ -2548,6 +2550,7 @@ async function login(){
     }
 
     renderHome();
+
 }
 
 
@@ -2558,6 +2561,7 @@ async function logout(){
         .signOut();
 
     renderLogin();
+
 }
 
 
@@ -2741,7 +2745,7 @@ async function renderHome(){
                             `
                             <a
                                 class="cooperation-link"
-                                href="${escapeHtml(
+                                href="${safeUrl(
                                     cooperation.link
                                 )}"
                                 target="_blank"
@@ -2825,9 +2829,9 @@ async function renderDestinations(){
         const {
             count
         } =
-            await getDestinationCount(
-                destination
-            );
+        await getDestinationCount(
+            destination
+        );
 
         html += `
 
@@ -3657,17 +3661,6 @@ function normalizeVisaData(
 
     }
 
-    /*
-       新格式：
-       [
-           {
-               name:"",
-               link:"",
-               price:""
-           }
-       ]
-    */
-
     if(Array.isArray(visa)){
 
         return visa.map(
@@ -3693,11 +3686,6 @@ function normalizeVisaData(
         );
 
     }
-
-    /*
-       舊資料如果是字串，
-       保留顯示，不會消失。
-    */
 
     if(typeof visa === "string"){
 
@@ -3862,12 +3850,12 @@ function renderVisaEditor(){
                             </label>
 
                             <input
-                                type="number"
-                                min="0"
+                                type="text"
+                                inputmode="text"
                                 value="${escapeHtml(
                                     visa.price
                                 )}"
-                                placeholder="例如：0"
+                                placeholder="例如：免費、NT$1,500、USD 50"
                                 oninput="updateVisaRow(${index}, 'price', this.value)"
                             >
 
@@ -3948,15 +3936,10 @@ function getVisaDataForSave(){
                     ).trim(),
 
                 price:
-                    visa.price === "" ||
-                    visa.price === null ||
-                    visa.price === undefined
-                    ?
-                    ""
-                    :
-                    Number(
-                        visa.price
-                    )
+                    String(
+                        visa.price ??
+                        ""
+                    ).trim()
 
             })
         )
@@ -3964,7 +3947,7 @@ function getVisaDataForSave(){
             visa =>
                 visa.name ||
                 visa.link ||
-                visa.price !== ""
+                visa.price
         );
 
 }
@@ -4028,8 +4011,10 @@ function renderVisaDisplay(
                             ?
                             `
                             <span class="visa-price">
-                                NT$ ${formatMoney(
-                                    visaItem.price
+                                ${escapeHtml(
+                                    String(
+                                        visaItem.price
+                                    )
                                 )}
                             </span>
                             `
@@ -4544,7 +4529,7 @@ function renderPhotoPage(){
 
                         <img
                             class="photo-note-image"
-                            src="${photo.image}"
+                            src="${escapeHtml(photo.image)}"
                             alt="旅程照片"
                         >
 
@@ -4698,6 +4683,174 @@ function renderPhotoPage(){
 
 
 /* =====================================================
+   PRICE HELPERS
+===================================================== */
+
+/*
+    Supabase 原本的 price 欄位是數字型態，
+    所以真正存進 price 欄位時：
+
+    1. 純數字 → 可以計算總額
+    2. 含幣別或文字 → price 存 0，
+       真正顯示的價格存在 notes.price_text
+
+    這樣就能支援：
+    NT$500
+    USD 50
+    JPY 3,000
+    免費
+    約 100 美金
+*/
+
+function normalizePriceText(value){
+
+    return String(
+        value ?? ""
+    )
+    .trim();
+
+}
+
+
+function extractNumericPrice(value){
+
+    const text =
+        normalizePriceText(
+            value
+        );
+
+    if(!text){
+
+        return 0;
+
+    }
+
+    /*
+        只在整個內容看起來是純數字、
+        或單純有千分位逗號時才拿來計算。
+    */
+
+    if(
+        /^\d+(?:\.\d+)?$/.test(text)
+    ){
+
+        return Number(text);
+
+    }
+
+    if(
+        /^\d{1,3}(?:,\d{3})+(?:\.\d+)?$/.test(text)
+    ){
+
+        return Number(
+            text.replaceAll(",", "")
+        );
+
+    }
+
+    /*
+        如果是 NT$500、USD 50 等，
+        不自動當成台幣計算。
+    */
+
+    return 0;
+
+}
+
+
+function getStoredPriceText(
+    price,
+    notes
+){
+
+    const extra =
+        parseItemNotes(
+            notes
+        );
+
+    if(
+        extra.priceText !== undefined &&
+        extra.priceText !== null
+    ){
+
+        return String(
+            extra.priceText
+        );
+
+    }
+
+    if(
+        price !== null &&
+        price !== undefined &&
+        price !== ""
+    ){
+
+        const number =
+            Number(price);
+
+        if(
+            !Number.isNaN(number) &&
+            number !== 0
+        ){
+
+            return String(number);
+
+        }
+
+    }
+
+    return "";
+
+}
+
+
+function getStoredStayPriceText(
+    price,
+    notes
+){
+
+    const extra =
+        parseStayNotes(
+            notes
+        );
+
+    if(
+        extra.priceText !== undefined &&
+        extra.priceText !== null
+    ){
+
+        return String(
+            extra.priceText
+        );
+
+    }
+
+    if(
+        price !== null &&
+        price !== undefined &&
+        price !== ""
+    ){
+
+        const number =
+            Number(price);
+
+        if(
+            !Number.isNaN(number) &&
+            number !== 0
+        ){
+
+            return String(number);
+
+        }
+
+    }
+
+    return "";
+
+}
+
+
+/* =====================================================
    TRIP DETAIL RENDER
 ===================================================== */
 
@@ -4759,16 +4912,36 @@ async function renderTripDetail(){
     const stays =
         staysResult.data || [];
 
+    /*
+        只有「純數字」價格才計入總額。
+        不同幣別不會被錯誤相加成台幣。
+    */
+
     const itineraryTotal =
         items.reduce(
             (
                 sum,
                 item
-            ) =>
-                sum +
-                Number(
-                    item.price || 0
-                ),
+            ) => {
+
+                const itemExtra =
+                    parseItemNotes(
+                        item.notes
+                    );
+
+                const priceText =
+                    itemExtra.priceText ??
+                    item.price ??
+                    "";
+
+                return (
+                    sum +
+                    extractNumericPrice(
+                        priceText
+                    )
+                );
+
+            },
             0
         );
 
@@ -4777,11 +4950,26 @@ async function renderTripDetail(){
             (
                 sum,
                 stay
-            ) =>
-                sum +
-                Number(
-                    stay.price || 0
-                ),
+            ) => {
+
+                const stayExtra =
+                    parseStayNotes(
+                        stay.notes
+                    );
+
+                const priceText =
+                    stayExtra.priceText ??
+                    stay.price ??
+                    "";
+
+                return (
+                    sum +
+                    extractNumericPrice(
+                        priceText
+                    )
+                );
+
+            },
             0
         );
 
@@ -4812,16 +5000,31 @@ async function renderTripDetail(){
     );
 
 
-    let daysHtml = "";
+    /*
+        這裡很重要：
 
-    const dayNumbers =
+        如果某一天已經建立，但還沒有行程，
+        以前的程式完全不知道這一天存在。
+
+        現在透過 day_number 建立「實際存在的 Day」，
+        並另外允許新增下一天。
+    */
+
+    let dayNumbers =
         Object.keys(days)
             .map(Number)
+            .filter(
+                day =>
+                    Number.isFinite(day) &&
+                    day > 0
+            )
             .sort(
                 (a,b) =>
                     a-b
             );
 
+
+    let daysHtml = "";
 
     dayNumbers.forEach(
         day => {
@@ -4848,6 +5051,27 @@ async function renderTripDetail(){
             `;
 
 
+            if(
+                !days[day].length
+            ){
+
+                daysHtml += `
+
+                    <div
+                        style="
+                            color:#aaa;
+                            font-size:13px;
+                            padding:5px 0 12px;
+                        "
+                    >
+                        這一天還沒有行程
+                    </div>
+
+                `;
+
+            }
+
+
             days[day].forEach(
                 item => {
 
@@ -4860,6 +5084,12 @@ async function renderTripDetail(){
                         itemExtra.rating ||
                         item.rating ||
                         "";
+
+                    const priceText =
+                        getStoredPriceText(
+                            item.price,
+                            item.notes
+                        );
 
                     daysHtml += `
 
@@ -4962,14 +5192,12 @@ async function renderTripDetail(){
 
 
                             ${
-                                Number(
-                                    item.price || 0
-                                ) > 0
+                                priceText
                                 ?
                                 `
                                 <div class="item-price">
-                                    NT$ ${formatMoney(
-                                        item.price
+                                    ${escapeHtml(
+                                        priceText
                                     )}
                                 </div>
                                 `
@@ -5033,7 +5261,7 @@ async function renderTripDetail(){
 
                 <button
                     class="btn"
-                    onclick="addDayAndItem()"
+                    onclick="openDayModal(1)"
                 >
                     ＋ 新增 Day 1
                 </button>
@@ -5052,6 +5280,12 @@ async function renderTripDetail(){
 
             const stayExtra =
                 parseStayNotes(
+                    stay.notes
+                );
+
+            const stayPriceText =
+                getStoredStayPriceText(
+                    stay.price,
                     stay.notes
                 );
 
@@ -5151,14 +5385,12 @@ async function renderTripDetail(){
 
 
                     ${
-                        Number(
-                            stay.price || 0
-                        ) > 0
+                        stayPriceText
                         ?
                         `
                         <div class="item-price">
-                            NT$ ${formatMoney(
-                                stay.price
+                            ${escapeHtml(
+                                stayPriceText
                             )}
                         </div>
                         `
@@ -5292,7 +5524,7 @@ async function renderTripDetail(){
                 <div class="total-box">
 
                     <div class="total-label">
-                        旅程總花費
+                        可計算的旅程花費
                     </div>
 
                     <div class="total-price">
@@ -5308,13 +5540,8 @@ async function renderTripDetail(){
                             margin-top:5px;
                         "
                     >
-                        行程 NT$ ${formatMoney(
-                            itineraryTotal
-                        )}
-                        ＋
-                        住宿 NT$ ${formatMoney(
-                            stayTotal
-                        )}
+                        純數字價格才會計入總額，
+                        不同幣別價格會保留原文字。
                     </div>
 
                 </div>
@@ -5456,13 +5683,193 @@ async function renderTripDetail(){
 
 
 /* =====================================================
-   ADD DAY
+   DAY
 ===================================================== */
 
-async function addNextDay(){
+/*
+    修正 Day bug 的核心：
+
+    舊版：
+        新增一天
+        → 直接開行程 Modal
+        → 如果沒有行程，資料庫根本沒有這一天
+
+    現在：
+        新增一天
+        → 直接建立一筆「空白 Day」
+        → 再重新讀取旅程
+
+    這樣 Day 1、Day 2 都能獨立存在。
+*/
+
+async function createEmptyDay(
+    dayNumber
+){
+
+    if(
+        !currentTrip ||
+        !dayNumber ||
+        Number(dayNumber) < 1
+    ){
+
+        return false;
+
+    }
+
+    const day =
+        Number(dayNumber);
 
     const {
-        data
+        data:existing,
+        error:existingError
+    } =
+        await supabaseClient
+            .from("itineraries")
+            .select("id")
+            .eq(
+                "trip_id",
+                currentTrip.id
+            )
+            .eq(
+                "day_number",
+                day
+            )
+            .limit(1);
+
+    if(existingError){
+
+        alert(
+            existingError.message
+        );
+
+        return false;
+
+    }
+
+    /*
+        已經有這個 Day 的行程，
+        就不需要再建立空白資料。
+    */
+
+    if(
+        existing &&
+        existing.length
+    ){
+
+        return true;
+
+    }
+
+    /*
+        為了讓資料庫能記住「空白 Day」，
+        建立一筆特殊的 placeholder。
+
+        title = __GOYA_EMPTY_DAY__
+        使用者不會看到它。
+    */
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("itineraries")
+            .insert({
+
+                trip_id:
+                    currentTrip.id,
+
+                day_number:
+                    day,
+
+                title:
+                    "__GOYA_EMPTY_DAY__",
+
+                location:
+                    "",
+
+                transport:
+                    "",
+
+                price:
+                    0,
+
+                duration:
+                    "",
+
+                notes:
+                    JSON.stringify({
+                        goyaEmptyDay:true
+                    })
+
+            });
+
+    if(error){
+
+        alert(
+            error.message
+        );
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+
+function isEmptyDayItem(
+    item
+){
+
+    if(
+        !item
+    ){
+
+        return false;
+
+    }
+
+    if(
+        item.title !==
+        "__GOYA_EMPTY_DAY__"
+    ){
+
+        return false;
+
+    }
+
+    try{
+
+        const parsed =
+            JSON.parse(
+                item.notes || "{}"
+            );
+
+        return (
+            parsed.goyaEmptyDay === true
+        );
+
+    }catch(e){
+
+        return true;
+
+    }
+
+}
+
+
+async function getExistingDayNumbers(){
+
+    if(!currentTrip){
+
+        return [];
+
+    }
+
+    const {
+        data,
+        error
     } =
         await supabaseClient
             .from("itineraries")
@@ -5470,37 +5877,129 @@ async function addNextDay(){
             .eq(
                 "trip_id",
                 currentTrip.id
-            )
-            .order(
-                "day_number",
-                {
-                    ascending:false
-                }
-            )
-            .limit(1);
+            );
+
+    if(error){
+
+        console.error(error);
+
+        return [];
+
+    }
+
+    return Array.from(
+        new Set(
+            (data || [])
+                .map(
+                    item =>
+                        Number(
+                            item.day_number
+                        )
+                )
+                .filter(
+                    day =>
+                        Number.isFinite(day) &&
+                        day > 0
+                )
+        )
+    )
+    .sort(
+        (a,b) =>
+            a-b
+    );
+
+}
+
+
+async function addNextDay(){
+
+    if(!currentTrip){
+
+        return;
+
+    }
+
+    const days =
+        await getExistingDayNumbers();
 
     const maxDay =
-        data &&
-        data.length
+        days.length
         ?
-        Number(
-            data[0].day_number
-        )
+        Math.max(...days)
         :
         0;
 
-    openItemModal(
-        maxDay + 1,
-        null
-    );
+    const nextDay =
+        maxDay + 1;
+
+    const created =
+        await createEmptyDay(
+            nextDay
+        );
+
+    if(!created){
+
+        return;
+
+    }
+
+    await renderTripDetail();
 
 }
 
 
 async function addDayAndItem(){
 
+    const created =
+        await createEmptyDay(
+            1
+        );
+
+    if(!created){
+
+        return;
+
+    }
+
+    await renderTripDetail();
+
+}
+
+
+async function openDayModal(
+    day
+){
+
+    const targetDay =
+        Number(day);
+
+    if(
+        !targetDay ||
+        targetDay < 1
+    ){
+
+        return;
+
+    }
+
+    /*
+        如果 Day 還不存在，
+        先建立 Day，再讓使用者新增行程。
+    */
+
+    const created =
+        await createEmptyDay(
+            targetDay
+        );
+
+    if(!created){
+
+        return;
+
+    }
+
     openItemModal(
-        1,
+        targetDay,
         null
     );
 
@@ -5511,13 +6010,13 @@ async function addDayAndItem(){
    ITEM MODAL
 ===================================================== */
 
-function openItemModal(
+async function openItemModal(
     day,
     itemId
 ){
 
     currentDay =
-        day;
+        Number(day) || 1;
 
     editingItemId =
         itemId;
@@ -5527,7 +6026,7 @@ function openItemModal(
         document.getElementById(
             "itemModalTitle"
         ).textContent =
-            `Day ${day}｜新增行程`;
+            `Day ${currentDay}｜新增行程`;
 
         document.getElementById(
             "itemTitleInput"
@@ -5614,6 +6113,27 @@ async function loadItemForEdit(
 
     }
 
+    if(
+        isEmptyDayItem(item)
+    ){
+
+        /*
+            如果點到空白 Day，
+            就直接當成新增行程。
+        */
+
+        editingItemId =
+            null;
+
+        openItemModal(
+            item.day_number,
+            null
+        );
+
+        return;
+
+    }
+
     const extra =
         parseItemNotes(
             item.notes
@@ -5645,7 +6165,10 @@ async function loadItemForEdit(
     document.getElementById(
         "itemPriceInput"
     ).value =
-        item.price || "";
+        getStoredPriceText(
+            item.price,
+            item.notes
+        );
 
     document.getElementById(
         "itemDurationInput"
@@ -5689,6 +6212,16 @@ async function loadItemForEdit(
 
 async function saveItem(){
 
+    if(!currentTrip){
+
+        alert(
+            "目前沒有開啟的旅程"
+        );
+
+        return;
+
+    }
+
     const title =
         document.getElementById(
             "itemTitleInput"
@@ -5727,6 +6260,19 @@ async function saveItem(){
         .value
         .trim();
 
+    const priceText =
+        normalizePriceText(
+            document.getElementById(
+                "itemPriceInput"
+            )
+            .value
+        );
+
+    const numericPrice =
+        extractNumericPrice(
+            priceText
+        );
+
 
     const payload = {
 
@@ -5734,7 +6280,9 @@ async function saveItem(){
             currentTrip.id,
 
         day_number:
-            currentDay,
+            Number(
+                currentDay
+            ),
 
         title,
 
@@ -5752,14 +6300,14 @@ async function saveItem(){
             .value
             .trim(),
 
+        /*
+            保留原本 Supabase 的 numeric price 欄位。
+            如果是文字價格，就存 0，
+            真正顯示內容存在 notes.price_text。
+        */
+
         price:
-            Number(
-                document.getElementById(
-                    "itemPriceInput"
-                )
-                .value ||
-                0
-            ),
+            numericPrice,
 
         duration:
             document.getElementById(
@@ -5770,6 +6318,7 @@ async function saveItem(){
 
         notes:
             JSON.stringify({
+
                 text:
                     notesText,
 
@@ -5781,7 +6330,11 @@ async function saveItem(){
                     "",
 
                 other:
-                    otherText
+                    otherText,
+
+                price_text:
+                    priceText
+
             })
 
     };
@@ -5803,6 +6356,75 @@ async function saveItem(){
                 );
 
     }else{
+
+        /*
+            如果 Day 原本只有一筆空白 placeholder，
+            先刪掉 placeholder，再建立真正的行程。
+
+            這就是原本 Day1 儲存容易出問題的地方之一。
+        */
+
+        const {
+            data:placeholders,
+            error:placeholderError
+        } =
+            await supabaseClient
+                .from("itineraries")
+                .select("id,notes,title")
+                .eq(
+                    "trip_id",
+                    currentTrip.id
+                )
+                .eq(
+                    "day_number",
+                    Number(currentDay)
+                );
+
+        if(placeholderError){
+
+            alert(
+                placeholderError.message
+            );
+
+            return;
+
+        }
+
+        const emptyIds =
+            (placeholders || [])
+                .filter(
+                    item =>
+                        isEmptyDayItem(item)
+                )
+                .map(
+                    item =>
+                        item.id
+                );
+
+        if(emptyIds.length){
+
+            const {
+                error:deletePlaceholderError
+            } =
+                await supabaseClient
+                    .from("itineraries")
+                    .delete()
+                    .in(
+                        "id",
+                        emptyIds
+                    );
+
+            if(deletePlaceholderError){
+
+                alert(
+                    deletePlaceholderError.message
+                );
+
+                return;
+
+            }
+
+        }
 
         result =
             await supabaseClient
@@ -6007,7 +6629,10 @@ async function loadStayForEdit(
     document.getElementById(
         "stayPriceInput"
     ).value =
-        stay.price || "";
+        getStoredStayPriceText(
+            stay.price,
+            stay.notes
+        );
 
     document.getElementById(
         "stayBookingInput"
@@ -6065,6 +6690,19 @@ async function saveStay(){
         .value
         .trim();
 
+    const priceText =
+        normalizePriceText(
+            document.getElementById(
+                "stayPriceInput"
+            )
+            .value
+        );
+
+    const numericPrice =
+        extractNumericPrice(
+            priceText
+        );
+
 
     const payload = {
 
@@ -6095,13 +6733,7 @@ async function saveStay(){
             null,
 
         price:
-            Number(
-                document.getElementById(
-                    "stayPriceInput"
-                )
-                .value ||
-                0
-            ),
+            numericPrice,
 
         booking_info:
             document.getElementById(
@@ -6112,8 +6744,14 @@ async function saveStay(){
 
         notes:
             JSON.stringify({
+
                 other,
-                notes
+
+                notes,
+
+                price_text:
+                    priceText
+
             })
 
     };
@@ -6308,7 +6946,8 @@ function parseStayNotes(
 
         return {
             other:"",
-            notes:""
+            notes:"",
+            priceText:""
         };
 
     }
@@ -6331,6 +6970,10 @@ function parseStayNotes(
 
                 notes:
                     parsed.notes ||
+                    "",
+
+                priceText:
+                    parsed.price_text ??
                     ""
 
             };
@@ -6342,7 +6985,8 @@ function parseStayNotes(
     return {
 
         other:"",
-        notes:value
+        notes:value,
+        priceText:""
 
     };
 
@@ -6358,7 +7002,8 @@ function parseItemNotes(
         return {
             text:"",
             rating:"",
-            other:""
+            other:"",
+            priceText:""
         };
 
     }
@@ -6385,6 +7030,10 @@ function parseItemNotes(
 
                 other:
                     parsed.other ||
+                    "",
+
+                priceText:
+                    parsed.price_text ??
                     ""
 
             };
@@ -6397,7 +7046,8 @@ function parseItemNotes(
 
         text:value,
         rating:"",
-        other:""
+        other:"",
+        priceText:""
 
     };
 
