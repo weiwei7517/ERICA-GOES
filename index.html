@@ -43,6 +43,10 @@ body{
     min-height:100vh;
 }
 
+body.dragging-mode{
+    overflow:hidden;
+}
+
 button,
 input,
 textarea,
@@ -105,10 +109,6 @@ button{
     font-size:13px;
 }
 
-.simple-btn:hover{
-    color:#222;
-}
-
 /* =========================
    Main
 ========================= */
@@ -124,14 +124,14 @@ button{
 ========================= */
 
 .hero{
-    padding:38px 0 58px;
+    padding:28px 0 48px;
 }
 
 .eyebrow{
-    font-size:11px;
+    font-size:10px;
     color:#999;
     letter-spacing:.18em;
-    margin-bottom:18px;
+    margin-bottom:15px;
 }
 
 .hero-title-row{
@@ -142,15 +142,15 @@ button{
 
 .hero-title{
     margin:0;
-    font-size:clamp(42px,7vw,72px);
-    line-height:1.05;
+    font-size:36px;
+    line-height:1.15;
     font-weight:600;
-    letter-spacing:-.045em;
+    letter-spacing:-.035em;
 }
 
 .hero-subtitle{
-    margin:20px 0 0;
-    font-size:17px;
+    margin:13px 0 0;
+    font-size:16px;
     color:#888;
     line-height:1.7;
 }
@@ -198,10 +198,6 @@ button{
     padding:5px 0;
 }
 
-.add-text-btn:hover{
-    color:#000;
-}
-
 /* =========================
    Destination Cards
 ========================= */
@@ -224,7 +220,14 @@ button{
     justify-content:space-between;
     user-select:none;
     -webkit-user-select:none;
-    touch-action:pan-y;
+
+    /*
+       整張卡片可以長按拖曳。
+       pointer 事件會負責處理拖曳，
+       所以不使用原生 draggable。
+    */
+    touch-action:none;
+
     transition:
         transform .18s ease,
         box-shadow .18s ease,
@@ -236,12 +239,20 @@ button{
 }
 
 .destination-card.dragging{
-    opacity:.45;
-    transform:scale(.98);
+    opacity:.65;
+    transform:scale(.97);
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.12);
+    z-index:20;
 }
 
-.destination-card.drag-over{
-    box-shadow:0 0 0 2px #d4d1ca inset;
+.destination-card.drag-target{
+    box-shadow:
+        0 0 0 2px #cfcac1 inset;
+}
+
+.destination-card.drag-before{
+    transform:translateY(-5px);
 }
 
 .destination-number{
@@ -303,12 +314,13 @@ button{
     justify-content:center;
     color:#aaa;
     font-size:13px;
-    transition:.2s;
 }
 
-.add-destination-card:hover{
-    background:#faf9f7;
-    color:#555;
+.drag-placeholder{
+    border:1px dashed #cfcac1;
+    background:#eeece8;
+    border-radius:var(--radius);
+    min-height:190px;
 }
 
 /* =========================
@@ -441,16 +453,25 @@ button{
     justify-content:space-between;
     gap:20px;
     user-select:none;
-    touch-action:pan-y;
-    transition:.18s;
+    -webkit-user-select:none;
+    touch-action:none;
+    transition:
+        transform .18s ease,
+        opacity .18s ease,
+        box-shadow .18s ease;
 }
 
 .journey-card.dragging{
-    opacity:.4;
+    opacity:.65;
+    transform:scale(.98);
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.12);
+    z-index:20;
 }
 
-.journey-card.drag-over{
-    box-shadow:0 0 0 2px #d4d1ca inset;
+.journey-card.drag-target{
+    box-shadow:
+        0 0 0 2px #d4d1ca inset;
 }
 
 .journey-info{
@@ -478,6 +499,13 @@ button{
     color:#bbb;
     font-size:20px;
     flex:none;
+}
+
+.journey-placeholder{
+    border:1px dashed #cfcac1;
+    background:#eeece8;
+    border-radius:20px;
+    min-height:80px;
 }
 
 .empty-state{
@@ -716,39 +744,6 @@ button{
 }
 
 /* =========================
-   Context Menu
-========================= */
-
-.context-menu{
-    position:fixed;
-    z-index:300;
-    background:#fff;
-    border-radius:16px;
-    padding:7px;
-    box-shadow:0 12px 40px rgba(0,0,0,.14);
-    min-width:150px;
-}
-
-.context-menu button{
-    width:100%;
-    text-align:left;
-    border:0;
-    background:none;
-    padding:11px 12px;
-    border-radius:10px;
-    color:#555;
-    font-size:13px;
-}
-
-.context-menu button:hover{
-    background:#f5f4f1;
-}
-
-.context-menu .danger{
-    color:#a88;
-}
-
-/* =========================
    Responsive
 ========================= */
 
@@ -767,15 +762,16 @@ button{
     }
 
     .hero{
-        padding:28px 0 44px;
+        padding:25px 0 42px;
     }
 
     .hero-title{
-        font-size:45px;
+        font-size:32px;
     }
 
     .hero-subtitle{
         font-size:15px;
+        margin-top:10px;
     }
 
     .destination-list{
@@ -783,7 +779,10 @@ button{
         gap:12px;
     }
 
-    .destination-card,
+    .destination-card{
+        min-height:165px;
+    }
+
     .add-destination-card{
         min-height:165px;
     }
@@ -810,22 +809,31 @@ button{
         border-radius:25px 25px 0 0;
         padding:25px 20px calc(25px + env(safe-area-inset-bottom));
     }
+
 }
 
 /* =========================
-   Drag helper
+   Dragging
 ========================= */
 
-.drag-placeholder{
-    border:1px dashed #cfcac1;
-    background:#eeeae4;
-    border-radius:22px;
-    min-height:165px;
-}
-
-.no-select{
+.no-select,
+.no-select *{
     user-select:none !important;
     -webkit-user-select:none !important;
+}
+
+.drag-ghost{
+    position:fixed;
+    z-index:9999;
+    pointer-events:none;
+    opacity:.96;
+    transform:rotate(1deg) scale(.98);
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.18);
+}
+
+.drag-source-hidden{
+    opacity:.12 !important;
 }
 </style>
 </head>
@@ -1149,16 +1157,6 @@ button{
 </div>
 
 
-<!-- =========================
-     CONTEXT MENU
-========================= -->
-
-<div
-    id="contextMenu"
-    class="context-menu hidden"
-></div>
-
-
 <script>
 /* =========================================================
    SUPABASE
@@ -1195,13 +1193,12 @@ let allItineraries = [];
 
 let allStays = [];
 
-let draggedElement = null;
 
-let draggedType = null;
+/* =========================================================
+   DRAG STATE
+========================================================= */
 
-let draggedIndex = null;
-
-let longPressTimer = null;
+let activeDrag = null;
 
 
 /* =========================================================
@@ -1241,37 +1238,39 @@ const modalBackdrop =
 const modal =
     document.getElementById("modal");
 
-const contextMenu =
-    document.getElementById("contextMenu");
-
 
 /* =========================================================
    INIT
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
 
-    setupEvents();
+        setupEvents();
 
-    const {
-        data: {
-            session
+        const {
+            data:{
+                session
+            }
+        } =
+            await supabaseClient.auth.getSession();
+
+        if(session?.user){
+
+            currentUser =
+                session.user;
+
+            showApp();
+
+        }else{
+
+            showLogin();
+
         }
-    } = await supabaseClient.auth.getSession();
-
-    if(session?.user){
-
-        currentUser = session.user;
-
-        showApp();
-
-    }else{
-
-        showLogin();
 
     }
-
-});
+);
 
 
 supabaseClient.auth.onAuthStateChange(
@@ -1279,7 +1278,8 @@ supabaseClient.auth.onAuthStateChange(
 
         if(session?.user){
 
-            currentUser = session.user;
+            currentUser =
+                session.user;
 
             showApp();
 
@@ -1296,25 +1296,154 @@ supabaseClient.auth.onAuthStateChange(
 
 
 /* =========================================================
+   BASIC EVENTS
+========================================================= */
+
+function setupEvents(){
+
+    document
+        .getElementById("loginBtn")
+        .addEventListener(
+            "click",
+            login
+        );
+
+    document
+        .getElementById("loginPassword")
+        .addEventListener(
+            "keydown",
+            e => {
+
+                if(e.key === "Enter"){
+                    login();
+                }
+
+            }
+        );
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener(
+            "click",
+            async () => {
+
+                await supabaseClient
+                    .auth
+                    .signOut();
+
+            }
+        );
+
+    document
+        .getElementById("editHeroBtn")
+        .addEventListener(
+            "click",
+            editHero
+        );
+
+    document
+        .getElementById("addDestinationBtn")
+        .addEventListener(
+            "click",
+            addDestination
+        );
+
+    document
+        .getElementById("backHomeBtn")
+        .addEventListener(
+            "click",
+            showHome
+        );
+
+    document
+        .getElementById("addJourneyBtn")
+        .addEventListener(
+            "click",
+            addJourney
+        );
+
+    document
+        .getElementById("backDestinationBtn")
+        .addEventListener(
+            "click",
+            async () => {
+
+                tripView.classList.add(
+                    "hidden"
+                );
+
+                destinationView.classList.remove(
+                    "hidden"
+                );
+
+                await renderJourneys();
+
+            }
+        );
+
+    document
+        .getElementById("addDayBtn")
+        .addEventListener(
+            "click",
+            addDay
+        );
+
+    document
+        .getElementById("addStayBtn")
+        .addEventListener(
+            "click",
+            () => openStayModal()
+        );
+
+    modalBackdrop.addEventListener(
+        "click",
+        e => {
+
+            if(
+                e.target ===
+                modalBackdrop
+            ){
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
    AUTH
 ========================================================= */
 
 function showLogin(){
 
-    loginPage.classList.remove("hidden");
+    loginPage.classList.remove(
+        "hidden"
+    );
 
-    app.classList.add("hidden");
+    app.classList.add(
+        "hidden"
+    );
 
 }
 
 
 async function showApp(){
 
-    loginPage.classList.add("hidden");
+    loginPage.classList.add(
+        "hidden"
+    );
 
-    app.classList.remove("hidden");
+    app.classList.remove(
+        "hidden"
+    );
 
-    document.getElementById("userEmail").textContent =
+    document.getElementById(
+        "userEmail"
+    ).textContent =
         currentUser?.email || "";
 
     await loadDestinations();
@@ -1324,46 +1453,46 @@ async function showApp(){
 }
 
 
-document
-    .getElementById("loginBtn")
-    .addEventListener("click", login);
-
-
-document
-    .getElementById("loginPassword")
-    .addEventListener("keydown", e => {
-
-        if(e.key === "Enter"){
-            login();
-        }
-
-    });
-
-
 async function login(){
 
     const email =
-        document.getElementById("loginEmail").value.trim();
+        document
+            .getElementById(
+                "loginEmail"
+            )
+            .value
+            .trim();
 
     const password =
-        document.getElementById("loginPassword").value;
+        document
+            .getElementById(
+                "loginPassword"
+            )
+            .value;
 
     const message =
-        document.getElementById("loginMessage");
+        document
+            .getElementById(
+                "loginMessage"
+            );
 
-    message.textContent = "登入中…";
+    message.textContent =
+        "登入中…";
 
     const {
         error
-    } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password
-    });
+    } =
+        await supabaseClient.auth
+            .signInWithPassword({
+                email,
+                password
+            });
 
     if(error){
 
         message.textContent =
-            "登入失敗：" + error.message;
+            "登入失敗：" +
+            error.message;
 
     }else{
 
@@ -1374,15 +1503,6 @@ async function login(){
 }
 
 
-document
-    .getElementById("logoutBtn")
-    .addEventListener("click", async () => {
-
-        await supabaseClient.auth.signOut();
-
-    });
-
-
 /* =========================================================
    HERO
 ========================================================= */
@@ -1390,95 +1510,113 @@ document
 function loadHero(){
 
     const title =
-        localStorage.getItem("goya_intro_title")
-        || "去哪裡玩？";
+        localStorage.getItem(
+            "goya_intro_title"
+        ) ||
+        "去哪裡玩？";
 
     const subtitle =
-        localStorage.getItem("goya_intro_subtitle")
-        || "小資也能輕鬆飛";
+        localStorage.getItem(
+            "goya_intro_subtitle"
+        ) ||
+        "小資也能輕鬆飛";
 
-    document.getElementById("heroTitle").textContent =
+    document.getElementById(
+        "heroTitle"
+    ).textContent =
         title;
 
-    document.getElementById("heroSubtitle").textContent =
+    document.getElementById(
+        "heroSubtitle"
+    ).textContent =
         subtitle;
 
 }
 
 
-document
-    .getElementById("editHeroBtn")
-    .addEventListener("click", () => {
+function editHero(){
 
-        openModal(`
-            <div class="modal-title">
-                編輯首頁文字
-            </div>
+    openModal(`
+        <div class="modal-title">
+            編輯首頁文字
+        </div>
 
-            <div class="field">
-                <label>主標題</label>
-                <input
-                    id="modalHeroTitle"
-                    class="input"
-                    value="${escapeAttr(
-                        localStorage.getItem("goya_intro_title")
-                        || "去哪裡玩？"
-                    )}"
-                >
-            </div>
+        <div class="field">
+            <label>主標題</label>
+            <input
+                id="modalHeroTitle"
+                class="input"
+                value="${escapeAttr(
+                    localStorage.getItem(
+                        "goya_intro_title"
+                    ) ||
+                    "去哪裡玩？"
+                )}"
+            >
+        </div>
 
-            <div class="field">
-                <label>副標題</label>
-                <input
-                    id="modalHeroSubtitle"
-                    class="input"
-                    value="${escapeAttr(
-                        localStorage.getItem("goya_intro_subtitle")
-                        || "小資也能輕鬆飛"
-                    )}"
-                >
-            </div>
+        <div class="field">
+            <label>副標題</label>
+            <input
+                id="modalHeroSubtitle"
+                class="input"
+                value="${escapeAttr(
+                    localStorage.getItem(
+                        "goya_intro_subtitle"
+                    ) ||
+                    "小資也能輕鬆飛"
+                )}"
+            >
+        </div>
 
-            <div class="modal-actions">
+        <div class="modal-actions">
 
-                <button
-                    class="cancel-btn"
-                    onclick="closeModal()"
-                >
-                    取消
-                </button>
+            <button
+                class="cancel-btn"
+                onclick="closeModal()"
+            >
+                取消
+            </button>
 
-                <button
-                    class="save-btn"
-                    onclick="saveHero()"
-                >
-                    儲存
-                </button>
+            <button
+                class="save-btn"
+                onclick="saveHero()"
+            >
+                儲存
+            </button>
 
-            </div>
-        `);
+        </div>
+    `);
 
-    });
+}
 
 
 function saveHero(){
 
     const title =
-        document.getElementById("modalHeroTitle")
-        .value.trim();
+        document.getElementById(
+            "modalHeroTitle"
+        )
+        .value
+        .trim();
 
     const subtitle =
-        document.getElementById("modalHeroSubtitle")
-        .value.trim();
+        document.getElementById(
+            "modalHeroSubtitle"
+        )
+        .value
+        .trim();
 
     localStorage.setItem(
         "goya_intro_title",
-        title || "去哪裡玩？"
+        title ||
+        "去哪裡玩？"
     );
 
     localStorage.setItem(
         "goya_intro_subtitle",
-        subtitle || "小資也能輕鬆飛"
+        subtitle ||
+        "小資也能輕鬆飛"
     );
 
     loadHero();
@@ -1498,7 +1636,9 @@ function getStoredDestinations(){
 
         const data =
             JSON.parse(
-                localStorage.getItem("goya_destinations")
+                localStorage.getItem(
+                    "goya_destinations"
+                )
             );
 
         if(
@@ -1512,7 +1652,9 @@ function getStoredDestinations(){
 
     }catch(e){}
 
-    return [...DEFAULT_DESTINATIONS];
+    return [
+        ...DEFAULT_DESTINATIONS
+    ];
 
 }
 
@@ -1521,7 +1663,9 @@ function saveDestinations(){
 
     localStorage.setItem(
         "goya_destinations",
-        JSON.stringify(destinations)
+        JSON.stringify(
+            destinations
+        )
     );
 
 }
@@ -1544,7 +1688,9 @@ async function loadDestinations(){
 async function renderDestinations(){
 
     const container =
-        document.getElementById("destinationList");
+        document.getElementById(
+            "destinationList"
+        );
 
     container.innerHTML = "";
 
@@ -1563,34 +1709,45 @@ async function renderDestinations(){
     const tripCounts =
         await getTripCounts();
 
+
     destinations.forEach(
         (destination, index) => {
 
             const card =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             card.className =
                 "destination-card";
 
-            card.dataset.index =
-                index;
+            card.dataset.id =
+                destination;
 
             card.innerHTML = `
 
                 <div>
                     <div class="destination-number">
-                        ${String(index + 1).padStart(2,"0")}
+                        ${String(
+                            index + 1
+                        ).padStart(2,"0")}
                     </div>
                 </div>
 
                 <div class="destination-name">
-                    ${escapeHTML(destination)}
+                    ${escapeHTML(
+                        destination
+                    )}
                 </div>
 
                 <div class="destination-bottom">
 
                     <div class="destination-count">
-                        ${tripCounts[destination] || 0} 趟旅程
+                        ${
+                            tripCounts[
+                                destination
+                            ] || 0
+                        } 趟旅程
                     </div>
 
                     <div class="destination-actions">
@@ -1629,7 +1786,21 @@ async function renderDestinations(){
 
                     }
 
-                    openDestination(destination);
+                    if(
+                        card.dataset.wasDragged ===
+                        "true"
+                    ){
+
+                        card.dataset.wasDragged =
+                            "false";
+
+                        return;
+
+                    }
+
+                    openDestination(
+                        destination
+                    );
 
                 }
             );
@@ -1646,8 +1817,7 @@ async function renderDestinations(){
                         e.stopPropagation();
 
                         editDestination(
-                            destination,
-                            index
+                            destination
                         );
 
                     }
@@ -1672,17 +1842,24 @@ async function renderDestinations(){
                 );
 
 
-            setupDrag(card, "destination", index);
+            setupPointerDrag(
+                card,
+                "destination"
+            );
 
 
-            container.appendChild(card);
+            container.appendChild(
+                card
+            );
 
         }
     );
 
 
     const addCard =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     addCard.className =
         "add-destination-card";
@@ -1695,7 +1872,9 @@ async function renderDestinations(){
         addDestination
     );
 
-    container.appendChild(addCard);
+    container.appendChild(
+        addCard
+    );
 
 }
 
@@ -1711,9 +1890,12 @@ async function getTripCounts(){
     const {
         data,
         error
-    } = await supabaseClient
-        .from("trips")
-        .select("destination");
+    } =
+        await supabaseClient
+            .from("trips")
+            .select(
+                "destination"
+            );
 
     if(error){
 
@@ -1733,7 +1915,9 @@ async function getTripCounts(){
                 )
             ){
 
-                counts[trip.destination]++;
+                counts[
+                    trip.destination
+                ]++;
 
             }
 
@@ -1748,14 +1932,6 @@ async function getTripCounts(){
 /* =========================================================
    ADD DESTINATION
 ========================================================= */
-
-document
-    .getElementById("addDestinationBtn")
-    .addEventListener(
-        "click",
-        addDestination
-    );
-
 
 function addDestination(){
 
@@ -1795,15 +1971,15 @@ function addDestination(){
 }
 
 
-function saveNewDestination(){
-
-    const input =
-        document.getElementById(
-            "newDestination"
-        );
+async function saveNewDestination(){
 
     const name =
-        input.value.trim();
+        document
+            .getElementById(
+                "newDestination"
+            )
+            .value
+            .trim();
 
     if(!name){
 
@@ -1812,20 +1988,26 @@ function saveNewDestination(){
     }
 
     if(
-        destinations.includes(name)
+        destinations.includes(
+            name
+        )
     ){
 
-        alert("這個目的地已經存在");
+        alert(
+            "這個目的地已經存在"
+        );
 
         return;
 
     }
 
-    destinations.push(name);
+    destinations.push(
+        name
+    );
 
     saveDestinations();
 
-    renderDestinations();
+    await renderDestinations();
 
     closeModal();
 
@@ -1837,8 +2019,7 @@ function saveNewDestination(){
 ========================================================= */
 
 function editDestination(
-    oldName,
-    index
+    oldName
 ){
 
     openModal(`
@@ -1851,7 +2032,9 @@ function editDestination(
             <input
                 id="editDestinationInput"
                 class="input"
-                value="${escapeAttr(oldName)}"
+                value="${escapeAttr(
+                    oldName
+                )}"
             >
         </div>
 
@@ -1867,7 +2050,6 @@ function editDestination(
             <button
                 class="save-btn"
                 onclick="saveEditedDestination(
-                    ${index},
                     ${JSON.stringify(oldName)}
                 )"
             >
@@ -1881,7 +2063,6 @@ function editDestination(
 
 
 async function saveEditedDestination(
-    index,
     oldName
 ){
 
@@ -1901,34 +2082,51 @@ async function saveEditedDestination(
 
     if(
         newName !== oldName &&
-        destinations.includes(newName)
+        destinations.includes(
+            newName
+        )
     ){
 
-        alert("這個目的地已經存在");
+        alert(
+            "這個目的地已經存在"
+        );
 
         return;
 
     }
 
-    destinations[index] =
-        newName;
+    const index =
+        destinations.indexOf(
+            oldName
+        );
+
+    if(index !== -1){
+
+        destinations[index] =
+            newName;
+
+    }
 
     saveDestinations();
 
 
-    if(newName !== oldName){
+    if(
+        newName !== oldName
+    ){
 
         const {
             error
-        } = await supabaseClient
-            .from("trips")
-            .update({
-                destination:newName
-            })
-            .eq(
-                "destination",
-                oldName
-            );
+        } =
+            await supabaseClient
+                .from("trips")
+                .update({
+                    destination:
+                        newName
+                })
+                .eq(
+                    "destination",
+                    oldName
+                );
 
         if(error){
 
@@ -1946,7 +2144,9 @@ async function saveEditedDestination(
             newName;
 
         const oldOrder =
-            localStorage.getItem(oldKey);
+            localStorage.getItem(
+                oldKey
+            );
 
         if(oldOrder){
 
@@ -1992,7 +2192,8 @@ async function deleteDestination(
 
     destinations =
         destinations.filter(
-            d => d !== destination
+            d =>
+                d !== destination
         );
 
     saveDestinations();
@@ -2018,32 +2219,26 @@ async function openDestination(
     currentDestination =
         destination;
 
-    homeView.classList.add("hidden");
+    homeView.classList.add(
+        "hidden"
+    );
 
-    tripView.classList.add("hidden");
+    tripView.classList.add(
+        "hidden"
+    );
 
     destinationView.classList.remove(
         "hidden"
     );
 
-    document
-        .getElementById(
-            "destinationTitle"
-        )
-        .textContent =
+    document.getElementById(
+        "destinationTitle"
+    ).textContent =
         destination;
 
     await renderJourneys();
 
 }
-
-
-document
-    .getElementById("backHomeBtn")
-    .addEventListener(
-        "click",
-        showHome
-    );
 
 
 function showHome(){
@@ -2087,13 +2282,14 @@ async function renderJourneys(){
     const {
         data,
         error
-    } = await supabaseClient
-        .from("trips")
-        .select("*")
-        .eq(
-            "destination",
-            currentDestination
-        );
+    } =
+        await supabaseClient
+            .from("trips")
+            .select("*")
+            .eq(
+                "destination",
+                currentDestination
+            );
 
     if(error){
 
@@ -2110,12 +2306,8 @@ async function renderJourneys(){
     }
 
     currentTrips =
-        data || [];
-
-
-    currentTrips =
         sortTripsBySavedOrder(
-            currentTrips,
+            data || [],
             currentDestination
         );
 
@@ -2137,7 +2329,7 @@ async function renderJourneys(){
 
 
     currentTrips.forEach(
-        (trip, index) => {
+        trip => {
 
             const meta =
                 parseTripDescription(
@@ -2145,13 +2337,15 @@ async function renderJourneys(){
                 );
 
             const card =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             card.className =
                 "journey-card";
 
-            card.dataset.index =
-                index;
+            card.dataset.id =
+                trip.id;
 
             card.innerHTML = `
 
@@ -2197,18 +2391,35 @@ async function renderJourneys(){
 
             card.addEventListener(
                 "click",
-                () => openTrip(trip)
+                () => {
+
+                    if(
+                        card.dataset.wasDragged ===
+                        "true"
+                    ){
+
+                        card.dataset.wasDragged =
+                            "false";
+
+                        return;
+
+                    }
+
+                    openTrip(trip);
+
+                }
             );
 
 
-            setupDrag(
+            setupPointerDrag(
                 card,
-                "journey",
-                index
+                "journey"
             );
 
 
-            container.appendChild(card);
+            container.appendChild(
+                card
+            );
 
         }
     );
@@ -2233,7 +2444,9 @@ function parseTripDescription(
     try{
 
         const parsed =
-            JSON.parse(description);
+            JSON.parse(
+                description
+            );
 
         if(
             parsed &&
@@ -2242,11 +2455,14 @@ function parseTripDescription(
 
             return {
                 subtitle:
-                    parsed.subtitle || "",
+                    parsed.subtitle ||
+                    "",
                 creator:
-                    parsed.creator || "",
+                    parsed.creator ||
+                    "",
                 description:
-                    parsed.description || ""
+                    parsed.description ||
+                    ""
             };
 
         }
@@ -2256,7 +2472,8 @@ function parseTripDescription(
     return {
         subtitle:"",
         creator:"",
-        description:description || ""
+        description:
+            description || ""
     };
 
 }
@@ -2277,7 +2494,9 @@ function sortTripsBySavedOrder(
 
         order =
             JSON.parse(
-                localStorage.getItem(key)
+                localStorage.getItem(
+                    key
+                )
             ) || [];
 
     }catch(e){
@@ -2290,7 +2509,11 @@ function sortTripsBySavedOrder(
     const map =
         new Map(
             trips.map(
-                trip => [trip.id, trip]
+                trip =>
+                    [
+                        trip.id,
+                        trip
+                    ]
             )
         );
 
@@ -2301,7 +2524,9 @@ function sortTripsBySavedOrder(
     order.forEach(
         id => {
 
-            if(map.has(id)){
+            if(
+                map.has(id)
+            ){
 
                 sorted.push(
                     map.get(id)
@@ -2318,9 +2543,15 @@ function sortTripsBySavedOrder(
     trips.forEach(
         trip => {
 
-            if(map.has(trip.id)){
+            if(
+                map.has(
+                    trip.id
+                )
+            ){
 
-                sorted.push(trip);
+                sorted.push(
+                    trip
+                );
 
             }
 
@@ -2335,21 +2566,21 @@ function sortTripsBySavedOrder(
 
 function saveJourneyOrder(){
 
-    if(!currentDestination){
+    if(
+        !currentDestination
+    ){
 
         return;
 
     }
 
-    const key =
-        "goya_journey_order_" +
-        currentDestination;
-
     localStorage.setItem(
-        key,
+        "goya_journey_order_" +
+        currentDestination,
         JSON.stringify(
             currentTrips.map(
-                trip => trip.id
+                trip =>
+                    trip.id
             )
         )
     );
@@ -2360,14 +2591,6 @@ function saveJourneyOrder(){
 /* =========================================================
    ADD JOURNEY
 ========================================================= */
-
-document
-    .getElementById("addJourneyBtn")
-    .addEventListener(
-        "click",
-        addJourney
-    );
-
 
 function addJourney(){
 
@@ -2455,55 +2678,53 @@ function addJourney(){
 async function saveJourney(){
 
     const title =
-        document
-            .getElementById(
-                "journeyTitleInput"
-            )
-            .value
-            .trim();
+        document.getElementById(
+            "journeyTitleInput"
+        )
+        .value
+        .trim();
 
     const subtitle =
-        document
-            .getElementById(
-                "journeySubtitleInput"
-            )
-            .value
-            .trim();
+        document.getElementById(
+            "journeySubtitleInput"
+        )
+        .value
+        .trim();
 
     const creator =
-        document
-            .getElementById(
-                "journeyCreatorInput"
-            )
-            .value
-            .trim();
+        document.getElementById(
+            "journeyCreatorInput"
+        )
+        .value
+        .trim();
 
     const startDate =
-        document
-            .getElementById(
-                "journeyStartInput"
-            )
-            .value || null;
+        document.getElementById(
+            "journeyStartInput"
+        )
+        .value ||
+        null;
 
     const endDate =
-        document
-            .getElementById(
-                "journeyEndInput"
-            )
-            .value || null;
+        document.getElementById(
+            "journeyEndInput"
+        )
+        .value ||
+        null;
 
     const description =
-        document
-            .getElementById(
-                "journeyDescriptionInput"
-            )
-            .value
-            .trim();
+        document.getElementById(
+            "journeyDescriptionInput"
+        )
+        .value
+        .trim();
 
 
     if(!title){
 
-        alert("請輸入旅程名稱");
+        alert(
+            "請輸入旅程名稱"
+        );
 
         return;
 
@@ -2521,18 +2742,24 @@ async function saveJourney(){
     const {
         data,
         error
-    } = await supabaseClient
-        .from("trips")
-        .insert({
-            owner_id:currentUser.id,
-            title,
-            destination:currentDestination,
-            start_date:startDate,
-            end_date:endDate,
-            description:storedDescription
-        })
-        .select()
-        .single();
+    } =
+        await supabaseClient
+            .from("trips")
+            .insert({
+                owner_id:
+                    currentUser.id,
+                title,
+                destination:
+                    currentDestination,
+                start_date:
+                    startDate,
+                end_date:
+                    endDate,
+                description:
+                    storedDescription
+            })
+            .select()
+            .single();
 
 
     if(error){
@@ -2547,7 +2774,9 @@ async function saveJourney(){
     }
 
 
-    currentTrips.push(data);
+    currentTrips.push(
+        data
+    );
 
     saveJourneyOrder();
 
@@ -2562,9 +2791,12 @@ async function saveJourney(){
    TRIP DETAIL
 ========================================================= */
 
-async function openTrip(trip){
+async function openTrip(
+    trip
+){
 
-    currentTrip = trip;
+    currentTrip =
+        trip;
 
     homeView.classList.add(
         "hidden"
@@ -2588,7 +2820,8 @@ async function openTrip(trip){
     document.getElementById(
         "tripTitle"
     ).textContent =
-        trip.title || "未命名旅程";
+        trip.title ||
+        "未命名旅程";
 
 
     document.getElementById(
@@ -2601,7 +2834,8 @@ async function openTrip(trip){
         "tripCreator"
     ).textContent =
         meta.creator
-        ? "by " + meta.creator
+        ? "by " +
+          meta.creator
         : "";
 
 
@@ -2628,46 +2862,49 @@ async function loadTripData(){
     const [
         itineraryResult,
         stayResult
-    ] = await Promise.all([
+    ] =
+        await Promise.all([
 
-        supabaseClient
-            .from("itineraries")
-            .select("*")
-            .eq(
-                "trip_id",
-                currentTrip.id
-            )
-            .order(
-                "day_number",
-                {
-                    ascending:true
-                }
-            )
-            .order(
-                "start_time",
-                {
-                    ascending:true
-                }
-            ),
+            supabaseClient
+                .from("itineraries")
+                .select("*")
+                .eq(
+                    "trip_id",
+                    currentTrip.id
+                )
+                .order(
+                    "day_number",
+                    {
+                        ascending:true
+                    }
+                )
+                .order(
+                    "start_time",
+                    {
+                        ascending:true
+                    }
+                ),
 
-        supabaseClient
-            .from("stays")
-            .select("*")
-            .eq(
-                "trip_id",
-                currentTrip.id
-            )
-            .order(
-                "check_in",
-                {
-                    ascending:true
-                }
-            )
+            supabaseClient
+                .from("stays")
+                .select("*")
+                .eq(
+                    "trip_id",
+                    currentTrip.id
+                )
+                .order(
+                    "check_in",
+                    {
+                        ascending:true
+                    }
+                )
 
-    ]);
+        ]);
 
 
-    if(itineraryResult.error){
+    if(
+        itineraryResult.error
+    ){
 
         console.error(
             itineraryResult.error
@@ -2676,7 +2913,9 @@ async function loadTripData(){
     }
 
 
-    if(stayResult.error){
+    if(
+        stayResult.error
+    ){
 
         console.error(
             stayResult.error
@@ -2686,10 +2925,12 @@ async function loadTripData(){
 
 
     allItineraries =
-        itineraryResult.data || [];
+        itineraryResult.data ||
+        [];
 
     allStays =
-        stayResult.data || [];
+        stayResult.data ||
+        [];
 
 
     renderItineraries();
@@ -2699,26 +2940,6 @@ async function loadTripData(){
     calculateTotal();
 
 }
-
-
-document
-    .getElementById("backDestinationBtn")
-    .addEventListener(
-        "click",
-        async () => {
-
-            tripView.classList.add(
-                "hidden"
-            );
-
-            destinationView.classList.remove(
-                "hidden"
-            );
-
-            await renderJourneys();
-
-        }
-    );
 
 
 /* =========================================================
@@ -2739,7 +2960,8 @@ function renderItineraries(){
         [
             ...new Set(
                 allItineraries.map(
-                    item => item.day_number
+                    item =>
+                        item.day_number
                 )
             )
         ]
@@ -2748,7 +2970,9 @@ function renderItineraries(){
         );
 
 
-    if(!dayNumbers.length){
+    if(
+        !dayNumbers.length
+    ){
 
         return;
 
@@ -2776,11 +3000,9 @@ function renderItineraries(){
 
 
             day.innerHTML = `
-
                 <div class="day-title">
                     Day ${dayNumber}
                 </div>
-
             `;
 
 
@@ -2797,7 +3019,10 @@ function renderItineraries(){
 
 
                     const price =
-                        Number(item.price || 0);
+                        Number(
+                            item.price ||
+                            0
+                        );
 
 
                     card.innerHTML = `
@@ -2872,30 +3097,29 @@ function renderItineraries(){
 
                     card.addEventListener(
                         "click",
-                        () => editItinerary(item)
+                        () =>
+                            editItinerary(
+                                item
+                            )
                     );
 
 
-                    day.appendChild(card);
+                    day.appendChild(
+                        card
+                    );
 
                 }
             );
 
 
-            container.appendChild(day);
+            container.appendChild(
+                day
+            );
 
         }
     );
 
 }
-
-
-document
-    .getElementById("addDayBtn")
-    .addEventListener(
-        "click",
-        addDay
-    );
 
 
 function addDay(){
@@ -2904,17 +3128,14 @@ function addDay(){
         allItineraries.length
         ? Math.max(
             ...allItineraries.map(
-                i => i.day_number
+                i =>
+                    i.day_number
             )
         )
         : 0;
 
-    const nextDay =
-        maxDay + 1;
-
-
     openItineraryModal(
-        nextDay
+        maxDay + 1
     );
 
 }
@@ -2928,7 +3149,11 @@ function openItineraryModal(
     openModal(`
 
         <div class="modal-title">
-            ${existing ? "編輯行程" : "新增行程"}
+            ${
+                existing
+                ? "編輯行程"
+                : "新增行程"
+            }
         </div>
 
         <div class="field">
@@ -2938,7 +3163,11 @@ function openItineraryModal(
                 class="input"
                 type="number"
                 min="1"
-                value="${existing ? existing.day_number : dayNumber}"
+                value="${
+                    existing
+                    ? existing.day_number
+                    : dayNumber
+                }"
             >
         </div>
 
@@ -2948,7 +3177,10 @@ function openItineraryModal(
                 id="itemTitle"
                 class="input"
                 placeholder="例如：伏見稻荷大社"
-                value="${escapeAttr(existing?.title || "")}"
+                value="${escapeAttr(
+                    existing?.title ||
+                    ""
+                )}"
             >
         </div>
 
@@ -2958,7 +3190,10 @@ function openItineraryModal(
                 id="itemLocation"
                 class="input"
                 placeholder="例如：京都"
-                value="${escapeAttr(existing?.location || "")}"
+                value="${escapeAttr(
+                    existing?.location ||
+                    ""
+                )}"
             >
         </div>
 
@@ -2968,7 +3203,10 @@ function openItineraryModal(
                 id="itemTransport"
                 class="input"
                 placeholder="例如：JR / 地鐵 / 步行"
-                value="${escapeAttr(existing?.transport || "")}"
+                value="${escapeAttr(
+                    existing?.transport ||
+                    ""
+                )}"
             >
         </div>
 
@@ -2979,7 +3217,10 @@ function openItineraryModal(
                 class="input"
                 type="number"
                 min="0"
-                value="${existing?.price ?? ""}"
+                value="${
+                    existing?.price ??
+                    ""
+                }"
             >
         </div>
 
@@ -2989,7 +3230,10 @@ function openItineraryModal(
                 id="itemDuration"
                 class="input"
                 placeholder="例如：2 小時"
-                value="${escapeAttr(existing?.duration || "")}"
+                value="${escapeAttr(
+                    existing?.duration ||
+                    ""
+                )}"
             >
         </div>
 
@@ -2999,7 +3243,10 @@ function openItineraryModal(
                 id="itemStart"
                 class="input"
                 type="time"
-                value="${existing?.start_time || ""}"
+                value="${
+                    existing?.start_time ||
+                    ""
+                }"
             >
         </div>
 
@@ -3009,7 +3256,10 @@ function openItineraryModal(
                 id="itemEnd"
                 class="input"
                 type="time"
-                value="${existing?.end_time || ""}"
+                value="${
+                    existing?.end_time ||
+                    ""
+                }"
             >
         </div>
 
@@ -3019,7 +3269,10 @@ function openItineraryModal(
                 id="itemNotes"
                 class="textarea"
                 placeholder="不限時、有插座、必吃、注意事項……"
-            >${escapeHTML(existing?.notes || "")}</textarea>
+            >${escapeHTML(
+                existing?.notes ||
+                ""
+            )}</textarea>
         </div>
 
         <div class="modal-actions">
@@ -3049,7 +3302,13 @@ function openItineraryModal(
             <button
                 class="save-btn"
                 onclick="saveItinerary(
-                    ${existing ? JSON.stringify(existing.id) : "null"}
+                    ${
+                        existing
+                        ? JSON.stringify(
+                            existing.id
+                        )
+                        : "null"
+                    }
                 )"
             >
                 儲存
@@ -3081,17 +3340,20 @@ async function saveItinerary(
         title:
             document.getElementById(
                 "itemTitle"
-            ).value.trim(),
+            ).value
+            .trim(),
 
         location:
             document.getElementById(
                 "itemLocation"
-            ).value.trim(),
+            ).value
+            .trim(),
 
         transport:
             document.getElementById(
                 "itemTransport"
-            ).value.trim(),
+            ).value
+            .trim(),
 
         price:
             Number(
@@ -3103,29 +3365,35 @@ async function saveItinerary(
         duration:
             document.getElementById(
                 "itemDuration"
-            ).value.trim(),
+            ).value
+            .trim(),
 
         start_time:
             document.getElementById(
                 "itemStart"
-            ).value || null,
+            ).value ||
+            null,
 
         end_time:
             document.getElementById(
                 "itemEnd"
-            ).value || null,
+            ).value ||
+            null,
 
         notes:
             document.getElementById(
                 "itemNotes"
-            ).value.trim()
+            ).value
+            .trim()
 
     };
 
 
     if(!payload.title){
 
-        alert("請輸入行程名稱");
+        alert(
+            "請輸入行程名稱"
+        );
 
         return;
 
@@ -3140,7 +3408,9 @@ async function saveItinerary(
         result =
             await supabaseClient
                 .from("itineraries")
-                .update(payload)
+                .update(
+                    payload
+                )
                 .eq(
                     "id",
                     existingId
@@ -3151,7 +3421,9 @@ async function saveItinerary(
         result =
             await supabaseClient
                 .from("itineraries")
-                .insert(payload);
+                .insert(
+                    payload
+                );
 
     }
 
@@ -3175,7 +3447,9 @@ async function saveItinerary(
 }
 
 
-function editItinerary(item){
+function editItinerary(
+    item
+){
 
     openItineraryModal(
         item.day_number,
@@ -3203,13 +3477,14 @@ async function deleteItinerary(
 
     const {
         error
-    } = await supabaseClient
-        .from("itineraries")
-        .delete()
-        .eq(
-            "id",
-            id
-        );
+    } =
+        await supabaseClient
+            .from("itineraries")
+            .delete()
+            .eq(
+                "id",
+                id
+            );
 
 
     if(error){
@@ -3245,7 +3520,9 @@ function renderStays(){
     container.innerHTML = "";
 
 
-    if(!allStays.length){
+    if(
+        !allStays.length
+    ){
 
         container.innerHTML = `
             <div class="empty-state">
@@ -3272,7 +3549,8 @@ function renderStays(){
 
             const price =
                 Number(
-                    stay.price || 0
+                    stay.price ||
+                    0
                 );
 
 
@@ -3336,24 +3614,21 @@ function renderStays(){
 
             card.addEventListener(
                 "click",
-                () => editStay(stay)
+                () =>
+                    editStay(
+                        stay
+                    )
             );
 
 
-            container.appendChild(card);
+            container.appendChild(
+                card
+            );
 
         }
     );
 
 }
-
-
-document
-    .getElementById("addStayBtn")
-    .addEventListener(
-        "click",
-        () => openStayModal()
-    );
 
 
 function openStayModal(
@@ -3363,7 +3638,11 @@ function openStayModal(
     openModal(`
 
         <div class="modal-title">
-            ${existing ? "編輯住宿" : "新增住宿"}
+            ${
+                existing
+                ? "編輯住宿"
+                : "新增住宿"
+            }
         </div>
 
         <div class="field">
@@ -3372,7 +3651,10 @@ function openStayModal(
                 id="stayName"
                 class="input"
                 placeholder="例如：大阪難波飯店"
-                value="${escapeAttr(existing?.name || "")}"
+                value="${escapeAttr(
+                    existing?.name ||
+                    ""
+                )}"
             >
         </div>
 
@@ -3381,7 +3663,10 @@ function openStayModal(
             <input
                 id="stayAddress"
                 class="input"
-                value="${escapeAttr(existing?.address || "")}"
+                value="${escapeAttr(
+                    existing?.address ||
+                    ""
+                )}"
             >
         </div>
 
@@ -3391,7 +3676,10 @@ function openStayModal(
                 id="stayCheckIn"
                 class="input"
                 type="date"
-                value="${existing?.check_in || ""}"
+                value="${
+                    existing?.check_in ||
+                    ""
+                }"
             >
         </div>
 
@@ -3401,7 +3689,10 @@ function openStayModal(
                 id="stayCheckOut"
                 class="input"
                 type="date"
-                value="${existing?.check_out || ""}"
+                value="${
+                    existing?.check_out ||
+                    ""
+                }"
             >
         </div>
 
@@ -3412,7 +3703,10 @@ function openStayModal(
                 class="input"
                 type="number"
                 min="0"
-                value="${existing?.price ?? ""}"
+                value="${
+                    existing?.price ??
+                    ""
+                }"
             >
         </div>
 
@@ -3422,7 +3716,10 @@ function openStayModal(
                 id="stayBooking"
                 class="input"
                 placeholder="例如：Booking / Agoda"
-                value="${escapeAttr(existing?.booking_info || "")}"
+                value="${escapeAttr(
+                    existing?.booking_info ||
+                    ""
+                )}"
             >
         </div>
 
@@ -3431,7 +3728,10 @@ function openStayModal(
             <textarea
                 id="stayNotes"
                 class="textarea"
-            >${escapeHTML(existing?.notes || "")}</textarea>
+            >${escapeHTML(
+                existing?.notes ||
+                ""
+            )}</textarea>
         </div>
 
         <div class="modal-actions">
@@ -3461,7 +3761,13 @@ function openStayModal(
             <button
                 class="save-btn"
                 onclick="saveStay(
-                    ${existing ? JSON.stringify(existing.id) : "null"}
+                    ${
+                        existing
+                        ? JSON.stringify(
+                            existing.id
+                        )
+                        : "null"
+                    }
                 )"
             >
                 儲存
@@ -3486,22 +3792,26 @@ async function saveStay(
         name:
             document.getElementById(
                 "stayName"
-            ).value.trim(),
+            ).value
+            .trim(),
 
         address:
             document.getElementById(
                 "stayAddress"
-            ).value.trim(),
+            ).value
+            .trim(),
 
         check_in:
             document.getElementById(
                 "stayCheckIn"
-            ).value || null,
+            ).value ||
+            null,
 
         check_out:
             document.getElementById(
                 "stayCheckOut"
-            ).value || null,
+            ).value ||
+            null,
 
         price:
             Number(
@@ -3513,19 +3823,23 @@ async function saveStay(
         booking_info:
             document.getElementById(
                 "stayBooking"
-            ).value.trim(),
+            ).value
+            .trim(),
 
         notes:
             document.getElementById(
                 "stayNotes"
-            ).value.trim()
+            ).value
+            .trim()
 
     };
 
 
     if(!payload.name){
 
-        alert("請輸入住宿名稱");
+        alert(
+            "請輸入住宿名稱"
+        );
 
         return;
 
@@ -3540,7 +3854,9 @@ async function saveStay(
         result =
             await supabaseClient
                 .from("stays")
-                .update(payload)
+                .update(
+                    payload
+                )
                 .eq(
                     "id",
                     existingId
@@ -3551,7 +3867,9 @@ async function saveStay(
         result =
             await supabaseClient
                 .from("stays")
-                .insert(payload);
+                .insert(
+                    payload
+                );
 
     }
 
@@ -3575,14 +3893,20 @@ async function saveStay(
 }
 
 
-function editStay(stay){
+function editStay(
+    stay
+){
 
-    openStayModal(stay);
+    openStayModal(
+        stay
+    );
 
 }
 
 
-async function deleteStay(id){
+async function deleteStay(
+    id
+){
 
     const ok =
         confirm(
@@ -3598,13 +3922,14 @@ async function deleteStay(id){
 
     const {
         error
-    } = await supabaseClient
-        .from("stays")
-        .delete()
-        .eq(
-            "id",
-            id
-        );
+    } =
+        await supabaseClient
+            .from("stays")
+            .delete()
+            .eq(
+                "id",
+                id
+            );
 
 
     if(error){
@@ -3636,7 +3961,10 @@ function calculateTotal(){
         allItineraries.reduce(
             (sum,item) =>
                 sum +
-                Number(item.price || 0),
+                Number(
+                    item.price ||
+                    0
+                ),
             0
         );
 
@@ -3645,7 +3973,10 @@ function calculateTotal(){
         allStays.reduce(
             (sum,item) =>
                 sum +
-                Number(item.price || 0),
+                Number(
+                    item.price ||
+                    0
+                ),
             0
         );
 
@@ -3659,221 +3990,118 @@ function calculateTotal(){
         "tripTotal"
     ).textContent =
         "NT$ " +
-        formatMoney(total);
+        formatMoney(
+            total
+        );
 
 }
 
 
 /* =========================================================
-   DRAG SORT
+   REAL POINTER DRAG
 ========================================================= */
 
 /*
-    這裡不是用箭頭。
-
-    電腦：
-    按住卡片拖曳
+    這裡完全拿掉原本的 HTML5 draggable。
 
     手機：
-    長按約 350ms 後開始拖曳
+    1. 長按 320ms
+    2. 卡片進入拖曳狀態
+    3. 手指移動時，DOM 會即時交換位置
+    4. 放開後直接儲存
+
+    電腦：
+    按住滑鼠拖曳即可。
 */
 
-function setupDrag(
+function setupPointerDrag(
     element,
-    type,
-    index
+    type
 ){
 
-    element.draggable = true;
+    let pressTimer = null;
 
+    let pointerId = null;
 
-    element.addEventListener(
-        "dragstart",
-        e => {
+    let startX = 0;
 
-            draggedElement =
-                element;
+    let startY = 0;
 
-            draggedType =
-                type;
-
-            draggedIndex =
-                index;
-
-            element.classList.add(
-                "dragging"
-            );
-
-            e.dataTransfer.effectAllowed =
-                "move";
-
-        }
-    );
-
-
-    element.addEventListener(
-        "dragend",
-        async () => {
-
-            element.classList.remove(
-                "dragging"
-            );
-
-            document
-                .querySelectorAll(
-                    ".drag-over"
-                )
-                .forEach(
-                    el =>
-                        el.classList.remove(
-                            "drag-over"
-                        )
-                );
-
-            draggedElement = null;
-
-        }
-    );
-
-
-    element.addEventListener(
-        "dragover",
-        e => {
-
-            e.preventDefault();
-
-            if(
-                draggedElement &&
-                draggedElement !== element
-            ){
-
-                element.classList.add(
-                    "drag-over"
-                );
-
-            }
-
-        }
-    );
-
-
-    element.addEventListener(
-        "dragleave",
-        () => {
-
-            element.classList.remove(
-                "drag-over"
-            );
-
-        }
-    );
-
-
-    element.addEventListener(
-        "drop",
-        async e => {
-
-            e.preventDefault();
-
-            element.classList.remove(
-                "drag-over"
-            );
-
-            if(
-                !draggedElement ||
-                draggedElement === element
-            ){
-
-                return;
-
-            }
-
-
-            const targetIndex =
-                Number(
-                    element.dataset.index
-                );
-
-
-            if(
-                draggedType !== type
-            ){
-
-                return;
-
-            }
-
-
-            if(type === "destination"){
-
-                moveDestination(
-                    draggedIndex,
-                    targetIndex
-                );
-
-            }
-
-
-            if(type === "journey"){
-
-                moveJourney(
-                    draggedIndex,
-                    targetIndex
-                );
-
-            }
-
-        }
-    );
-
-
-    /* =========================
-       MOBILE LONG PRESS
-    ========================= */
+    let started = false;
 
     element.addEventListener(
         "pointerdown",
         e => {
 
             if(
-                e.pointerType === "mouse"
+                e.target.closest(
+                    "button"
+                )
             ){
 
                 return;
 
             }
+
+            pointerId =
+                e.pointerId;
+
+            startX =
+                e.clientX;
+
+            startY =
+                e.clientY;
+
+            started = false;
 
 
             if(
-                e.target.closest("button")
+                e.pointerType ===
+                "mouse"
             ){
 
-                return;
+                pressTimer =
+                    setTimeout(
+                        () => {
+
+                            beginDrag(
+                                element,
+                                type,
+                                e
+                            );
+
+                            started =
+                                true;
+
+                        },
+                        120
+                    );
+
+            }else{
+
+                pressTimer =
+                    setTimeout(
+                        () => {
+
+                            beginDrag(
+                                element,
+                                type,
+                                e
+                            );
+
+                            started =
+                                true;
+
+                        },
+                        320
+                    );
 
             }
 
 
-            longPressTimer =
-                setTimeout(
-                    () => {
-
-                        element.classList.add(
-                            "dragging"
-                        );
-
-                        element.setPointerCapture(
-                            e.pointerId
-                        );
-
-                        startMobileDrag(
-                            element,
-                            type,
-                            index
-                        );
-
-                    },
-                    350
-                );
+            element.setPointerCapture(
+                pointerId
+            );
 
         }
     );
@@ -3884,9 +4112,8 @@ function setupDrag(
         e => {
 
             if(
-                !element.classList.contains(
-                    "mobile-dragging"
-                )
+                e.pointerId !==
+                pointerId
             ){
 
                 return;
@@ -3894,11 +4121,52 @@ function setupDrag(
             }
 
 
-            moveMobileDrag(
-                e,
-                element,
-                type
-            );
+            const dx =
+                e.clientX -
+                startX;
+
+            const dy =
+                e.clientY -
+                startY;
+
+
+            /*
+               如果還沒進入拖曳，
+               手指移太遠就取消長按。
+            */
+
+            if(
+                !activeDrag &&
+                !started &&
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy
+                ) > 10
+            ){
+
+                clearTimeout(
+                    pressTimer
+                );
+
+                return;
+
+            }
+
+
+            if(
+                activeDrag &&
+                activeDrag.element ===
+                element
+            ){
+
+                e.preventDefault();
+
+                moveDrag(
+                    e.clientX,
+                    e.clientY
+                );
+
+            }
 
         }
     );
@@ -3906,70 +4174,37 @@ function setupDrag(
 
     element.addEventListener(
         "pointerup",
-        async e => {
+        e => {
 
             clearTimeout(
-                longPressTimer
+                pressTimer
             );
 
 
             if(
-                !element.classList.contains(
-                    "mobile-dragging"
-                )
+                activeDrag &&
+                activeDrag.element ===
+                element
             ){
+
+                e.preventDefault();
+
+                finishDrag(
+                    element,
+                    type
+                );
 
                 return;
 
             }
 
+            try{
 
-            element.classList.remove(
-                "mobile-dragging"
-            );
-
-            element.classList.remove(
-                "dragging"
-            );
-
-
-            const target =
-                findDropTarget(
-                    e.clientX,
-                    e.clientY,
-                    type,
-                    element
+                element.releasePointerCapture(
+                    pointerId
                 );
 
-
-            if(target){
-
-                const targetIndex =
-                    Number(
-                        target.dataset.index
-                    );
-
-
-                if(type === "destination"){
-
-                    moveDestination(
-                        index,
-                        targetIndex
-                    );
-
-                }
-
-
-                if(type === "journey"){
-
-                    moveJourney(
-                        index,
-                        targetIndex
-                    );
-
-                }
-
-            }
+            }catch(err){}
 
         }
     );
@@ -3980,16 +4215,18 @@ function setupDrag(
         () => {
 
             clearTimeout(
-                longPressTimer
+                pressTimer
             );
 
-            element.classList.remove(
-                "mobile-dragging"
-            );
+            if(
+                activeDrag &&
+                activeDrag.element ===
+                element
+            ){
 
-            element.classList.remove(
-                "dragging"
-            );
+                cancelDrag();
+
+            }
 
         }
     );
@@ -3997,55 +4234,259 @@ function setupDrag(
 }
 
 
-function startMobileDrag(
+function beginDrag(
     element,
     type,
-    index
+    event
 ){
 
-    element.classList.add(
-        "mobile-dragging"
+    if(activeDrag){
+
+        return;
+
+    }
+
+
+    const rect =
+        element.getBoundingClientRect();
+
+
+    const ghost =
+        element.cloneNode(
+            true
+        );
+
+
+    ghost.classList.add(
+        "drag-ghost"
     );
 
-    draggedElement =
-        element;
 
-    draggedType =
-        type;
+    ghost.style.width =
+        rect.width +
+        "px";
 
-    draggedIndex =
-        index;
+    ghost.style.height =
+        rect.height +
+        "px";
+
+    ghost.style.left =
+        rect.left +
+        "px";
+
+    ghost.style.top =
+        rect.top +
+        "px";
+
+
+    document.body.appendChild(
+        ghost
+    );
+
+
+    element.classList.add(
+        "drag-source-hidden"
+    );
+
+    element.classList.add(
+        "dragging"
+    );
+
+
+    document.body.classList.add(
+        "dragging-mode"
+    );
 
     document.body.classList.add(
         "no-select"
     );
 
+
+    activeDrag = {
+
+        element,
+
+        ghost,
+
+        type,
+
+        startIndex:
+            getElementIndex(
+                element
+            ),
+
+        currentIndex:
+            getElementIndex(
+                element
+            ),
+
+        offsetX:
+            event.clientX -
+            rect.left,
+
+        offsetY:
+            event.clientY -
+            rect.top
+
+    };
+
 }
 
 
-function moveMobileDrag(
-    event,
-    element,
-    type
+function moveDrag(
+    x,
+    y
 ){
 
-    const target =
-        findDropTarget(
-            event.clientX,
-            event.clientY,
-            type,
-            element
+    if(!activeDrag){
+
+        return;
+
+    }
+
+
+    const {
+        element,
+        ghost,
+        type
+    } =
+        activeDrag;
+
+
+    ghost.style.left =
+        (
+            x -
+            activeDrag.offsetX
+        ) +
+        "px";
+
+    ghost.style.top =
+        (
+            y -
+            activeDrag.offsetY
+        ) +
+        "px";
+
+
+    const selector =
+        type ===
+        "destination"
+        ? ".destination-card"
+        : ".journey-card";
+
+
+    const cards =
+        [
+            ...document.querySelectorAll(
+                selector
+            )
+        ]
+        .filter(
+            card =>
+                card !==
+                element
         );
+
+
+    let target = null;
+
+
+    for(
+        const card of cards
+    ){
+
+        const rect =
+            card.getBoundingClientRect();
+
+
+        const centerY =
+            rect.top +
+            rect.height / 2;
+
+
+        const centerX =
+            rect.left +
+            rect.width / 2;
+
+
+        /*
+           兩欄目的地要看 X + Y。
+           一欄旅程主要看 Y。
+        */
+
+        if(
+            type ===
+            "destination"
+        ){
+
+            if(
+                y >= rect.top &&
+                y <= rect.bottom &&
+                x >= rect.left &&
+                x <= rect.right
+            ){
+
+                target =
+                    card;
+
+                break;
+
+            }
+
+        }else{
+
+            if(
+                y <
+                centerY
+            ){
+
+                target =
+                    card;
+
+                break;
+
+            }
+
+        }
+
+    }
+
+
+    if(!target){
+
+        if(cards.length){
+
+            const last =
+                cards[
+                    cards.length - 1
+                ];
+
+            const lastRect =
+                last.getBoundingClientRect();
+
+            if(
+                y >
+                lastRect.bottom
+            ){
+
+                target =
+                    null;
+
+            }
+
+        }
+
+    }
 
 
     document
         .querySelectorAll(
-            ".drag-over"
+            ".drag-target"
         )
         .forEach(
             el =>
                 el.classList.remove(
-                    "drag-over"
+                    "drag-target"
                 )
         );
 
@@ -4053,161 +4494,352 @@ function moveMobileDrag(
     if(target){
 
         target.classList.add(
-            "drag-over"
+            "drag-target"
         );
 
-    }
 
-}
-
-
-function findDropTarget(
-    x,
-    y,
-    type,
-    dragged
-){
-
-    const selector =
-        type === "destination"
-        ? ".destination-card"
-        : ".journey-card";
+        const targetRect =
+            target.getBoundingClientRect();
 
 
-    const elements =
-        [...document.querySelectorAll(
-            selector
-        )];
+        if(
+            type ===
+            "journey"
+        ){
 
+            if(
+                y <
+                targetRect.top +
+                targetRect.height / 2
+            ){
 
-    let closest = null;
+                target.parentNode.insertBefore(
+                    element,
+                    target
+                );
 
-    let closestDistance =
-        Infinity;
+            }else{
 
-
-    elements.forEach(
-        element => {
-
-            if(element === dragged){
-
-                return;
+                target.parentNode.insertBefore(
+                    element,
+                    target.nextSibling
+                );
 
             }
 
+        }else{
 
-            const rect =
+            /*
+               Grid 排序：
+               使用目前 DOM 中最接近的卡片，
+               直接插到它前面或後面。
+            */
+
+            const all =
+                [
+                    ...target.parentNode.children
+                ]
+                .filter(
+                    el =>
+                        el.classList.contains(
+                            "destination-card"
+                        ) &&
+                        el !== element
+                );
+
+
+            const targetIndex =
+                all.indexOf(
+                    target
+                );
+
+
+            const elementRect =
                 element.getBoundingClientRect();
 
 
             if(
-                x >= rect.left &&
-                x <= rect.right &&
-                y >= rect.top &&
-                y <= rect.bottom
+                targetIndex !== -1
             ){
 
-                closest =
-                    element;
+                if(
+                    x <
+                    targetRect.left +
+                    targetRect.width / 2
+                ){
 
-            }
+                    target.parentNode.insertBefore(
+                        element,
+                        target
+                    );
 
+                }else{
 
-            const centerY =
-                rect.top +
-                rect.height / 2;
+                    target.parentNode.insertBefore(
+                        element,
+                        target.nextSibling
+                    );
 
-
-            const distance =
-                Math.abs(
-                    y - centerY
-                );
-
-
-            if(
-                distance <
-                closestDistance
-            ){
-
-                closestDistance =
-                    distance;
-
-                closest =
-                    element;
+                }
 
             }
 
         }
-    );
 
+    }else{
 
-    return closest;
+        /*
+           沒有 target，
+           代表拖到最下面。
+        */
+
+        if(
+            type ===
+            "journey"
+        ){
+
+            const list =
+                element.parentNode;
+
+            list.appendChild(
+                element
+            );
+
+        }
+
+    }
 
 }
 
 
-async function moveDestination(
-    from,
-    to
+async function finishDrag(
+    element,
+    type
 ){
 
-    if(from === to){
+    if(!activeDrag){
 
         return;
 
     }
 
 
-    const moved =
-        destinations.splice(
-            from,
-            1
-        )[0];
+    const wasMoved =
+        getElementIndex(
+            element
+        ) !==
+        activeDrag.startIndex;
 
 
-    destinations.splice(
-        to,
-        0,
-        moved
+    const ghost =
+        activeDrag.ghost;
+
+
+    if(ghost){
+
+        ghost.remove();
+
+    }
+
+
+    element.classList.remove(
+        "drag-source-hidden"
+    );
+
+    element.classList.remove(
+        "dragging"
     );
 
 
-    saveDestinations();
+    document
+        .querySelectorAll(
+            ".drag-target"
+        )
+        .forEach(
+            el =>
+                el.classList.remove(
+                    "drag-target"
+                )
+        );
 
-    await renderDestinations();
+
+    document.body.classList.remove(
+        "dragging-mode"
+    );
+
+    document.body.classList.remove(
+        "no-select"
+    );
+
+
+    if(wasMoved){
+
+        element.dataset.wasDragged =
+            "true";
+
+    }
+
+
+    /*
+       先把目前 DOM 順序讀出來，
+       再同步 state。
+    */
+
+    if(
+        type ===
+        "destination"
+    ){
+
+        const cards =
+            [
+                ...document.querySelectorAll(
+                    ".destination-card"
+                )
+            ];
+
+
+        destinations =
+            cards.map(
+                card =>
+                    card.dataset.id
+            );
+
+
+        saveDestinations();
+
+        await renderDestinations();
+
+    }
+
+
+    if(
+        type ===
+        "journey"
+    ){
+
+        const cards =
+            [
+                ...document.querySelectorAll(
+                    ".journey-card"
+                )
+            ];
+
+
+        const ids =
+            cards.map(
+                card =>
+                    card.dataset.id
+            );
+
+
+        const map =
+            new Map(
+                currentTrips.map(
+                    trip =>
+                        [
+                            trip.id,
+                            trip
+                        ]
+                )
+            );
+
+
+        currentTrips =
+            ids
+                .map(
+                    id =>
+                        map.get(id)
+                )
+                .filter(Boolean);
+
+
+        saveJourneyOrder();
+
+        await renderJourneys();
+
+    }
+
+
+    activeDrag = null;
 
 }
 
 
-function moveJourney(
-    from,
-    to
-){
+function cancelDrag(){
 
-    if(from === to){
+    if(!activeDrag){
 
         return;
 
     }
 
 
-    const moved =
-        currentTrips.splice(
-            from,
-            1
-        )[0];
+    if(
+        activeDrag.ghost
+    ){
+
+        activeDrag.ghost.remove();
+
+    }
 
 
-    currentTrips.splice(
-        to,
-        0,
-        moved
+    activeDrag.element.classList.remove(
+        "drag-source-hidden"
+    );
+
+    activeDrag.element.classList.remove(
+        "dragging"
     );
 
 
-    saveJourneyOrder();
+    document
+        .querySelectorAll(
+            ".drag-target"
+        )
+        .forEach(
+            el =>
+                el.classList.remove(
+                    "drag-target"
+                )
+        );
 
-    renderJourneys();
+
+    document.body.classList.remove(
+        "dragging-mode"
+    );
+
+    document.body.classList.remove(
+        "no-select"
+    );
+
+
+    activeDrag = null;
+
+}
+
+
+function getElementIndex(
+    element
+){
+
+    const cards =
+        [
+            ...element.parentNode.children
+        ]
+        .filter(
+            child =>
+                child.classList.contains(
+                    "destination-card"
+                ) ||
+                child.classList.contains(
+                    "journey-card"
+                )
+        );
+
+
+    return cards.indexOf(
+        element
+    );
 
 }
 
@@ -4239,23 +4871,6 @@ function closeModal(){
     modal.innerHTML = "";
 
 }
-
-
-modalBackdrop.addEventListener(
-    "click",
-    e => {
-
-        if(
-            e.target ===
-            modalBackdrop
-        ){
-
-            closeModal();
-
-        }
-
-    }
-);
 
 
 /* =========================================================
@@ -4297,7 +4912,9 @@ function escapeAttr(
     value
 ){
 
-    return escapeHTML(value);
+    return escapeHTML(
+        value
+    );
 
 }
 
@@ -4334,30 +4951,7 @@ function formatTime(
 
 }
 
-
-/* =========================================================
-   CLOSE CONTEXT MENU
-========================================================= */
-
-document.addEventListener(
-    "click",
-    e => {
-
-        if(
-            !e.target.closest(
-                ".context-menu"
-            )
-        ){
-
-            contextMenu.classList.add(
-                "hidden"
-            );
-
-        }
-
-    }
-);
-
 </script>
 
 </body>
+</html>
