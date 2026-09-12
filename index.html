@@ -531,6 +531,110 @@ a{
     margin-top:14px;
 }
 
+/* =========================
+   VISA
+========================= */
+
+.visa-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.visa-card{
+    border:1px solid #e7e5e0;
+    border-radius:14px;
+    padding:13px;
+    background:#faf9f6;
+}
+
+.visa-name{
+    font-size:15px;
+    font-weight:700;
+    color:#333;
+}
+
+.visa-info{
+    margin-top:6px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:7px;
+    font-size:13px;
+    color:#777;
+}
+
+.visa-price{
+    font-weight:700;
+    color:#555;
+}
+
+.visa-link{
+    display:inline-block;
+    padding:5px 9px;
+    background:#eeece7;
+    border-radius:8px;
+    text-decoration:none;
+    color:#555;
+    font-size:12px;
+}
+
+.visa-link:hover{
+    background:#e5e3dd;
+}
+
+.visa-empty{
+    color:#999;
+    font-size:14px;
+}
+
+.visa-editor{
+    border:1px solid #e5e2dc;
+    background:#faf9f6;
+    border-radius:15px;
+    padding:14px;
+    margin-bottom:10px;
+}
+
+.visa-editor-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+.visa-editor-title{
+    font-size:14px;
+    font-weight:700;
+    color:#555;
+}
+
+.visa-remove-btn{
+    border:none;
+    background:#eee3e1;
+    color:#8a4e47;
+    border-radius:9px;
+    padding:6px 9px;
+    font-size:12px;
+}
+
+.visa-editor-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.visa-add-btn{
+    width:100%;
+    border:1px dashed #c8c6c1;
+    background:white;
+    color:#666;
+    border-radius:12px;
+    padding:11px;
+    margin-top:4px;
+}
+
 .day-card{
     background:white;
     border-radius:20px;
@@ -963,6 +1067,10 @@ a{
         grid-template-columns:1fr;
     }
 
+    .visa-editor-grid{
+        grid-template-columns:1fr;
+    }
+
     .rating-group{
         grid-template-columns:1fr;
     }
@@ -1283,14 +1391,23 @@ a{
 
         </div>
 
+        <!-- =========================
+             VISA EDITOR
+        ========================= -->
+
         <div class="field">
 
-            <label>簽證</label>
+            <label>簽證／入境資訊</label>
 
-            <textarea
-                id="journeyVisaInput"
-                placeholder="例如：台灣護照免簽 90 天"
-            ></textarea>
+            <div id="visaEditorList"></div>
+
+            <button
+                type="button"
+                class="visa-add-btn"
+                onclick="addVisaRow()"
+            >
+                ＋ 新增簽證
+            </button>
 
         </div>
 
@@ -1416,7 +1533,6 @@ a{
 
         </div>
 
-
         <div class="field">
 
             <label>推薦程度</label>
@@ -1472,7 +1588,6 @@ a{
 
         </div>
 
-
         <div class="field">
 
             <label>備註</label>
@@ -1484,7 +1599,6 @@ a{
 
         </div>
 
-
         <div class="field">
 
             <label>其他</label>
@@ -1495,7 +1609,6 @@ a{
             ></textarea>
 
         </div>
-
 
         <div class="modal-footer">
 
@@ -1729,6 +1842,8 @@ let editingItemId = null;
 let editingStayId = null;
 
 let currentTrips = [];
+
+let currentVisaRows = [];
 
 
 /* =====================================================
@@ -3516,6 +3631,453 @@ function moveJourney(
 
 
 /* =====================================================
+   VISA
+===================================================== */
+
+function createVisaId(){
+
+    return (
+        Date.now().toString() +
+        "_" +
+        Math.random()
+            .toString(36)
+            .slice(2)
+    );
+
+}
+
+
+function normalizeVisaData(
+    visa
+){
+
+    if(!visa){
+
+        return [];
+
+    }
+
+    /*
+       新格式：
+       [
+           {
+               name:"",
+               link:"",
+               price:""
+           }
+       ]
+    */
+
+    if(Array.isArray(visa)){
+
+        return visa.map(
+            item => ({
+
+                id:
+                    item.id ||
+                    createVisaId(),
+
+                name:
+                    item.name ||
+                    "",
+
+                link:
+                    item.link ||
+                    "",
+
+                price:
+                    item.price ??
+                    ""
+
+            })
+        );
+
+    }
+
+    /*
+       舊資料如果是字串，
+       保留顯示，不會消失。
+    */
+
+    if(typeof visa === "string"){
+
+        const text =
+            visa.trim();
+
+        if(!text){
+
+            return [];
+
+        }
+
+        return [
+
+            {
+                id:
+                    createVisaId(),
+
+                name:
+                    text,
+
+                link:
+                    "",
+
+                price:
+                    ""
+
+            }
+
+        ];
+
+    }
+
+    return [];
+
+}
+
+
+function addVisaRow(
+    data = null
+){
+
+    currentVisaRows.push({
+
+        id:
+            data?.id ||
+            createVisaId(),
+
+        name:
+            data?.name ||
+            "",
+
+        link:
+            data?.link ||
+            "",
+
+        price:
+            data?.price ??
+            ""
+
+    });
+
+    renderVisaEditor();
+
+}
+
+
+function removeVisaRow(
+    index
+){
+
+    currentVisaRows.splice(
+        index,
+        1
+    );
+
+    renderVisaEditor();
+
+}
+
+
+function renderVisaEditor(){
+
+    const container =
+        document.getElementById(
+            "visaEditorList"
+        );
+
+    if(!container){
+
+        return;
+
+    }
+
+    if(!currentVisaRows.length){
+
+        container.innerHTML = `
+
+            <div class="visa-empty">
+                尚未新增簽證。
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    let html = "";
+
+    currentVisaRows.forEach(
+        (
+            visa,
+            index
+        ) => {
+
+            html += `
+
+                <div class="visa-editor">
+
+                    <div class="visa-editor-header">
+
+                        <div class="visa-editor-title">
+                            簽證 ${index + 1}
+                        </div>
+
+                        <button
+                            type="button"
+                            class="visa-remove-btn"
+                            onclick="removeVisaRow(${index})"
+                        >
+                            刪除
+                        </button>
+
+                    </div>
+
+
+                    <div class="visa-editor-grid">
+
+                        <div class="field" style="margin-bottom:0;">
+
+                            <label>
+                                名稱
+                            </label>
+
+                            <input
+                                type="text"
+                                value="${escapeHtml(
+                                    visa.name
+                                )}"
+                                placeholder="例如：日本簽證"
+                                oninput="updateVisaRow(${index}, 'name', this.value)"
+                            >
+
+                        </div>
+
+
+                        <div class="field" style="margin-bottom:0;">
+
+                            <label>
+                                價格
+                            </label>
+
+                            <input
+                                type="number"
+                                min="0"
+                                value="${escapeHtml(
+                                    visa.price
+                                )}"
+                                placeholder="例如：0"
+                                oninput="updateVisaRow(${index}, 'price', this.value)"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="field"
+                        style="margin-top:10px;margin-bottom:0;"
+                    >
+
+                        <label>
+                            連結
+                        </label>
+
+                        <input
+                            type="url"
+                            value="${escapeHtml(
+                                visa.link
+                            )}"
+                            placeholder="https://..."
+                            oninput="updateVisaRow(${index}, 'link', this.value)"
+                        >
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+    container.innerHTML =
+        html;
+
+}
+
+
+function updateVisaRow(
+    index,
+    field,
+    value
+){
+
+    if(
+        !currentVisaRows[index]
+    ){
+
+        return;
+
+    }
+
+    currentVisaRows[index][field] =
+        value;
+
+}
+
+
+function getVisaDataForSave(){
+
+    return currentVisaRows
+        .map(
+            visa => ({
+
+                name:
+                    String(
+                        visa.name ||
+                        ""
+                    ).trim(),
+
+                link:
+                    String(
+                        visa.link ||
+                        ""
+                    ).trim(),
+
+                price:
+                    visa.price === "" ||
+                    visa.price === null ||
+                    visa.price === undefined
+                    ?
+                    ""
+                    :
+                    Number(
+                        visa.price
+                    )
+
+            })
+        )
+        .filter(
+            visa =>
+                visa.name ||
+                visa.link ||
+                visa.price !== ""
+        );
+
+}
+
+
+function renderVisaDisplay(
+    visa
+){
+
+    const visas =
+        normalizeVisaData(
+            visa
+        );
+
+    if(!visas.length){
+
+        return `
+
+            <div class="visa-empty">
+                尚未設定簽證資訊
+            </div>
+
+        `;
+
+    }
+
+    let html = `
+
+        <div class="visa-list">
+
+    `;
+
+    visas.forEach(
+        visaItem => {
+
+            html += `
+
+                <div class="visa-card">
+
+                    ${
+                        visaItem.name
+                        ?
+                        `
+                        <div class="visa-name">
+                            ${escapeHtml(
+                                visaItem.name
+                            )}
+                        </div>
+                        `
+                        :
+                        ""
+                    }
+
+
+                    <div class="visa-info">
+
+                        ${
+                            visaItem.price !== "" &&
+                            visaItem.price !== null &&
+                            visaItem.price !== undefined
+                            ?
+                            `
+                            <span class="visa-price">
+                                NT$ ${formatMoney(
+                                    visaItem.price
+                                )}
+                            </span>
+                            `
+                            :
+                            ""
+                        }
+
+
+                        ${
+                            visaItem.link
+                            ?
+                            `
+                            <a
+                                class="visa-link"
+                                href="${safeUrl(
+                                    visaItem.link
+                                )}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                查看連結 →
+                            </a>
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+    html += `
+
+        </div>
+
+    `;
+
+    return html;
+
+}
+
+
+/* =====================================================
    JOURNEY MODAL
 ===================================================== */
 
@@ -3564,14 +4126,13 @@ function openJourneyModal(
             "";
 
         document.getElementById(
-            "journeyVisaInput"
-        ).value =
-            "";
-
-        document.getElementById(
             "journeyOtherInput"
         ).value =
             "";
+
+        currentVisaRows = [];
+
+        renderVisaEditor();
 
     }else{
 
@@ -3628,14 +4189,16 @@ function openJourneyModal(
             info.description || "";
 
         document.getElementById(
-            "journeyVisaInput"
-        ).value =
-            info.visa || "";
-
-        document.getElementById(
             "journeyOtherInput"
         ).value =
             info.other || "";
+
+        currentVisaRows =
+            normalizeVisaData(
+                info.visa
+            );
+
+        renderVisaEditor();
 
     }
 
@@ -3707,12 +4270,7 @@ async function saveJourney(){
             .trim();
 
     const visa =
-        document
-            .getElementById(
-                "journeyVisaInput"
-            )
-            .value
-            .trim();
+        getVisaDataForSave();
 
     const other =
         document
@@ -4775,8 +5333,6 @@ async function renderTripDetail(){
 
                     <div style="display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;">
 
-                        <!-- 照片維持原本小小的位置 -->
-
                         <button
                             class="btn btn-light btn-small"
                             onclick="openPhotoPage()"
@@ -4796,61 +5352,32 @@ async function renderTripDetail(){
                 </div>
 
 
-                ${
-                    info.visa
-                    ?
-                    `
-                    <div class="info-box">
+                <div class="info-box">
 
-                        <div class="info-box-title">
-                            🛂 簽證
-                        </div>
+                    <div class="info-box-title">
+                        🛂 簽證／入境資訊
+                    </div>
 
-                        <div class="info-box-content">
-                            ${escapeHtml(
-                                info.visa
-                            )}
-                        </div>
+                    <div class="info-box-content">
 
-                        <div class="info-box-actions">
-
-                            <button
-                                class="text-action"
-                                onclick="openJourneyModal('${escapeJs(trip.id)}')"
-                            >
-                                編輯
-                            </button>
-
-                        </div>
+                        ${renderVisaDisplay(
+                            info.visa
+                        )}
 
                     </div>
-                    `
-                    :
-                    `
-                    <div class="info-box">
 
-                        <div class="info-box-title">
-                            🛂 簽證
-                        </div>
+                    <div class="info-box-actions">
 
-                        <div class="info-box-content">
-                            尚未設定簽證資訊
-                        </div>
-
-                        <div class="info-box-actions">
-
-                            <button
-                                class="text-action"
-                                onclick="openJourneyModal('${escapeJs(trip.id)}')"
-                            >
-                                新增簽證
-                            </button>
-
-                        </div>
+                        <button
+                            class="text-action"
+                            onclick="openJourneyModal('${escapeJs(trip.id)}')"
+                        >
+                            編輯
+                        </button>
 
                     </div>
-                    `
-                }
+
+                </div>
 
 
                 ${
@@ -5716,7 +6243,7 @@ function parseTripDescription(
             subtitle:"",
             creator:"",
             description:"",
-            visa:"",
+            visa:[],
             other:""
         };
 
@@ -5748,7 +6275,7 @@ function parseTripDescription(
 
                 visa:
                     parsed.visa ||
-                    "",
+                    [],
 
                 other:
                     parsed.other ||
@@ -5765,7 +6292,7 @@ function parseTripDescription(
         subtitle:"",
         creator:"",
         description:value,
-        visa:"",
+        visa:[],
         other:""
 
     };
@@ -5908,6 +6435,38 @@ function getMapUrl(
             address
         )
     );
+
+}
+
+
+function safeUrl(
+    url
+){
+
+    const value =
+        String(
+            url || ""
+        ).trim();
+
+    if(!value){
+
+        return "#";
+
+    }
+
+    if(
+        /^https?:\/\//i.test(
+            value
+        )
+    ){
+
+        return escapeHtml(
+            value
+        );
+
+    }
+
+    return "#";
 
 }
 
