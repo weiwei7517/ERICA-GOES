@@ -57,15 +57,17 @@ button{
 }
 
 .logo{
-    font-size:32px;
+    font-size:34px;
     font-weight:900;
-    letter-spacing:1px;
+    letter-spacing:1.5px;
     color:#292929;
+    line-height:1;
 }
 
 .logo span{
+    font-size:30px;
     font-weight:600;
-    color:#666;
+    color:#555;
 }
 
 .header-right{
@@ -169,7 +171,7 @@ button{
 ========================= */
 
 .home-intro{
-    padding:28px 20px 20px;
+    padding:24px 20px 20px;
 }
 
 .title-row{
@@ -181,27 +183,35 @@ button{
 
 .home-title{
     margin:0;
-    font-size:30px;
+    font-size:24px;
     line-height:1.2;
-    letter-spacing:-.5px;
-    font-weight:750;
+    letter-spacing:-.3px;
+    font-weight:700;
 }
 
 .home-subtitle{
-    margin:7px 0 0;
-    color:#888;
-    font-size:14px;
+    margin:6px 0 0;
+    color:#999;
+    font-size:12px;
     line-height:1.5;
+    letter-spacing:.2px;
 }
 
 .edit-intro-btn{
     flex-shrink:0;
-    border:none;
-    background:#e8e6e1;
-    border-radius:12px;
-    padding:8px 12px;
+    border:1px solid #dedcd7;
+    background:rgba(255,255,255,.65);
+    border-radius:10px;
+    padding:7px 13px;
     color:#555;
-    font-size:13px;
+    font-size:12px;
+    transition:.2s ease;
+}
+
+.edit-intro-btn:hover{
+    background:#fff;
+    border-color:#ccc8c0;
+    color:#292929;
 }
 
 /* =========================
@@ -270,22 +280,60 @@ button{
 .destination-actions{
     display:flex;
     align-items:center;
-    gap:5px;
+    gap:8px;
     flex-wrap:wrap;
 }
 
 .icon-btn{
-    width:34px;
+    width:auto;
+    min-width:34px;
     height:34px;
-    border:none;
-    border-radius:10px;
+    padding:0 9px;
+    border:1px solid #e1dfda;
+    border-radius:9px;
+    background:#faf9f6;
+    color:#555;
+    font-size:13px;
+    transition:.2s ease;
+}
+
+.icon-btn:hover{
     background:#f0efeb;
-    color:#444;
+    border-color:#d4d1ca;
+    color:#292929;
 }
 
 .icon-btn:disabled{
     opacity:.3;
     cursor:not-allowed;
+}
+
+.text-action{
+    width:auto;
+    height:34px;
+    padding:0 10px;
+    border:1px solid #e1dfda;
+    border-radius:9px;
+    background:#faf9f6;
+    color:#555;
+    font-size:13px;
+    transition:.2s ease;
+}
+
+.text-action:hover{
+    background:#f0efeb;
+    border-color:#d4d1ca;
+    color:#292929;
+}
+
+.text-action.delete{
+    color:#8a625d;
+}
+
+.text-action.delete:hover{
+    background:#f3e9e6;
+    border-color:#e3d2ce;
+    color:#8a4e47;
 }
 
 .add-destination{
@@ -359,7 +407,7 @@ button{
 .journey-actions{
     display:flex;
     flex-wrap:wrap;
-    gap:5px;
+    gap:8px;
     align-items:flex-start;
 }
 
@@ -572,7 +620,11 @@ button{
 
     .logo{
         font-size:27px;
-        letter-spacing:.5px;
+        letter-spacing:.8px;
+    }
+
+    .logo span{
+        font-size:24px;
     }
 
     .user-email{
@@ -580,20 +632,20 @@ button{
     }
 
     .home-intro{
-        padding:24px 16px 18px;
+        padding:20px 16px 18px;
     }
 
     .home-title{
-        font-size:27px;
+        font-size:22px;
     }
 
     .home-subtitle{
-        font-size:13px;
-        margin-top:6px;
+        font-size:12px;
+        margin-top:5px;
     }
 
     .edit-intro-btn{
-        padding:7px 10px;
+        padding:7px 11px;
         font-size:12px;
     }
 
@@ -606,13 +658,16 @@ button{
     }
 
     .destination-actions{
-        max-width:125px;
+        max-width:150px;
         justify-content:flex-end;
     }
 
-    .destination-actions .icon-btn{
-        width:31px;
+    .destination-actions .icon-btn,
+    .destination-actions .text-action{
         height:31px;
+        min-width:31px;
+        padding:0 8px;
+        font-size:12px;
     }
 
     .journey-top{
@@ -1718,19 +1773,19 @@ async function renderDestinations(){
                     </button>
 
                     <button
-                        class="icon-btn"
+                        class="text-action"
                         title="編輯"
                         onclick="openDestinationModal(${i})"
                     >
-                        ✏️
+                        編輯
                     </button>
 
                     <button
-                        class="icon-btn"
+                        class="text-action delete"
                         title="刪除"
                         onclick="deleteDestination(${i})"
                     >
-                        🗑
+                        刪除
                     </button>
 
                 </div>
@@ -2310,17 +2365,17 @@ async function renderJourneys(){
                             </button>
 
                             <button
-                                class="icon-btn"
+                                class="text-action"
                                 onclick="openJourneyModal('${escapeJs(trip.id)}')"
                             >
-                                ✏️
+                                編輯
                             </button>
 
                             <button
-                                class="icon-btn"
+                                class="text-action delete"
                                 onclick="deleteJourney('${escapeJs(trip.id)}')"
                             >
-                                🗑
+                                刪除
                             </button>
 
                         </div>
