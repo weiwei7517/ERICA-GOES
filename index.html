@@ -4,752 +4,565 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ERICA GOES｜躺平也能玩，小資也能飛</title>
+<title>ERICA GOES｜登入測試</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 *{
     box-sizing:border-box;
 }
 
 body{
     margin:0;
+    min-height:100vh;
     background:#f5f4f1;
     color:#292929;
     font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Noto Sans TC",
-    "PingFang TC",
-    sans-serif;
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Sans TC",
+        "PingFang TC",
+        "Microsoft JhengHei",
+        sans-serif;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
 }
 
-button,
-input,
-textarea,
-select{
-    font-family:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-.app{
-    max-width:760px;
-    margin:auto;
-    min-height:100vh;
-    background:#f5f4f1;
-}
-
-.header{
-    padding:25px 20px 18px;
-    background:#f5f4f1;
+.container{
+    width:100%;
+    max-width:420px;
 }
 
 .logo{
-    font-size:25px;
-    font-weight:900;
+    text-align:center;
+    margin-bottom:24px;
+}
+
+.logo h1{
+    margin:0;
+    font-size:28px;
     letter-spacing:1px;
 }
 
-.tagline{
-    margin-top:5px;
-    color:#888;
-    font-size:13px;
+.logo p{
+    margin:8px 0 0;
+    color:#777;
+    font-size:14px;
 }
 
-.section{
-    padding:0 18px 22px;
+.card{
+    background:#fff;
+    border:1px solid #e5e3df;
+    border-radius:22px;
+    padding:28px;
+    box-shadow:0 10px 30px rgba(0,0,0,.05);
 }
 
-.section-title{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:11px;
+label{
+    display:block;
+    margin:0 0 8px;
+    font-size:14px;
+    font-weight:600;
 }
 
-.section-title h2{
-    margin:0;
-    font-size:18px;
+input{
+    width:100%;
+    height:48px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:0 14px;
+    font-size:16px;
+    outline:none;
+    margin-bottom:18px;
+    background:#fafafa;
 }
 
-.btn{
+input:focus{
+    border-color:#999;
+    background:#fff;
+}
+
+button{
+    width:100%;
+    height:50px;
     border:0;
     border-radius:12px;
-    padding:9px 13px;
     background:#292929;
     color:#fff;
-    font-size:12px;
-    font-weight:700;
-}
-
-.btn-light{
-    background:#fff;
-    color:#292929;
-    border:1px solid #ddd;
-}
-
-.btn-danger{
-    background:#eee;
-    color:#777;
-}
-
-.empty{
-    background:#fff;
-    border:1px dashed #d5d4d0;
-    border-radius:18px;
-    padding:30px 20px;
-    text-align:center;
-    color:#999;
-    font-size:13px;
-}
-
-.trip-list{
-    display:grid;
-    gap:11px;
-}
-
-.trip-card{
-    background:#fff;
-    border:1px solid #e3e2de;
-    border-radius:18px;
-    padding:17px;
-}
-
-.trip-card-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:10px;
-}
-
-.trip-country{
-    font-size:12px;
-    color:#999;
-    margin-bottom:4px;
-}
-
-.trip-name{
-    font-size:19px;
-    font-weight:900;
-}
-
-.trip-date{
-    margin-top:7px;
-    font-size:12px;
-    color:#777;
-}
-
-.trip-note{
-    margin-top:10px;
-    background:#f6f5f2;
-    border-radius:10px;
-    padding:9px;
-    color:#777;
-    font-size:12px;
-    line-height:1.6;
-}
-
-.trip-actions{
-    display:flex;
-    gap:6px;
-    flex-wrap:wrap;
-    margin-top:13px;
-}
-
-.trip-actions button{
-    border:1px solid #ddd;
-    background:#fff;
-    border-radius:9px;
-    padding:7px 9px;
-    font-size:11px;
-}
-
-.partner-list{
-    display:grid;
-    gap:9px;
-}
-
-.partner-card{
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:17px;
-    padding:14px;
-}
-
-.partner-category{
-    color:#999;
-    font-size:11px;
-    margin-bottom:4px;
-}
-
-.partner-name{
     font-size:16px;
-    font-weight:800;
-}
-
-.partner-desc{
-    color:#777;
-    font-size:12px;
-    line-height:1.6;
-    margin-top:5px;
-}
-
-.partner-link{
-    display:inline-block;
-    margin-top:9px;
-    color:#292929;
-    font-size:12px;
-    font-weight:700;
-    text-decoration:none;
-}
-
-.detail-page{
-    display:none;
-}
-
-.detail-header{
-    padding:18px;
-}
-
-.back-btn{
-    border:0;
-    background:transparent;
-    padding:0;
-    font-size:13px;
-    color:#777;
-}
-
-.detail-title{
-    margin-top:15px;
-}
-
-.detail-title h1{
-    margin:0;
-    font-size:25px;
-}
-
-.detail-info{
-    margin-top:6px;
-    color:#888;
-    font-size:12px;
-}
-
-.detail-note{
-    margin-top:12px;
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:14px;
-    padding:12px;
-    color:#777;
-    font-size:12px;
-    line-height:1.6;
-}
-
-.detail-section{
-    padding:0 18px 22px;
-}
-
-.total-box{
-    background:#292929;
-    color:#fff;
-    border-radius:18px;
-    padding:18px;
-}
-
-.total-label{
-    font-size:11px;
-    opacity:.65;
-}
-
-.total-value{
-    margin-top:5px;
-    font-size:28px;
-    font-weight:900;
-}
-
-.booking-list{
-    display:grid;
-    gap:9px;
-}
-
-.booking-card{
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:17px;
-    padding:15px;
-}
-
-.booking-type{
-    color:#999;
-    font-size:11px;
-    margin-bottom:4px;
-}
-
-.booking-title{
-    font-size:17px;
-    font-weight:800;
-}
-
-.booking-info{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:7px;
-    margin-top:12px;
-}
-
-.booking-info-box{
-    background:#f5f4f1;
-    border-radius:10px;
-    padding:9px;
-}
-
-.booking-label{
-    color:#999;
-    font-size:10px;
-}
-
-.booking-value{
-    font-size:13px;
     font-weight:600;
-    margin-top:3px;
-}
-
-.booking-note{
-    margin-top:9px;
-    font-size:12px;
-    color:#777;
-    line-height:1.6;
-}
-
-.stay-list{
-    display:grid;
-    gap:9px;
-}
-
-.stay-card{
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:17px;
-    padding:15px;
-}
-
-.stay-name{
-    font-size:17px;
-    font-weight:800;
-}
-
-.stay-info{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:7px;
-    margin-top:12px;
-}
-
-.stay-info-box{
-    background:#f5f4f1;
-    border-radius:10px;
-    padding:9px;
-}
-
-.stay-label{
-    color:#999;
-    font-size:10px;
-}
-
-.stay-value{
-    font-size:13px;
-    font-weight:600;
-    margin-top:3px;
-}
-
-.stay-platform{
-    margin-top:9px;
-    color:#777;
-    font-size:12px;
-}
-
-.stay-note{
-    margin-top:9px;
-    color:#777;
-    font-size:12px;
-    line-height:1.6;
-}
-
-.stay-link{
-    display:inline-block;
-    margin-top:10px;
-    color:#292929;
-    font-size:12px;
-    font-weight:700;
-    text-decoration:none;
-}
-
-.day-list{
-    display:grid;
-    gap:10px;
-}
-
-.day-card{
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:18px;
-    padding:15px;
-}
-
-.day-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-}
-
-.day-title{
-    font-size:18px;
-    font-weight:900;
-}
-
-.day-actions{
-    display:flex;
-    gap:5px;
-}
-
-.day-actions button{
-    border:1px solid #ddd;
-    background:#fff;
-    border-radius:8px;
-    padding:6px 8px;
-    font-size:11px;
-}
-
-.itinerary-list{
-    display:grid;
-    gap:9px;
-    margin-top:12px;
-}
-
-.itinerary-card{
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:17px;
-    padding:15px;
-}
-
-.itinerary-number{
-    color:#999;
-    font-size:11px;
-    margin-bottom:4px;
-}
-
-.itinerary-title{
-    font-size:17px;
-    font-weight:800;
-}
-
-.itinerary-info{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:7px;
-    margin-top:12px;
-}
-
-.info-box{
-    background:#f5f4f1;
-    border-radius:10px;
-    padding:9px;
-}
-
-.info-label{
-    color:#999;
-    font-size:10px;
-}
-
-.info-value{
-    font-size:13px;
-    font-weight:600;
-    margin-top:3px;
-}
-
-.itinerary-platform{
-    margin-top:9px;
-    font-size:12px;
-    color:#777;
-}
-
-.itinerary-note{
-    margin-top:9px;
-    font-size:12px;
-    color:#777;
-    line-height:1.6;
-}
-
-.itinerary-link{
-    display:inline-block;
-    margin-top:9px;
-    color:#292929;
-    font-size:12px;
-    font-weight:700;
-    text-decoration:none;
-}
-
-.recommendation{
-    margin-top:10px;
-    display:flex;
-    gap:6px;
-    flex-wrap:wrap;
-}
-
-.recommendation span{
-    display:inline-block;
-    background:#f5f4f1;
-    border-radius:9px;
-    padding:5px 8px;
-    font-size:10px;
-    color:#888;
-}
-
-.item-actions{
-    display:flex;
-    gap:6px;
-    margin-top:11px;
-}
-
-.item-actions button{
-    border:1px solid #ddd;
-    background:#fff;
-    border-radius:8px;
-    padding:6px 8px;
-    font-size:10px;
-}
-
-.modal-bg{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.4);
-    z-index:1000;
-    align-items:flex-end;
-    justify-content:center;
-}
-
-.modal-bg.show{
-    display:flex;
-}
-
-.modal{
-    width:min(760px,100%);
-    max-height:90vh;
-    overflow:auto;
-    background:#f5f4f1;
-    border-radius:22px 22px 0 0;
-    padding:22px 18px 28px;
-}
-
-.modal h2{
-    margin:0 0 18px;
-    font-size:20px;
-}
-
-.form-group{
-    margin-bottom:13px;
-}
-
-.form-group label{
-    display:block;
-    margin-bottom:6px;
-    font-size:11px;
-    color:#777;
-    font-weight:700;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select{
-    width:100%;
-    border:1px solid #ddd;
-    background:#fff;
-    border-radius:11px;
-    padding:11px;
-    outline:none;
-    font-size:13px;
-}
-
-.form-group textarea{
-    min-height:85px;
-    resize:vertical;
-}
-
-.form-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-}
-
-.modal-actions{
-    display:flex;
-    gap:8px;
-    margin-top:18px;
-}
-
-.modal-actions button{
-    flex:1;
-}
-
-.radio-group{
-    display:flex;
-    gap:7px;
-}
-
-.radio-option{
-    position:relative;
-    flex:1;
-}
-
-.radio-option input{
-    position:absolute;
-    opacity:0;
-}
-
-.radio-option label{
-    display:block;
-    border:1px solid #ddd;
-    background:#fff;
-    border-radius:10px;
-    padding:10px 5px;
-    text-align:center;
-    font-size:11px;
-    color:#777;
     cursor:pointer;
 }
 
-.radio-option input:checked + label{
-    background:#292929;
-    color:#fff;
-    border-color:#292929;
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
 }
 
-.toast{
-    position:fixed;
-    left:50%;
-    bottom:20px;
-    transform:translateX(-50%) translateY(20px);
-    background:#292929;
-    color:#fff;
-    padding:10px 15px;
-    border-radius:10px;
+.message{
+    display:none;
+    margin-top:18px;
+    padding:14px;
+    border-radius:12px;
+    font-size:14px;
+    line-height:1.6;
+    word-break:break-word;
+}
+
+.message.error{
+    display:block;
+    background:#fff1f1;
+    color:#b42318;
+    border:1px solid #f2cccc;
+}
+
+.message.success{
+    display:block;
+    background:#f0f8f2;
+    color:#287a42;
+    border:1px solid #cde7d3;
+}
+
+.debug{
+    margin-top:20px;
+    padding-top:18px;
+    border-top:1px solid #eee;
     font-size:12px;
-    opacity:0;
-    pointer-events:none;
-    transition:.25s;
-    z-index:2000;
+    color:#888;
+    line-height:1.7;
+    word-break:break-all;
 }
-
-.toast.show{
-    opacity:1;
-    transform:translateX(-50%) translateY(0);
-}
-
-@media(max-width:500px){
-
-    .form-row{
-        grid-template-columns:1fr;
-    }
-
-    .itinerary-info,
-    .booking-info,
-    .stay-info{
-        grid-template-columns:1fr 1fr;
-    }
-
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="container">
 
-<div id="homePage">
+    <div class="logo">
+        <h1>ERICA GOES</h1>
+        <p>躺平也能玩，小資也能飛</p>
+    </div>
 
-<header class="header">
+    <div class="card">
 
-<div class="logo">
-ERICA GOES
-</div>
+        <label for="email">Email</label>
 
-<div class="tagline">
-躺平也能玩，小資也能飛。
-</div>
+        <input
+            id="email"
+            type="email"
+            autocomplete="email"
+            placeholder="請輸入 Email"
+        >
 
-</header>
+        <label for="password">密碼</label>
 
+        <input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="請輸入密碼"
+        >
 
-<section class="section">
+        <button
+            id="loginButton"
+            onclick="login()"
+        >
+            登入
+        </button>
 
-<div class="section-title">
+        <div
+            id="message"
+            class="message"
+        ></div>
 
-<h2>
-我的旅行
-</h2>
+        <div
+            id="debug"
+            class="debug"
+        >
+            尚未登入
+        </div>
 
-<button
-class="btn"
-onclick="openTripModal()">
-
-＋ 新增旅行
-
-</button>
-
-</div>
-
-<div
-id="tripList"
-class="trip-list">
-</div>
-
-</section>
-
-
-<section class="section">
-
-<div class="section-title">
-
-<h2>
-🤝 推薦／合作
-</h2>
-
-<button
-class="btn"
-onclick="openPartnerModal()">
-
-＋ 新增
-
-</button>
+    </div>
 
 </div>
 
-<div
-id="partnerList"
-class="partner-list">
-</div>
+<script>
 
-</section>
+/* =========================================
+   Supabase 設定
+========================================= */
 
-</div>
+const SUPABASE_URL =
+    "https://vkwriekcbvvvkmsmlbzu.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_YIXuILncvi7L4It4Mgi99A_neR0cFry";
 
 
-<div
-id="detailPage"
-class="detail-page">
+/* =========================================
+   建立 Supabase Client
+========================================= */
 
-<header class="detail-header">
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
-<button
-class="back-btn"
-onclick="goHome()">
 
-← 回到我的旅行
+/* =========================================
+   顯示訊息
+========================================= */
 
+function showMessage(text, type){
+
+    const message =
+        document.getElementById("message");
+
+    message.className =
+        "message " + type;
+
+    message.innerHTML = text;
+}
+
+
+/* =========================================
+   HTML Escape
+========================================= */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================
+   登入
+========================================= */
+
+async function login(){
+
+    const email =
+        document.getElementById("email")
+            .value
+            .trim();
+
+    const password =
+        document.getElementById("password")
+            .value;
+
+    const button =
+        document.getElementById("loginButton");
+
+    const debug =
+        document.getElementById("debug");
+
+
+    if(!email){
+
+        showMessage(
+            "請輸入 Email",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if(!password){
+
+        showMessage(
+            "請輸入密碼",
+            "error"
+        );
+
+        return;
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "登入中...";
+
+
+    showMessage(
+        "正在連線到 Supabase...",
+        "success"
+    );
+
+
+    debug.innerHTML =
+        "正在驗證帳號...";
+
+
+    try{
+
+        const result =
+            await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+
+        const data =
+            result.data;
+
+        const error =
+            result.error;
+
+
+        console.log(
+            "LOGIN DATA:",
+            data
+        );
+
+        console.log(
+            "LOGIN ERROR:",
+            error
+        );
+
+
+        /* ================================
+           登入失敗
+        ================================= */
+
+        if(error){
+
+            showMessage(
+                "❌ 登入失敗<br><br>" +
+                "<strong>" +
+                escapeHtml(
+                    error.message
+                ) +
+                "</strong>",
+                "error"
+            );
+
+
+            debug.innerHTML =
+                "錯誤訊息：<br>" +
+                escapeHtml(
+                    error.message
+                ) +
+                "<br><br>" +
+
+                "錯誤代碼：<br>" +
+                escapeHtml(
+                    error.code || "無"
+                ) +
+                "<br><br>" +
+
+                "HTTP Status：<br>" +
+                escapeHtml(
+                    error.status || "無"
+                );
+
+            return;
+        }
+
+
+        /* ================================
+           登入成功
+        ================================= */
+
+        if(
+            data &&
+            data.user &&
+            data.session
+        ){
+
+            showMessage(
+                "🎉 登入成功！<br><br>" +
+                "新的 Supabase Auth 已經正常運作。",
+                "success"
+            );
+
+
+            debug.innerHTML =
+                "<strong>✅ 登入成功</strong><br><br>" +
+
+                "User ID：<br>" +
+                escapeHtml(
+                    data.user.id
+                ) +
+                "<br><br>" +
+
+                "Email：<br>" +
+                escapeHtml(
+                    data.user.email || ""
+                ) +
+                "<br><br>" +
+
+                "Session：正常";
+
+            return;
+        }
+
+
+        /* ================================
+           沒有取得預期資料
+        ================================= */
+
+        showMessage(
+            "⚠️ Supabase 沒有回傳預期的登入資料。",
+            "error"
+        );
+
+
+        debug.innerHTML =
+            "沒有取得完整 User / Session。";
+
+    }catch(error){
+
+        console.error(
+            "LOGIN EXCEPTION:",
+            error
+        );
+
+
+        showMessage(
+            "❌ 程式發生錯誤<br><br>" +
+            escapeHtml(
+                error.message ||
+                String(error)
+            ),
+            "error"
+        );
+
+
+        debug.innerHTML =
+            "JavaScript Error：<br>" +
+            escapeHtml(
+                error.message ||
+                String(error)
+            );
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "登入";
+    }
+
+}
+
+
+/* =========================================
+   檢查目前 Session
+========================================= */
+
+async function checkSession(){
+
+    try{
+
+        const result =
+            await supabaseClient.auth.getSession();
+
+
+        const data =
+            result.data;
+
+        const error =
+            result.error;
+
+
+        if(error){
+
+            console.error(
+                "SESSION ERROR:",
+                error
+            );
+
+            return;
+        }
+
+
+        if(
+            data &&
+            data.session &&
+            data.session.user
+        ){
+
+            showMessage(
+                "目前已經是登入狀態。",
+                "success"
+            );
+
+
+            document.getElementById(
+                "debug"
+            ).innerHTML =
+
+                "<strong>目前登入中</strong><br><br>" +
+
+                "User ID：<br>" +
+
+                escapeHtml(
+                    data.session.user.id
+                ) +
+
+                "<br><br>" +
+
+                "Email：<br>" +
+
+                escapeHtml(
+                    data.session.user.email || ""
+                );
+        }
+
+    }catch(error){
+
+        console.error(
+            "SESSION EXCEPTION:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   Auth 狀態監聽
+========================================= */
+
+supabaseClient.auth.onAuthStateChange(
+    function(event, session){
+
+        console.log(
+            "AUTH EVENT:",
+            event
+        );
+
+        console.log(
+            "AUTH SESSION:",
+            session
+        );
+
+    }
+);
+
+
+/* =========================================
+   啟動
+========================================= */
+
+checkSession();
+
+</script>
+
+</body>
+</html>
