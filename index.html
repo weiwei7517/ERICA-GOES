@@ -6,397 +6,368 @@
 
 <title>ERICA GOES｜躺平也能玩，小資也能飛</title>
 
-<style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<style>
 *{
     box-sizing:border-box;
 }
 
+:root{
+    --bg:#f4f3f0;
+    --card:#ffffff;
+    --text:#292929;
+    --sub:#777;
+    --line:#e5e3df;
+    --soft:#eeece8;
+    --dark:#292929;
+    --danger:#a94442;
+    --green:#55745d;
+}
+
 body{
     margin:0;
-    background:#f5f4f1;
-    color:#292929;
+    background:var(--bg);
+    color:var(--text);
     font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Noto Sans TC",
-    "PingFang TC",
-    sans-serif;
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Sans TC",
+        "PingFang TC",
+        "Microsoft JhengHei",
+        sans-serif;
 }
 
 button,
 input,
 textarea,
 select{
-    font-family:inherit;
+    font:inherit;
 }
 
 button{
     cursor:pointer;
 }
 
-.app{
-    max-width:760px;
-    margin:auto;
-    min-height:100vh;
-    background:#f5f4f1;
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(244,243,240,.94);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
 }
 
-.header{
-    padding:25px 20px 18px;
-    background:#f5f4f1;
+.topbar-inner{
+    max-width:1100px;
+    margin:auto;
+    padding:16px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
 }
 
 .logo{
-    font-size:25px;
-    font-weight:900;
-    letter-spacing:1px;
+    font-weight:800;
+    letter-spacing:.5px;
 }
 
-.tagline{
-    margin-top:5px;
-    color:#888;
-    font-size:13px;
+.logo small{
+    display:block;
+    color:var(--sub);
+    font-weight:500;
+    font-size:11px;
+    margin-top:2px;
 }
 
-.section{
-    padding:0 18px 22px;
+.top-actions{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.container{
+    width:min(1100px,calc(100% - 32px));
+    margin:0 auto;
+    padding:32px 0 70px;
+}
+
+.hero{
+    padding:35px 0 25px;
+}
+
+.hero h1{
+    margin:0;
+    font-size:clamp(30px,6vw,54px);
+    letter-spacing:-1.5px;
+    line-height:1.05;
+}
+
+.hero p{
+    margin:12px 0 0;
+    color:var(--sub);
+    line-height:1.7;
+}
+
+.toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin:15px 0 20px;
+    flex-wrap:wrap;
 }
 
 .section-title{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:11px;
+    font-size:20px;
+    font-weight:800;
 }
 
-.section-title h2{
-    margin:0;
-    font-size:18px;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:16px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:20px;
+    box-shadow:0 8px 30px rgba(0,0,0,.035);
+}
+
+.trip-card{
+    transition:.2s;
+}
+
+.trip-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 35px rgba(0,0,0,.07);
+}
+
+.trip-cover{
+    width:100%;
+    aspect-ratio:16/8;
+    border-radius:16px;
+    background:var(--soft);
+    overflow:hidden;
+    margin-bottom:16px;
+}
+
+.trip-cover img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.trip-cover.empty-cover{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#999;
+    font-size:34px;
+}
+
+.trip-title{
+    font-size:22px;
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.trip-meta{
+    color:var(--sub);
+    font-size:14px;
+    line-height:1.7;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    padding:5px 10px;
+    border-radius:999px;
+    background:var(--soft);
+    font-size:12px;
+    color:#555;
+    margin-bottom:10px;
 }
 
 .btn{
     border:0;
     border-radius:12px;
-    padding:9px 13px;
-    background:#292929;
-    color:#fff;
-    font-size:12px;
+    padding:11px 15px;
+    background:var(--dark);
+    color:white;
     font-weight:700;
 }
 
-.btn-light{
-    background:#fff;
-    color:#292929;
-    border:1px solid #ddd;
+.btn:hover{
+    opacity:.9;
 }
 
-.btn-danger{
-    background:#eee;
-    color:#777;
+.btn.secondary{
+    background:var(--soft);
+    color:var(--text);
+}
+
+.btn.danger{
+    background:#f3e5e3;
+    color:var(--danger);
+}
+
+.btn.small{
+    padding:8px 11px;
+    font-size:13px;
+}
+
+.btn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
 }
 
 .empty{
-    background:#fff;
-    border:1px dashed #d5d4d0;
-    border-radius:18px;
-    padding:30px 20px;
     text-align:center;
-    color:#999;
-    font-size:13px;
+    padding:50px 20px;
+    color:var(--sub);
+    background:white;
+    border:1px dashed var(--line);
+    border-radius:20px;
 }
 
-.trip-list{
-    display:grid;
-    gap:11px;
-}
-
-.trip-card{
-    background:#fff;
-    border:1px solid #e3e2de;
-    border-radius:18px;
-    padding:17px;
-}
-
-.trip-card-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:10px;
-}
-
-.trip-country{
-    font-size:12px;
-    color:#999;
-    margin-bottom:4px;
-}
-
-.trip-name{
-    font-size:19px;
-    font-weight:900;
-}
-
-.trip-date{
-    margin-top:7px;
-    font-size:12px;
-    color:#777;
-}
-
-.trip-note{
-    margin-top:10px;
-    background:#f6f5f2;
-    border-radius:10px;
-    padding:9px;
-    color:#777;
-    font-size:12px;
+.error-box{
+    background:#fff1ef;
+    color:#9c4038;
+    border:1px solid #efc5c0;
+    padding:16px;
+    border-radius:15px;
+    margin:15px 0;
+    white-space:pre-wrap;
     line-height:1.6;
+    font-size:14px;
 }
 
-.trip-actions{
-    display:flex;
-    gap:6px;
-    flex-wrap:wrap;
-    margin-top:13px;
+.success-box{
+    background:#edf4ee;
+    color:#4e6b55;
+    border:1px solid #cdddcf;
+    padding:16px;
+    border-radius:15px;
+    margin:15px 0;
 }
 
-.trip-actions button{
-    border:1px solid #ddd;
-    background:#fff;
-    border-radius:9px;
-    padding:7px 9px;
-    font-size:11px;
-}
-
-.partner-list{
-    display:grid;
-    gap:9px;
-}
-
-.partner-card{
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:17px;
-    padding:14px;
-}
-
-.partner-category{
-    color:#999;
-    font-size:11px;
-    margin-bottom:4px;
-}
-
-.partner-name{
-    font-size:16px;
-    font-weight:800;
-}
-
-.partner-desc{
-    color:#777;
-    font-size:12px;
-    line-height:1.6;
-    margin-top:5px;
-}
-
-.partner-link{
-    display:inline-block;
-    margin-top:9px;
-    color:#292929;
-    font-size:12px;
-    font-weight:700;
-    text-decoration:none;
-}
-
-.detail-page{
+.modal-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:300;
     display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+}
+
+.modal-backdrop.show{
+    display:flex;
+}
+
+.modal{
+    width:min(620px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:white;
+    border-radius:24px;
+    padding:24px;
+}
+
+.modal h2{
+    margin:0 0 20px;
+}
+
+.modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:20px;
+    flex-wrap:wrap;
+}
+
+.field{
+    margin-bottom:15px;
+}
+
+.field label{
+    display:block;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+.field input,
+.field textarea,
+.field select{
+    width:100%;
+    border:1px solid var(--line);
+    background:#faf9f7;
+    border-radius:12px;
+    padding:12px 13px;
+    outline:none;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus{
+    border-color:#aaa;
+    background:white;
+}
+
+.field textarea{
+    min-height:100px;
+    resize:vertical;
 }
 
 .detail-header{
-    padding:18px;
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    align-items:flex-start;
+    margin-bottom:22px;
 }
 
 .back-btn{
+    background:none;
     border:0;
-    background:transparent;
     padding:0;
-    font-size:13px;
-    color:#777;
+    color:#666;
 }
 
 .detail-title{
-    margin-top:15px;
+    font-size:32px;
+    font-weight:850;
+    margin:8px 0;
 }
 
-.detail-title h1{
-    margin:0;
-    font-size:25px;
+.detail-sub{
+    color:var(--sub);
 }
 
-.detail-info{
-    margin-top:6px;
-    color:#888;
-    font-size:12px;
+.detail-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
 }
 
-.detail-note{
-    margin-top:12px;
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:14px;
-    padding:12px;
-    color:#777;
-    font-size:12px;
-    line-height:1.6;
+.section{
+    margin-top:22px;
 }
 
-.detail-section{
-    padding:0 18px 22px;
-}
-
-.total-box{
-    background:#292929;
-    color:#fff;
-    border-radius:18px;
-    padding:18px;
-}
-
-.total-label{
-    font-size:11px;
-    opacity:.65;
-}
-
-.total-value{
-    margin-top:5px;
-    font-size:28px;
-    font-weight:900;
-}
-
-.booking-list{
-    display:grid;
-    gap:9px;
-}
-
-.booking-card{
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:17px;
-    padding:15px;
-}
-
-.booking-type{
-    color:#999;
-    font-size:11px;
-    margin-bottom:4px;
-}
-
-.booking-title{
-    font-size:17px;
-    font-weight:800;
-}
-
-.booking-info{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:7px;
-    margin-top:12px;
-}
-
-.booking-info-box{
-    background:#f5f4f1;
-    border-radius:10px;
-    padding:9px;
-}
-
-.booking-label{
-    color:#999;
-    font-size:10px;
-}
-
-.booking-value{
-    font-size:13px;
-    font-weight:600;
-    margin-top:3px;
-}
-
-.booking-note{
-    margin-top:9px;
-    font-size:12px;
-    color:#777;
-    line-height:1.6;
-}
-
-.stay-list{
-    display:grid;
-    gap:9px;
-}
-
-.stay-card{
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:17px;
-    padding:15px;
-}
-
-.stay-name{
-    font-size:17px;
-    font-weight:800;
-}
-
-.stay-info{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:7px;
-    margin-top:12px;
-}
-
-.stay-info-box{
-    background:#f5f4f1;
-    border-radius:10px;
-    padding:9px;
-}
-
-.stay-label{
-    color:#999;
-    font-size:10px;
-}
-
-.stay-value{
-    font-size:13px;
-    font-weight:600;
-    margin-top:3px;
-}
-
-.stay-platform{
-    margin-top:9px;
-    color:#777;
-    font-size:12px;
-}
-
-.stay-note{
-    margin-top:9px;
-    color:#777;
-    font-size:12px;
-    line-height:1.6;
-}
-
-.stay-link{
-    display:inline-block;
-    margin-top:10px;
-    color:#292929;
-    font-size:12px;
-    font-weight:700;
-    text-decoration:none;
-}
-
-.day-list{
-    display:grid;
-    gap:10px;
+.section h3{
+    margin:0 0 12px;
+    font-size:19px;
 }
 
 .day-card{
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:18px;
-    padding:15px;
+    margin-bottom:15px;
 }
 
 .day-head{
@@ -404,246 +375,74 @@ button{
     justify-content:space-between;
     align-items:center;
     gap:10px;
+    margin-bottom:12px;
 }
 
 .day-title{
-    font-size:18px;
-    font-weight:900;
-}
-
-.day-actions{
-    display:flex;
-    gap:5px;
-}
-
-.day-actions button{
-    border:1px solid #ddd;
-    background:#fff;
-    border-radius:8px;
-    padding:6px 8px;
-    font-size:11px;
-}
-
-.itinerary-list{
-    display:grid;
-    gap:9px;
-    margin-top:12px;
-}
-
-.itinerary-card{
-    background:#fff;
-    border:1px solid #e1e0dc;
-    border-radius:17px;
-    padding:15px;
-}
-
-.itinerary-number{
-    color:#999;
-    font-size:11px;
-    margin-bottom:4px;
-}
-
-.itinerary-title{
-    font-size:17px;
     font-weight:800;
+    font-size:18px;
 }
 
-.itinerary-info{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:7px;
-    margin-top:12px;
+.item{
+    padding:14px 0;
+    border-top:1px solid var(--line);
 }
 
-.info-box{
-    background:#f5f4f1;
-    border-radius:10px;
-    padding:9px;
+.item:first-child{
+    border-top:0;
 }
 
-.info-label{
-    color:#999;
-    font-size:10px;
+.item-title{
+    font-weight:750;
 }
 
-.info-value{
+.item-meta{
+    color:var(--sub);
     font-size:13px;
-    font-weight:600;
-    margin-top:3px;
-}
-
-.itinerary-platform{
-    margin-top:9px;
-    font-size:12px;
-    color:#777;
-}
-
-.itinerary-note{
-    margin-top:9px;
-    font-size:12px;
-    color:#777;
+    margin-top:5px;
     line-height:1.6;
 }
 
-.itinerary-link{
-    display:inline-block;
+.item-note{
+    background:#f7f6f3;
+    padding:10px;
+    border-radius:10px;
     margin-top:9px;
-    color:#292929;
-    font-size:12px;
-    font-weight:700;
-    text-decoration:none;
-}
-
-.recommendation{
-    margin-top:10px;
-    display:flex;
-    gap:6px;
-    flex-wrap:wrap;
-}
-
-.recommendation span{
-    display:inline-block;
-    background:#f5f4f1;
-    border-radius:9px;
-    padding:5px 8px;
-    font-size:10px;
-    color:#888;
+    color:#666;
+    font-size:13px;
 }
 
 .item-actions{
     display:flex;
     gap:6px;
-    margin-top:11px;
+    margin-top:9px;
 }
 
-.item-actions button{
-    border:1px solid #ddd;
-    background:#fff;
-    border-radius:8px;
-    padding:6px 8px;
-    font-size:10px;
+.login-status{
+    font-size:12px;
+    color:var(--sub);
 }
 
-.modal-bg{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.4);
-    z-index:1000;
-    align-items:flex-end;
-    justify-content:center;
-}
-
-.modal-bg.show{
-    display:flex;
-}
-
-.modal{
-    width:min(760px,100%);
-    max-height:90vh;
-    overflow:auto;
-    background:#f5f4f1;
-    border-radius:22px 22px 0 0;
-    padding:22px 18px 28px;
-}
-
-.modal h2{
-    margin:0 0 18px;
-    font-size:20px;
-}
-
-.form-group{
-    margin-bottom:13px;
-}
-
-.form-group label{
-    display:block;
-    margin-bottom:6px;
-    font-size:11px;
-    color:#777;
-    font-weight:700;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select{
-    width:100%;
-    border:1px solid #ddd;
-    background:#fff;
-    border-radius:11px;
-    padding:11px;
-    outline:none;
-    font-size:13px;
-}
-
-.form-group textarea{
-    min-height:85px;
-    resize:vertical;
-}
-
-.form-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-}
-
-.modal-actions{
-    display:flex;
-    gap:8px;
-    margin-top:18px;
-}
-
-.modal-actions button{
-    flex:1;
-}
-
-.radio-group{
-    display:flex;
-    gap:7px;
-}
-
-.radio-option{
-    position:relative;
-    flex:1;
-}
-
-.radio-option input{
-    position:absolute;
-    opacity:0;
-}
-
-.radio-option label{
-    display:block;
-    border:1px solid #ddd;
-    background:#fff;
-    border-radius:10px;
-    padding:10px 5px;
+.loading{
+    padding:50px 20px;
     text-align:center;
-    font-size:11px;
-    color:#777;
-    cursor:pointer;
-}
-
-.radio-option input:checked + label{
-    background:#292929;
-    color:#fff;
-    border-color:#292929;
+    color:var(--sub);
 }
 
 .toast{
     position:fixed;
     left:50%;
-    bottom:20px;
+    bottom:25px;
     transform:translateX(-50%) translateY(20px);
     background:#292929;
     color:#fff;
-    padding:10px 15px;
-    border-radius:10px;
-    font-size:12px;
+    padding:12px 18px;
+    border-radius:999px;
+    z-index:500;
     opacity:0;
     pointer-events:none;
     transition:.25s;
-    z-index:2000;
+    font-size:14px;
 }
 
 .toast.show{
@@ -651,105 +450,2804 @@ button{
     transform:translateX(-50%) translateY(0);
 }
 
-@media(max-width:500px){
+.auth-user{
+    color:#666;
+    font-size:12px;
+    max-width:170px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
 
-    .form-row{
+@media(max-width:700px){
+    .grid{
         grid-template-columns:1fr;
     }
 
-    .itinerary-info,
-    .booking-info,
-    .stay-info{
-        grid-template-columns:1fr 1fr;
+    .topbar-inner{
+        padding:13px 14px;
     }
 
-}
+    .container{
+        width:min(100% - 22px,1100px);
+        padding-top:22px;
+    }
 
+    .hero{
+        padding-top:20px;
+    }
+
+    .detail-header{
+        flex-direction:column;
+    }
+
+    .detail-title{
+        font-size:27px;
+    }
+
+    .top-actions .auth-user{
+        display:none;
+    }
+}
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="logo">
+            ERICA GOES
+            <small>躺平也能玩，小資也能飛</small>
+        </div>
 
-<div id="homePage">
-
-<header class="header">
-
-<div class="logo">
-ERICA GOES
-</div>
-
-<div class="tagline">
-躺平也能玩，小資也能飛。
-</div>
-
+        <div class="top-actions">
+            <span id="authUser" class="auth-user"></span>
+            <button id="loginBtn" class="btn small" onclick="openLoginModal()">登入</button>
+            <button id="logoutBtn" class="btn small secondary" onclick="logout()" style="display:none;">登出</button>
+        </div>
+    </div>
 </header>
 
+<main class="container">
 
-<section class="section">
+    <section id="homeView">
 
-<div class="section-title">
+        <div class="hero">
+            <h1>ERICA GOES</h1>
+            <p>
+                躺平也能玩，小資也能飛。<br>
+                把旅行、行程、住宿與交通整理在一起。
+            </p>
+        </div>
 
-<h2>
-我的旅行
-</h2>
+        <div id="globalError"></div>
 
-<button
-class="btn"
-onclick="openTripModal()">
+        <div class="toolbar">
+            <div class="section-title">我的旅行</div>
+            <button id="newTripBtn" class="btn" onclick="openTripModal()" style="display:none;">
+                ＋ 新增旅行
+            </button>
+        </div>
 
-＋ 新增旅行
+        <div id="tripsContainer">
+            <div class="loading">載入旅行資料中...</div>
+        </div>
 
-</button>
+    </section>
+
+    <section id="detailView" style="display:none;">
+
+        <div class="detail-header">
+
+            <div>
+                <button class="back-btn" onclick="showHome()">← 回到旅行列表</button>
+
+                <div id="detailTitle" class="detail-title"></div>
+                <div id="detailMeta" class="detail-sub"></div>
+            </div>
+
+            <div id="detailActions" class="detail-actions"></div>
+
+        </div>
+
+        <div id="detailError"></div>
+
+        <div class="section">
+            <h3>🗓 行程</h3>
+            <div id="itineraryContainer"></div>
+        </div>
+
+        <div class="section">
+            <h3>🏨 住宿</h3>
+            <div id="stayContainer"></div>
+        </div>
+
+        <div class="section">
+            <h3>✈️ 航班</h3>
+            <div id="flightContainer"></div>
+        </div>
+
+        <div class="section">
+            <h3>👥 同行者</h3>
+            <div id="partnerContainer"></div>
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- LOGIN -->
+<div id="loginModal" class="modal-backdrop">
+
+    <div class="modal">
+
+        <h2>登入 ERICA GOES</h2>
+
+        <div id="loginError"></div>
+
+        <div class="field">
+            <label>Email</label>
+            <input
+                id="authEmail"
+                type="email"
+                autocomplete="email"
+                placeholder="輸入 Email"
+            >
+        </div>
+
+        <div class="field">
+            <label>密碼</label>
+            <input
+                id="authPassword"
+                type="password"
+                autocomplete="current-password"
+                placeholder="輸入密碼"
+            >
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn secondary" onclick="closeModals()">取消</button>
+            <button id="loginSubmitBtn" class="btn" onclick="login()">登入</button>
+        </div>
+
+    </div>
 
 </div>
 
-<div
-id="tripList"
-class="trip-list">
+
+<!-- TRIP -->
+<div id="tripModal" class="modal-backdrop">
+
+    <div class="modal">
+
+        <h2 id="tripModalTitle">新增旅行</h2>
+
+        <div id="tripError"></div>
+
+        <input type="hidden" id="tripId">
+
+        <div class="field">
+            <label>旅行名稱</label>
+            <input id="tripName" placeholder="例如：大阪五日小旅行">
+        </div>
+
+        <div class="field">
+            <label>國家／地區</label>
+            <input id="tripCountry" placeholder="例如：日本・大阪">
+        </div>
+
+        <div class="field">
+            <label>開始日期</label>
+            <input id="tripStart" type="date">
+        </div>
+
+        <div class="field">
+            <label>結束日期</label>
+            <input id="tripEnd" type="date">
+        </div>
+
+        <div class="field">
+            <label>封面圖片網址（可留空）</label>
+            <input id="tripCover" placeholder="圖片網址">
+        </div>
+
+        <div class="field">
+            <label>旅行備註</label>
+            <textarea id="tripNote" placeholder="例如：住宿還沒訂、記得買 eSIM..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn secondary" onclick="closeModals()">取消</button>
+            <button class="btn" onclick="saveTrip()">儲存旅行</button>
+        </div>
+
+    </div>
+
 </div>
 
-</section>
 
+<!-- ITINERARY -->
+<div id="itineraryModal" class="modal-backdrop">
 
-<section class="section">
+    <div class="modal">
 
-<div class="section-title">
+        <h2 id="itineraryModalTitle">新增行程</h2>
 
-<h2>
-🤝 推薦／合作
-</h2>
+        <div id="itineraryError"></div>
 
-<button
-class="btn"
-onclick="openPartnerModal()">
+        <input type="hidden" id="itineraryId">
 
-＋ 新增
+        <div class="field">
+            <label>Day</label>
+            <input id="itineraryDay" type="number" min="1" placeholder="1">
+        </div>
 
-</button>
+        <div class="field">
+            <label>行程名稱</label>
+            <input id="itineraryTitle" placeholder="例如：伏見稻荷大社">
+        </div>
+
+        <div class="field">
+            <label>交通資訊</label>
+            <input id="itineraryTransport" placeholder="例如：JR、地鐵、步行">
+        </div>
+
+        <div class="field">
+            <label>價格</label>
+            <input id="itineraryPrice" placeholder="例如：500 日圓">
+        </div>
+
+        <div class="field">
+            <label>需要時間</label>
+            <input id="itineraryTime" placeholder="例如：2 小時">
+        </div>
+
+        <div class="field">
+            <label>備註</label>
+            <textarea id="itineraryNote" placeholder="不限時、有插座、記得預約..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn secondary" onclick="closeModals()">取消</button>
+            <button class="btn" onclick="saveItinerary()">儲存行程</button>
+        </div>
+
+    </div>
 
 </div>
 
-<div
-id="partnerList"
-class="partner-list">
+
+<!-- STAY -->
+<div id="stayModal" class="modal-backdrop">
+
+    <div class="modal">
+
+        <h2>新增住宿</h2>
+
+        <div id="stayError"></div>
+
+        <input type="hidden" id="stayId">
+
+        <div class="field">
+            <label>住宿名稱</label>
+            <input id="stayName" placeholder="例如：大阪難波飯店">
+        </div>
+
+        <div class="field">
+            <label>入住日期</label>
+            <input id="stayCheckin" type="date">
+        </div>
+
+        <div class="field">
+            <label>退房日期</label>
+            <input id="stayCheckout" type="date">
+        </div>
+
+        <div class="field">
+            <label>地址</label>
+            <input id="stayAddress" placeholder="住宿地址">
+        </div>
+
+        <div class="field">
+            <label>價格</label>
+            <input id="stayPrice" placeholder="例如：¥18,000">
+        </div>
+
+        <div class="field">
+            <label>備註</label>
+            <textarea id="stayNote"></textarea>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn secondary" onclick="closeModals()">取消</button>
+            <button class="btn" onclick="saveStay()">儲存住宿</button>
+        </div>
+
+    </div>
+
 </div>
 
-</section>
+
+<!-- FLIGHT -->
+<div id="flightModal" class="modal-backdrop">
+
+    <div class="modal">
+
+        <h2>新增航班</h2>
+
+        <div id="flightError"></div>
+
+        <input type="hidden" id="flightId">
+
+        <div class="field">
+            <label>航空公司</label>
+            <input id="flightAirline" placeholder="例如：星宇航空">
+        </div>
+
+        <div class="field">
+            <label>航班號碼</label>
+            <input id="flightNumber" placeholder="例如：JX820">
+        </div>
+
+        <div class="field">
+            <label>出發地</label>
+            <input id="flightFrom" placeholder="例如：桃園 TPE">
+        </div>
+
+        <div class="field">
+            <label>目的地</label>
+            <input id="flightTo" placeholder="例如：大阪 KIX">
+        </div>
+
+        <div class="field">
+            <label>出發日期</label>
+            <input id="flightDate" type="date">
+        </div>
+
+        <div class="field">
+            <label>出發時間</label>
+            <input id="flightDeparture" type="time">
+        </div>
+
+        <div class="field">
+            <label>抵達時間</label>
+            <input id="flightArrival" type="time">
+        </div>
+
+        <div class="field">
+            <label>備註</label>
+            <textarea id="flightNote"></textarea>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn secondary" onclick="closeModals()">取消</button>
+            <button class="btn" onclick="saveFlight()">儲存航班</button>
+        </div>
+
+    </div>
 
 </div>
 
 
-<div
-id="detailPage"
-class="detail-page">
+<div id="toast" class="toast"></div>
 
-<header class="detail-header">
 
-<button
-class="back-btn"
-onclick="goHome()">
+<script>
+/* =========================================================
+   SUPABASE
+========================================================= */
 
-← 回到我的旅行
+const SUPABASE_URL =
+"https://iutemzxxdxvcobndrnii.supabase.co";
 
+const SUPABASE_KEY =
+"sb_publishable_xoMl-Lyx5VgkRm5iP5-j0Q_DPWUtQBN";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let currentUser = null;
+let trips = [];
+let itineraries = [];
+let stays = [];
+let flights = [];
+
+let currentTrip = null;
+
+
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
+
+function escapeHTML(value){
+    if(value === null || value === undefined){
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+function showToast(message){
+    const el = document.getElementById("toast");
+
+    el.textContent = message;
+    el.classList.add("show");
+
+    clearTimeout(window.__toastTimer);
+
+    window.__toastTimer =
+        setTimeout(() => {
+            el.classList.remove("show");
+        },2600);
+}
+
+
+function formatDate(date){
+    if(!date){
+        return "";
+    }
+
+    const d = new Date(date + "T00:00:00");
+
+    if(Number.isNaN(d.getTime())){
+        return date;
+    }
+
+    return d.toLocaleDateString(
+        "zh-TW",
+        {
+            year:"numeric",
+            month:"2-digit",
+            day:"2-digit"
+        }
+    );
+}
+
+
+function showError(containerId,title,error){
+    const container =
+        document.getElementById(containerId);
+
+    if(!container){
+        return;
+    }
+
+    const message =
+        error?.message ||
+        error?.error_description ||
+        String(error) ||
+        "未知錯誤";
+
+    const code =
+        error?.code ||
+        "無";
+
+    const status =
+        error?.status ||
+        "無";
+
+    container.innerHTML = `
+        <div class="error-box">
+            <strong>${escapeHTML(title)}</strong>
+
+            <div style="margin-top:8px;">
+                ${escapeHTML(message)}
+            </div>
+
+            <div style="margin-top:8px;font-size:12px;">
+                Code：${escapeHTML(code)}　
+                Status：${escapeHTML(status)}
+            </div>
+        </div>
+    `;
+}
+
+
+function clearError(containerId){
+    const container =
+        document.getElementById(containerId);
+
+    if(container){
+        container.innerHTML = "";
+    }
+}
+
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+function openModal(id){
+    document.getElementById(id)
+        ?.classList.add("show");
+}
+
+
+function closeModals(){
+    document
+        .querySelectorAll(".modal-backdrop")
+        .forEach(el => el.classList.remove("show"));
+}
+
+
+function openLoginModal(){
+    clearError("loginError");
+    openModal("loginModal");
+}
+
+
+function openTripModal(trip = null){
+
+    clearError("tripError");
+
+    document.getElementById("tripModalTitle").textContent =
+        trip ? "編輯旅行" : "新增旅行";
+
+    document.getElementById("tripId").value =
+        trip?.id || "";
+
+    document.getElementById("tripName").value =
+        trip?.name || "";
+
+    document.getElementById("tripCountry").value =
+        trip?.country || "";
+
+    document.getElementById("tripStart").value =
+        trip?.start_date || "";
+
+    document.getElementById("tripEnd").value =
+        trip?.end_date || "";
+
+    document.getElementById("tripCover").value =
+        trip?.cover_image || "";
+
+    document.getElementById("tripNote").value =
+        trip?.note || "";
+
+    openModal("tripModal");
+}
+
+
+function openItineraryModal(item = null){
+
+    clearError("itineraryError");
+
+    document.getElementById("itineraryModalTitle").textContent =
+        item ? "編輯行程" : "新增行程";
+
+    document.getElementById("itineraryId").value =
+        item?.id || "";
+
+    document.getElementById("itineraryDay").value =
+        item?.day || "";
+
+    document.getElementById("itineraryTitle").value =
+        item?.title || "";
+
+    document.getElementById("itineraryTransport").value =
+        item?.transport || "";
+
+    document.getElementById("itineraryPrice").value =
+        item?.price || "";
+
+    document.getElementById("itineraryTime").value =
+        item?.duration || "";
+
+    document.getElementById("itineraryNote").value =
+        item?.note || "";
+
+    openModal("itineraryModal");
+}
+
+
+function openStayModal(item = null){
+
+    clearError("stayError");
+
+    document.getElementById("stayId").value =
+        item?.id || "";
+
+    document.getElementById("stayName").value =
+        item?.name || "";
+
+    document.getElementById("stayCheckin").value =
+        item?.checkin || "";
+
+    document.getElementById("stayCheckout").value =
+        item?.checkout || "";
+
+    document.getElementById("stayAddress").value =
+        item?.address || "";
+
+    document.getElementById("stayPrice").value =
+        item?.price || "";
+
+    document.getElementById("stayNote").value =
+        item?.note || "";
+
+    openModal("stayModal");
+}
+
+
+function openFlightModal(item = null){
+
+    clearError("flightError");
+
+    document.getElementById("flightId").value =
+        item?.id || "";
+
+    document.getElementById("flightAirline").value =
+        item?.airline || "";
+
+    document.getElementById("flightNumber").value =
+        item?.flight_number || "";
+
+    document.getElementById("flightFrom").value =
+        item?.from_location || "";
+
+    document.getElementById("flightTo").value =
+        item?.to_location || "";
+
+    document.getElementById("flightDate").value =
+        item?.flight_date || "";
+
+    document.getElementById("flightDeparture").value =
+        item?.departure_time || "";
+
+    document.getElementById("flightArrival").value =
+        item?.arrival_time || "";
+
+    document.getElementById("flightNote").value =
+        item?.note || "";
+
+    openModal("flightModal");
+}
+
+
+/* =========================================================
+   AUTH UI
+========================================================= */
+
+function updateAuthUI(){
+
+    const loginBtn =
+        document.getElementById("loginBtn");
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+    const newTripBtn =
+        document.getElementById("newTripBtn");
+
+    const authUser =
+        document.getElementById("authUser");
+
+    if(currentUser){
+
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-flex";
+        newTripBtn.style.display = "inline-flex";
+
+        authUser.textContent =
+            currentUser.email || "";
+
+    }else{
+
+        loginBtn.style.display = "inline-flex";
+        logoutBtn.style.display = "none";
+        newTripBtn.style.display = "none";
+
+        authUser.textContent = "";
+    }
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function login(){
+
+    clearError("loginError");
+
+    const email =
+        document.getElementById("authEmail")
+            .value
+            .trim();
+
+    const password =
+        document.getElementById("authPassword")
+            .value;
+
+    if(!email || !password){
+
+        showError(
+            "loginError",
+            "請輸入 Email 與密碼",
+            {
+                message:"Email 或密碼不能空白",
+                code:"MISSING_FIELDS",
+                status:"400"
+            }
+        );
+
+        return;
+    }
+
+    const button =
+        document.getElementById("loginSubmitBtn");
+
+    button.disabled = true;
+    button.textContent = "登入中...";
+
+    try{
+
+        console.log("開始登入:",email);
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth
+                .signInWithPassword({
+                    email,
+                    password
+                });
+
+        if(error){
+
+            console.error(
+                "Supabase Login Error:",
+                error
+            );
+
+            showError(
+                "loginError",
+                "登入失敗",
+                error
+            );
+
+            return;
+        }
+
+        console.log(
+            "Auth 登入成功:",
+            data?.user
+        );
+
+        const {
+            data:sessionData,
+            error:sessionError
+        } =
+            await supabaseClient.auth
+                .getSession();
+
+        if(sessionError){
+
+            console.error(
+                "Session Error:",
+                sessionError
+            );
+
+            showError(
+                "loginError",
+                "登入成功，但 Session 取得失敗",
+                sessionError
+            );
+
+            return;
+        }
+
+        currentUser =
+            sessionData?.session?.user ||
+            data?.user ||
+            null;
+
+        if(!currentUser){
+
+            showError(
+                "loginError",
+                "登入沒有完成",
+                {
+                    message:
+                    "Supabase 沒有回傳登入使用者。",
+                    code:"NO_USER",
+                    status:"401"
+                }
+            );
+
+            return;
+        }
+
+        console.log(
+            "目前登入使用者:",
+            currentUser.id
+        );
+
+        closeModals();
+
+        updateAuthUI();
+
+        showToast("登入成功 ✓");
+
+        await loadTrips();
+
+    }catch(error){
+
+        console.error(
+            "Login unexpected error:",
+            error
+        );
+
+        showError(
+            "loginError",
+            "登入發生未預期錯誤",
+            error
+        );
+
+    }finally{
+
+        button.disabled = false;
+        button.textContent = "登入";
+    }
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout(){
+
+    const {
+        error
+    } =
+        await supabaseClient.auth.signOut();
+
+    if(error){
+
+        console.error(
+            "Logout Error:",
+            error
+        );
+
+        alert(
+            "登出失敗\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    currentUser = null;
+
+    trips = [];
+    itineraries = [];
+    stays = [];
+    flights = [];
+
+    updateAuthUI();
+
+    showHome();
+
+    renderTrips();
+
+    showToast("已登出");
+}
+
+
+/* =========================================================
+   LOAD TRIPS
+========================================================= */
+
+async function loadTrips(){
+
+    const container =
+        document.getElementById("tripsContainer");
+
+    const globalError =
+        document.getElementById("globalError");
+
+    globalError.innerHTML = "";
+
+    container.innerHTML =
+        `<div class="loading">載入旅行資料中...</div>`;
+
+    try{
+
+        console.log(
+            "開始載入 trips，使用者:",
+            currentUser?.id || "未登入"
+        );
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("trips")
+                .select("*")
+                .order(
+                    "created_at",
+                    {
+                        ascending:false
+                    }
+                );
+
+        if(error){
+
+            console.error(
+                "Trips Load Error:",
+                error
+            );
+
+            showError(
+                "globalError",
+                "旅行資料載入失敗",
+                error
+            );
+
+            container.innerHTML = `
+                <div class="empty">
+                    無法載入旅行資料。
+                    <br><br>
+                    請看上方紅色錯誤訊息。
+                </div>
+            `;
+
+            return false;
+        }
+
+        trips = data || [];
+
+        console.log(
+            "Trips 載入成功:",
+            trips
+        );
+
+        await loadChildData();
+
+        renderTrips();
+
+        return true;
+
+    }catch(error){
+
+        console.error(
+            "loadTrips unexpected error:",
+            error
+        );
+
+        showError(
+            "globalError",
+            "載入旅行時發生錯誤",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="empty">
+                旅行資料載入失敗。
+            </div>
+        `;
+
+        return false;
+    }
+}
+
+
+/* =========================================================
+   LOAD CHILD DATA
+========================================================= */
+
+async function loadChildData(){
+
+    const tripIds =
+        trips
+            .map(trip => trip.id)
+            .filter(Boolean);
+
+    itineraries = [];
+    stays = [];
+    flights = [];
+
+    if(!tripIds.length){
+        return;
+    }
+
+    const [
+        itineraryResult,
+        stayResult,
+        flightResult
+    ] =
+        await Promise.all([
+            supabaseClient
+                .from("itineraries")
+                .select("*")
+                .in("trip_id",tripIds)
+                .order("day",{ascending:true}),
+
+            supabaseClient
+                .from("stays")
+                .select("*")
+                .in("trip_id",tripIds),
+
+            supabaseClient
+                .from("flights")
+                .select("*")
+                .in("trip_id",tripIds)
+        ]);
+
+    if(itineraryResult.error){
+
+        console.error(
+            "Itineraries Load Error:",
+            itineraryResult.error
+        );
+
+    }else{
+
+        itineraries =
+            itineraryResult.data || [];
+    }
+
+    if(stayResult.error){
+
+        console.error(
+            "Stays Load Error:",
+            stayResult.error
+        );
+
+    }else{
+
+        stays =
+            stayResult.data || [];
+    }
+
+    if(flightResult.error){
+
+        console.error(
+            "Flights Load Error:",
+            flightResult.error
+        );
+
+    }else{
+
+        flights =
+            flightResult.data || [];
+    }
+}
+
+
+/* =========================================================
+   RENDER TRIPS
+========================================================= */
+
+function renderTrips(){
+
+    const container =
+        document.getElementById("tripsContainer");
+
+    if(!trips.length){
+
+        container.innerHTML = `
+            <div class="empty">
+                <div style="font-size:38px;margin-bottom:10px;">✈️</div>
+                目前還沒有旅行。
+
+                ${
+                    currentUser
+                    ?
+                    `<br><br>
+                     <button class="btn" onclick="openTripModal()">
+                        ＋ 建立第一個旅行
+                     </button>`
+                    :
+                    `<br><br>登入後就可以新增自己的旅行。`
+                }
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        `<div class="grid">
+            ${
+                trips.map(renderTripCard).join("")
+            }
+        </div>`;
+}
+
+
+function renderTripCard(trip){
+
+    const owner =
+        isOwner(trip);
+
+    const itineraryCount =
+        itineraries
+            .filter(item =>
+                String(item.trip_id) ===
+                String(trip.id)
+            )
+            .length;
+
+    const cover =
+        trip.cover_image
+        ?
+        `
+        <div class="trip-cover">
+            <img
+                src="${escapeHTML(trip.cover_image)}"
+                alt=""
+                onerror="this.parentElement.classList.add('empty-cover');this.style.display='none';"
+            >
+        </div>
+        `
+        :
+        `
+        <div class="trip-cover empty-cover">
+            ✈️
+        </div>
+        `;
+
+    return `
+        <article class="card trip-card">
+
+            ${cover}
+
+            <div class="badge">
+                ${escapeHTML(trip.country || "旅行")}
+            </div>
+
+            <div class="trip-title">
+                ${escapeHTML(trip.name || "未命名旅行")}
+            </div>
+
+            <div class="trip-meta">
+
+                ${
+                    trip.start_date
+                    ?
+                    `${formatDate(trip.start_date)}`
+                    :
+                    ""
+                }
+
+                ${
+                    trip.end_date
+                    ?
+                    ` ～ ${formatDate(trip.end_date)}`
+                    :
+                    ""
+                }
+
+                <br>
+
+                行程 ${itineraryCount} 筆
+
+            </div>
+
+            ${
+                trip.note
+                ?
+                `
+                <div class="item-note">
+                    ${escapeHTML(trip.note)}
+                </div>
+                `
+                :
+                ""
+            }
+
+            <div style="
+                display:flex;
+                gap:7px;
+                margin-top:15px;
+                flex-wrap:wrap;
+            ">
+
+                <button
+                    class="btn small"
+                    onclick="openTripDetail('${escapeHTML(trip.id)}')"
+                >
+                    查看旅行
+                </button>
+
+                ${
+                    owner
+                    ?
+                    `
+                    <button
+                        class="btn small secondary"
+                        onclick="openTripModalById('${escapeHTML(trip.id)}')"
+                    >
+                        編輯
+                    </button>
+
+                    <button
+                        class="btn small danger"
+                        onclick="deleteTrip('${escapeHTML(trip.id)}')"
+                    >
+                        刪除
+                    </button>
+                    `
+                    :
+                    ""
+                }
+
+            </div>
+
+        </article>
+    `;
+}
+
+
+/* =========================================================
+   OWNER
+========================================================= */
+
+function isOwner(trip){
+
+    if(!currentUser){
+        return false;
+    }
+
+    return String(trip.owner_id) ===
+           String(currentUser.id);
+}
+
+
+/* =========================================================
+   TRIP DETAIL
+========================================================= */
+
+function openTripDetail(id){
+
+    const trip =
+        trips.find(
+            item =>
+            String(item.id) === String(id)
+        );
+
+    if(!trip){
+        return;
+    }
+
+    currentTrip = trip;
+
+    document.getElementById("homeView")
+        .style.display = "none";
+
+    document.getElementById("detailView")
+        .style.display = "block";
+
+    document.getElementById("detailTitle")
+        .textContent =
+            trip.name || "未命名旅行";
+
+    document.getElementById("detailMeta")
+        .textContent =
+            [
+                trip.country,
+                trip.start_date
+                    ? formatDate(trip.start_date)
+                    : "",
+                trip.end_date
+                    ? "～ " + formatDate(trip.end_date)
+                    : ""
+            ]
+            .filter(Boolean)
+            .join("　");
+
+    renderDetailActions();
+    renderDetail();
+}
+
+
+function renderDetailActions(){
+
+    const container =
+        document.getElementById("detailActions");
+
+    if(!currentTrip){
+        container.innerHTML = "";
+        return;
+    }
+
+    if(!isOwner(currentTrip)){
+
+        container.innerHTML = "";
+
+        return;
+    }
+
+    container.innerHTML = `
+
+        <button
+            class="btn small"
+            onclick="openItineraryModal()"
+        >
+            ＋ 行程
+        </button>
+
+        <button
+            class="btn small secondary"
+            onclick="openStayModal()"
+        >
+            ＋ 住宿
+        </button>
+
+        <button
+            class="btn small secondary"
+            onclick="openFlightModal()"
+        >
+            ＋ 航班
+        </button>
+
+        <button
+            class="btn small secondary"
+            onclick="openTripModalById('${escapeHTML(currentTrip.id)}')"
+        >
+            編輯旅行
+        </button>
+
+    `;
+}
+
+
+function renderDetail(){
+
+    renderItineraries();
+    renderStays();
+    renderFlights();
+    renderPartners();
+}
+
+
+function showHome(){
+
+    currentTrip = null;
+
+    document.getElementById("detailView")
+        .style.display = "none";
+
+    document.getElementById("homeView")
+        .style.display = "block";
+}
+
+
+/* =========================================================
+   ITINERARIES
+========================================================= */
+
+function renderItineraries(){
+
+    const container =
+        document.getElementById("itineraryContainer");
+
+    if(!currentTrip){
+        return;
+    }
+
+    const list =
+        itineraries
+            .filter(item =>
+                String(item.trip_id) ===
+                String(currentTrip.id)
+            )
+            .sort((a,b) =>
+                Number(a.day || 0) -
+                Number(b.day || 0)
+            );
+
+    if(!list.length){
+
+        container.innerHTML = `
+            <div class="card">
+                <div class="empty">
+                    目前還沒有行程
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+    const days = {};
+
+    list.forEach(item => {
+
+        const day =
+            item.day || 1;
+
+        if(!days[day]){
+            days[day] = [];
+        }
+
+        days[day].push(item);
+    });
+
+    container.innerHTML =
+        Object.keys(days)
+            .sort((a,b)=>Number(a)-Number(b))
+            .map(day => {
+
+                return `
+                    <div class="card day-card">
+
+                        <div class="day-head">
+                            <div class="day-title">
+                                DAY ${escapeHTML(day)}
+                            </div>
+
+                            ${
+                                isOwner(currentTrip)
+                                ?
+                                `
+                                <button
+                                    class="btn small secondary"
+                                    onclick="openItineraryModal()"
+                                >
+                                    ＋
+                                </button>
+                                `
+                                :
+                                ""
+                            }
+                        </div>
+
+                        ${
+                            days[day]
+                                .map(renderItineraryItem)
+                                .join("")
+                        }
+
+                    </div>
+                `;
+
+            })
+            .join("");
+}
+
+
+function renderItineraryItem(item){
+
+    return `
+        <div class="item">
+
+            <div class="item-title">
+                ${escapeHTML(item.title || "未命名行程")}
+            </div>
+
+            <div class="item-meta">
+
+                ${
+                    item.transport
+                    ?
+                    `🚃 ${escapeHTML(item.transport)}`
+                    :
+                    ""
+                }
+
+                ${
+                    item.price
+                    ?
+                    `　💰 ${escapeHTML(item.price)}`
+                    :
+                    ""
+                }
+
+                ${
+                    item.duration
+                    ?
+                    `　⏱ ${escapeHTML(item.duration)}`
+                    :
+                    ""
+                }
+
+            </div>
+
+            ${
+                item.note
+                ?
+                `
+                <div class="item-note">
+                    ${escapeHTML(item.note)}
+                </div>
+                `
+                :
+                ""
+            }
+
+            ${
+                isOwner(currentTrip)
+                ?
+                `
+                <div class="item-actions">
+
+                    <button
+                        class="btn small secondary"
+                        onclick="openItineraryModalById('${escapeHTML(item.id)}')"
+                    >
+                        編輯
+                    </button>
+
+                    <button
+                        class="btn small danger"
+                        onclick="deleteItinerary('${escapeHTML(item.id)}')"
+                    >
+                        刪除
+                    </button>
+
+                </div>
+                `
+                :
+                ""
+            }
+
+        </div>
+    `;
+}
+
+
+function openItineraryModalById(id){
+
+    const item =
+        itineraries.find(
+            x => String(x.id) === String(id)
+        );
+
+    if(item){
+        openItineraryModal(item);
+    }
+}
+
+
+async function saveItinerary(){
+
+    if(!currentUser || !currentTrip){
+        return;
+    }
+
+    clearError("itineraryError");
+
+    const id =
+        document.getElementById("itineraryId").value;
+
+    const payload = {
+
+        trip_id:currentTrip.id,
+
+        day:
+            Number(
+                document.getElementById("itineraryDay").value
+            ) || 1,
+
+        title:
+            document.getElementById("itineraryTitle")
+                .value
+                .trim(),
+
+        transport:
+            document.getElementById("itineraryTransport")
+                .value
+                .trim(),
+
+        price:
+            document.getElementById("itineraryPrice")
+                .value
+                .trim(),
+
+        duration:
+            document.getElementById("itineraryTime")
+                .value
+                .trim(),
+
+        note:
+            document.getElementById("itineraryNote")
+                .value
+                .trim()
+    };
+
+    if(!payload.title){
+
+        showError(
+            "itineraryError",
+            "請輸入行程名稱",
+            {
+                message:"行程名稱不能空白",
+                code:"MISSING_TITLE",
+                status:"400"
+            }
+        );
+
+        return;
+    }
+
+    let result;
+
+    if(id){
+
+        result =
+            await supabaseClient
+                .from("itineraries")
+                .update(payload)
+                .eq("id",id);
+
+    }else{
+
+        result =
+            await supabaseClient
+                .from("itineraries")
+                .insert(payload);
+    }
+
+    if(result.error){
+
+        console.error(
+            "Save itinerary error:",
+            result.error
+        );
+
+        showError(
+            "itineraryError",
+            "儲存行程失敗",
+            result.error
+        );
+
+        return;
+    }
+
+    closeModals();
+
+    showToast("行程已儲存 ✓");
+
+    await loadTrips();
+
+    if(currentTrip){
+        currentTrip =
+            trips.find(
+                x => String(x.id) === String(currentTrip.id)
+            ) || currentTrip;
+
+        renderDetailActions();
+        renderDetail();
+    }
+}
+
+
+async function deleteItinerary(id){
+
+    if(!confirm("確定要刪除這個行程嗎？")){
+        return;
+    }
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("itineraries")
+            .delete()
+            .eq("id",id);
+
+    if(error){
+
+        alert(
+            "刪除失敗\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    showToast("已刪除");
+
+    await loadTrips();
+
+    renderDetail();
+}
+
+
+/* =========================================================
+   STAYS
+========================================================= */
+
+function renderStays(){
+
+    const container =
+        document.getElementById("stayContainer");
+
+    const list =
+        stays.filter(
+            item =>
+            String(item.trip_id) ===
+            String(currentTrip?.id)
+        );
+
+    if(!list.length){
+
+        container.innerHTML = `
+            <div class="card">
+                <div class="empty">
+                    目前還沒有住宿資料
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        `
+        <div class="card">
+            ${
+                list
+                    .map(item => `
+
+                        <div class="item">
+
+                            <div class="item-title">
+                                ${escapeHTML(item.name || "未命名住宿")}
+                            </div>
+
+                            <div class="item-meta">
+
+                                ${
+                                    item.checkin
+                                    ?
+                                    `入住：${formatDate(item.checkin)}`
+                                    :
+                                    ""
+                                }
+
+                                ${
+                                    item.checkout
+                                    ?
+                                    `　退房：${formatDate(item.checkout)}`
+                                    :
+                                    ""
+                                }
+
+                                <br>
+
+                                ${
+                                    item.address
+                                    ?
+                                    `📍 ${escapeHTML(item.address)}`
+                                    :
+                                    ""
+                                }
+
+                                ${
+                                    item.price
+                                    ?
+                                    `<br>💰 ${escapeHTML(item.price)}`
+                                    :
+                                    ""
+                                }
+
+                            </div>
+
+                            ${
+                                item.note
+                                ?
+                                `
+                                <div class="item-note">
+                                    ${escapeHTML(item.note)}
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                isOwner(currentTrip)
+                                ?
+                                `
+                                <div class="item-actions">
+
+                                    <button
+                                        class="btn small secondary"
+                                        onclick="openStayModalById('${escapeHTML(item.id)}')"
+                                    >
+                                        編輯
+                                    </button>
+
+                                    <button
+                                        class="btn small danger"
+                                        onclick="deleteStay('${escapeHTML(item.id)}')"
+                                    >
+                                        刪除
+                                    </button>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                        </div>
+
+                    `)
+                    .join("")
+            }
+        </div>
+        `;
+}
+
+
+function openStayModalById(id){
+
+    const item =
+        stays.find(
+            x => String(x.id) === String(id)
+        );
+
+    if(item){
+        openStayModal(item);
+    }
+}
+
+
+async function saveStay(){
+
+    if(!currentUser || !currentTrip){
+        return;
+    }
+
+    clearError("stayError");
+
+    const id =
+        document.getElementById("stayId").value;
+
+    const payload = {
+
+        trip_id:currentTrip.id,
+
+        name:
+            document.getElementById("stayName")
+                .value
+                .trim(),
+
+        checkin:
+            document.getElementById("stayCheckin").value ||
+            null,
+
+        checkout:
+            document.getElementById("stayCheckout").value ||
+            null,
+
+        address:
+            document.getElementById("stayAddress")
+                .value
+                .trim(),
+
+        price:
+            document.getElementById("stayPrice")
+                .value
+                .trim(),
+
+        note:
+            document.getElementById("stayNote")
+                .value
+                .trim()
+    };
+
+    let result;
+
+    if(id){
+
+        result =
+            await supabaseClient
+                .from("stays")
+                .update(payload)
+                .eq("id",id);
+
+    }else{
+
+        result =
+            await supabaseClient
+                .from("stays")
+                .insert(payload);
+    }
+
+    if(result.error){
+
+        showError(
+            "stayError",
+            "儲存住宿失敗",
+            result.error
+        );
+
+        return;
+    }
+
+    closeModals();
+
+    showToast("住宿已儲存 ✓");
+
+    await loadTrips();
+
+    renderDetail();
+}
+
+
+async function deleteStay(id){
+
+    if(!confirm("確定要刪除這筆住宿嗎？")){
+        return;
+    }
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("stays")
+            .delete()
+            .eq("id",id);
+
+    if(error){
+
+        alert(
+            "刪除失敗\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    showToast("已刪除");
+
+    await loadTrips();
+
+    renderDetail();
+}
+
+
+/* =========================================================
+   FLIGHTS
+========================================================= */
+
+function renderFlights(){
+
+    const container =
+        document.getElementById("flightContainer");
+
+    const list =
+        flights.filter(
+            item =>
+            String(item.trip_id) ===
+            String(currentTrip?.id)
+        );
+
+    if(!list.length){
+
+        container.innerHTML = `
+            <div class="card">
+                <div class="empty">
+                    目前還沒有航班資料
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        `
+        <div class="card">
+            ${
+                list
+                    .map(item => `
+
+                        <div class="item">
+
+                            <div class="item-title">
+
+                                ✈️
+                                ${escapeHTML(item.airline || "")}
+
+                                ${
+                                    item.flight_number
+                                    ?
+                                    ` ${escapeHTML(item.flight_number)}`
+                                    :
+                                    ""
+                                }
+
+                            </div>
+
+                            <div class="item-meta">
+
+                                ${
+                                    item.from_location
+                                    ?
+                                    escapeHTML(item.from_location)
+                                    :
+                                    ""
+                                }
+
+                                →
+
+                                ${
+                                    item.to_location
+                                    ?
+                                    escapeHTML(item.to_location)
+                                    :
+                                    ""
+                                }
+
+                                ${
+                                    item.flight_date
+                                    ?
+                                    `<br>📅 ${formatDate(item.flight_date)}`
+                                    :
+                                    ""
+                                }
+
+                                ${
+                                    item.departure_time
+                                    ?
+                                    `<br>🕐 ${escapeHTML(item.departure_time)}`
+                                    :
+                                    ""
+                                }
+
+                                ${
+                                    item.arrival_time
+                                    ?
+                                    ` → ${escapeHTML(item.arrival_time)}`
+                                    :
+                                    ""
+                                }
+
+                            </div>
+
+                            ${
+                                item.note
+                                ?
+                                `
+                                <div class="item-note">
+                                    ${escapeHTML(item.note)}
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                isOwner(currentTrip)
+                                ?
+                                `
+                                <div class="item-actions">
+
+                                    <button
+                                        class="btn small secondary"
+                                        onclick="openFlightModalById('${escapeHTML(item.id)}')"
+                                    >
+                                        編輯
+                                    </button>
+
+                                    <button
+                                        class="btn small danger"
+                                        onclick="deleteFlight('${escapeHTML(item.id)}')"
+                                    >
+                                        刪除
+                                    </button>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                        </div>
+
+                    `)
+                    .join("")
+            }
+        </div>
+        `;
+}
+
+
+function openFlightModalById(id){
+
+    const item =
+        flights.find(
+            x => String(x.id) === String(id)
+        );
+
+    if(item){
+        openFlightModal(item);
+    }
+}
+
+
+async function saveFlight(){
+
+    if(!currentUser || !currentTrip){
+        return;
+    }
+
+    clearError("flightError");
+
+    const id =
+        document.getElementById("flightId").value;
+
+    const payload = {
+
+        trip_id:currentTrip.id,
+
+        airline:
+            document.getElementById("flightAirline")
+                .value
+                .trim(),
+
+        flight_number:
+            document.getElementById("flightNumber")
+                .value
+                .trim(),
+
+        from_location:
+            document.getElementById("flightFrom")
+                .value
+                .trim(),
+
+        to_location:
+            document.getElementById("flightTo")
+                .value
+                .trim(),
+
+        flight_date:
+            document.getElementById("flightDate").value ||
+            null,
+
+        departure_time:
+            document.getElementById("flightDeparture").value ||
+            null,
+
+        arrival_time:
+            document.getElementById("flightArrival").value ||
+            null,
+
+        note:
+            document.getElementById("flightNote")
+                .value
+                .trim()
+    };
+
+    let result;
+
+    if(id){
+
+        result =
+            await supabaseClient
+                .from("flights")
+                .update(payload)
+                .eq("id",id);
+
+    }else{
+
+        result =
+            await supabaseClient
+                .from("flights")
+                .insert(payload);
+    }
+
+    if(result.error){
+
+        showError(
+            "flightError",
+            "儲存航班失敗",
+            result.error
+        );
+
+        return;
+    }
+
+    closeModals();
+
+    showToast("航班已儲存 ✓");
+
+    await loadTrips();
+
+    renderDetail();
+}
+
+
+async function deleteFlight(id){
+
+    if(!confirm("確定要刪除這筆航班嗎？")){
+        return;
+    }
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("flights")
+            .delete()
+            .eq("id",id);
+
+    if(error){
+
+        alert(
+            "刪除失敗\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    showToast("已刪除");
+
+    await loadTrips();
+
+    renderDetail();
+}
+
+
+/* =========================================================
+   PARTNERS
+   localStorage
+========================================================= */
+
+function partnerStorageKey(){
+
+    return currentTrip
+        ?
+        `erica_goes_partners_${currentTrip.id}`
+        :
+        "";
+}
+
+
+function getPartners(){
+
+    if(!currentTrip){
+        return [];
+    }
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                partnerStorageKey()
+            ) || "[]"
+        );
+
+    }catch{
+
+        return [];
+    }
+}
+
+
+function savePartners(list){
+
+    if(!currentTrip){
+        return;
+    }
+
+    localStorage.setItem(
+        partnerStorageKey(),
+        JSON.stringify(list)
+    );
+}
+
+
+function renderPartners(){
+
+    const container =
+        document.getElementById("partnerContainer");
+
+    const list =
+        getPartners();
+
+    if(!list.length){
+
+        container.innerHTML = `
+            <div class="card">
+                <div class="empty">
+                    目前還沒有同行者
+                </div>
+
+                ${
+                    isOwner(currentTrip)
+                    ?
+                    `
+                    <div style="text-align:center;margin-top:15px;">
+                        <button
+                            class="btn small"
+                            onclick="addPartner()"
+                        >
+                            ＋ 新增同行者
+                        </button>
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="card">
+
+            ${
+                list
+                    .map((name,index) => `
+
+                        <div class="item">
+
+                            <div class="item-title">
+                                👤 ${escapeHTML(name)}
+                            </div>
+
+                            ${
+                                isOwner(currentTrip)
+                                ?
+                                `
+                                <div class="item-actions">
+
+                                    <button
+                                        class="btn small danger"
+                                        onclick="deletePartner(${index})"
+                                    >
+                                        刪除
+                                    </button>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                        </div>
+
+                    `)
+                    .join("")
+            }
+
+            ${
+                isOwner(currentTrip)
+                ?
+                `
+                <div style="margin-top:15px;">
+                    <button
+                        class="btn small"
+                        onclick="addPartner()"
+                    >
+                        ＋ 新增同行者
+                    </button>
+                </div>
+                `
+                :
+                ""
+            }
+
+        </div>
+    `;
+}
+
+
+function addPartner(){
+
+    const name =
+        prompt("請輸入同行者名稱");
+
+    if(!name){
+        return;
+    }
+
+    const list =
+        getPartners();
+
+    list.push(name.trim());
+
+    savePartners(list);
+
+    renderPartners();
+
+    showToast("已新增同行者");
+}
+
+
+function deletePartner(index){
+
+    const list =
+        getPartners();
+
+    list.splice(index,1);
+
+    savePartners(list);
+
+    renderPartners();
+}
+
+
+/* =========================================================
+   TRIP CRUD
+========================================================= */
+
+function openTripModalById(id){
+
+    const trip =
+        trips.find(
+            x => String(x.id) === String(id)
+        );
+
+    if(trip){
+        openTripModal(trip);
+    }
+}
+
+
+async function saveTrip(){
+
+    if(!currentUser){
+
+        showError(
+            "tripError",
+            "請先登入",
+            {
+                message:"登入後才能新增旅行。",
+                code:"NOT_AUTHENTICATED",
+                status:"401"
+            }
+        );
+
+        return;
+    }
+
+    clearError("tripError");
+
+    const id =
+        document.getElementById("tripId").value;
+
+    const payload = {
+
+        name:
+            document.getElementById("tripName")
+                .value
+                .trim(),
+
+        country:
+            document.getElementById("tripCountry")
+                .value
+                .trim(),
+
+        start_date:
+            document.getElementById("tripStart").value ||
+            null,
+
+        end_date:
+            document.getElementById("tripEnd").value ||
+            null,
+
+        cover_image:
+            document.getElementById("tripCover")
+                .value
+                .trim(),
+
+        note:
+            document.getElementById("tripNote")
+                .value
+                .trim()
+    };
+
+    if(!payload.name){
+
+        showError(
+            "tripError",
+            "請輸入旅行名稱",
+            {
+                message:"旅行名稱不能空白",
+                code:"MISSING_NAME",
+                status:"400"
+            }
+        );
+
+        return;
+    }
+
+    let result;
+
+    if(id){
+
+        result =
+            await supabaseClient
+                .from("trips")
+                .update(payload)
+                .eq("id",id)
+                .eq("owner_id",currentUser.id);
+
+    }else{
+
+        payload.owner_id =
+            currentUser.id;
+
+        result =
+            await supabaseClient
+                .from("trips")
+                .insert(payload);
+    }
+
+    if(result.error){
+
+        console.error(
+            "Save trip error:",
+            result.error
+        );
+
+        showError(
+            "tripError",
+            "儲存旅行失敗",
+            result.error
+        );
+
+        return;
+    }
+
+    closeModals();
+
+    showToast(
+        id
+        ? "旅行已更新 ✓"
+        : "旅行已建立 ✓"
+    );
+
+    await loadTrips();
+
+    if(currentTrip){
+
+        currentTrip =
+            trips.find(
+                x =>
+                String(x.id) ===
+                String(currentTrip.id)
+            ) || null;
+
+        if(currentTrip){
+
+            renderDetailActions();
+            renderDetail();
+
+        }else{
+
+            showHome();
+        }
+    }
+}
+
+
+async function deleteTrip(id){
+
+    const trip =
+        trips.find(
+            x => String(x.id) === String(id)
+        );
+
+    if(!trip){
+        return;
+    }
+
+    if(!isOwner(trip)){
+
+        alert("只有旅行建立者可以刪除。");
+
+        return;
+    }
+
+    const ok =
+        confirm(
+            `確定要刪除「${trip.name || "這個旅行"}」嗎？\n\n旅行底下的行程、住宿、航班也會受到資料庫權限影響。`
+        );
+
+    if(!ok){
+        return;
+    }
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("trips")
+            .delete()
+            .eq("id",id)
+            .eq("owner_id",currentUser.id);
+
+    if(error){
+
+        console.error(
+            "Delete trip error:",
+            error
+        );
+
+        alert(
+            "刪除失敗\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    showToast("旅行已刪除");
+
+    if(
+        currentTrip &&
+        String(currentTrip.id) === String(id)
+    ){
+        showHome();
+    }
+
+    await loadTrips();
+}
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+supabaseClient.auth.onAuthStateChange(
+    (event,session) => {
+
+        console.log(
+            "Auth event:",
+            event,
+            session?.user?.email || ""
+        );
+
+        currentUser =
+            session?.user || null;
+
+        updateAuthUI();
+
+        if(
+            event === "SIGNED_IN" ||
+            event === "SIGNED_OUT"
+        ){
+
+            setTimeout(
+                () => {
+                    loadTrips();
+                },
+                0
+            );
+        }
+    }
+);
+
+
+/* =========================================================
+   CHECK SESSION
+========================================================= */
+
+async function checkSession(){
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth
+                .getSession();
+
+        if(error){
+
+            console.error(
+                "getSession Error:",
+                error
+            );
+
+            showError(
+                "globalError",
+                "Session 讀取失敗",
+                error
+            );
+
+            return;
+        }
+
+        currentUser =
+            data?.session?.user ||
+            null;
+
+        console.log(
+            "目前 Session:",
+            currentUser
+        );
+
+        updateAuthUI();
+
+        await loadTrips();
+
+    }catch(error){
+
+        console.error(
+            "checkSession Error:",
+            error
+        );
+
+        showError(
+            "globalError",
+            "初始化失敗",
+            error
+        );
+    }
+}
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
+========================================================= */
+
+document
+    .querySelectorAll(".modal-backdrop")
+    .forEach(backdrop => {
+
+        backdrop.addEventListener(
+            "click",
+            event => {
+
+                if(event.target === backdrop){
+                    closeModals();
+                }
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   ENTER TO LOGIN
+========================================================= */
+
+document
+    .getElementById("authPassword")
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if(event.key === "Enter"){
+                login();
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   START
+========================================================= */
+
+checkSession();
+
+</script>
+
+</body>
+</html>
