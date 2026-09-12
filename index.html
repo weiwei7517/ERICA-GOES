@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>GOYA｜走呀</title>
 
@@ -13,23 +13,10 @@
     box-sizing:border-box;
 }
 
-:root{
-    --bg:#f5f4f1;
-    --card:#ffffff;
-    --text:#292929;
-    --sub:#858585;
-    --line:#e7e5e1;
-    --soft:#eeece8;
-    --dark:#333333;
-    --radius:22px;
-}
-
-html,
 body{
     margin:0;
-    padding:0;
-    background:var(--bg);
-    color:var(--text);
+    background:#f5f4f1;
+    color:#292929;
     font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -37,14 +24,6 @@ body{
         "PingFang TC",
         "Microsoft JhengHei",
         sans-serif;
-}
-
-body{
-    min-height:100vh;
-}
-
-body.dragging-mode{
-    overflow:hidden;
 }
 
 button,
@@ -58,1109 +37,1137 @@ button{
     cursor:pointer;
 }
 
-.hidden{
-    display:none !important;
+.app{
+    max-width:900px;
+    margin:0 auto;
+    min-height:100vh;
+    padding-bottom:60px;
 }
 
 /* =========================
-   Header
+   HEADER
 ========================= */
 
 .header{
-    width:100%;
-    padding:22px 24px;
-}
-
-.header-inner{
-    max-width:980px;
-    margin:auto;
+    padding:28px 20px 18px;
     display:flex;
     align-items:center;
     justify-content:space-between;
+    gap:15px;
 }
 
 .logo{
-    font-size:20px;
-    font-weight:700;
-    letter-spacing:.03em;
+    font-size:32px;
+    font-weight:900;
+    letter-spacing:1px;
+    color:#292929;
 }
 
 .logo span{
-    font-weight:400;
-    color:#888;
+    font-weight:600;
+    color:#666;
 }
 
 .header-right{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:8px;
 }
 
 .user-email{
-    color:#999;
-    font-size:12px;
-}
-
-.simple-btn{
-    border:0;
-    background:none;
+    font-size:13px;
     color:#777;
-    padding:5px;
+}
+
+.btn{
+    border:none;
+    border-radius:12px;
+    padding:10px 15px;
+    background:#292929;
+    color:white;
+}
+
+.btn-light{
+    background:#e8e6e1;
+    color:#292929;
+}
+
+.btn-small{
+    padding:7px 10px;
     font-size:13px;
 }
 
-/* =========================
-   Main
-========================= */
-
-.page{
-    max-width:980px;
-    margin:0 auto;
-    padding:32px 24px 80px;
+.btn-danger{
+    background:#eee3e1;
+    color:#9a4b43;
 }
 
 /* =========================
-   Hero
+   LOGIN
 ========================= */
-
-.hero{
-    padding:28px 0 48px;
-}
-
-.eyebrow{
-    font-size:10px;
-    color:#999;
-    letter-spacing:.18em;
-    margin-bottom:15px;
-}
-
-.hero-title-row{
-    display:flex;
-    align-items:flex-start;
-    gap:12px;
-}
-
-.hero-title{
-    margin:0;
-    font-size:36px;
-    line-height:1.15;
-    font-weight:600;
-    letter-spacing:-.035em;
-}
-
-.hero-subtitle{
-    margin:13px 0 0;
-    font-size:16px;
-    color:#888;
-    line-height:1.7;
-}
-
-.edit-text{
-    border:0;
-    background:none;
-    color:#aaa;
-    font-size:12px;
-    padding:5px 0;
-    white-space:nowrap;
-}
-
-.edit-text:hover{
-    color:#333;
-}
-
-/* =========================
-   Section
-========================= */
-
-.section-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    margin-bottom:20px;
-}
-
-.section-title{
-    font-size:21px;
-    font-weight:600;
-}
-
-.section-caption{
-    margin-top:5px;
-    color:#aaa;
-    font-size:12px;
-}
-
-.add-text-btn{
-    border:0;
-    background:none;
-    color:#555;
-    font-size:13px;
-    padding:5px 0;
-}
-
-/* =========================
-   Destination Cards
-========================= */
-
-.destination-list{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:16px;
-}
-
-.destination-card{
-    position:relative;
-    min-height:190px;
-    background:var(--card);
-    border:1px solid rgba(0,0,0,.035);
-    border-radius:var(--radius);
-    padding:25px;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    user-select:none;
-    -webkit-user-select:none;
-
-    /*
-       整張卡片可以長按拖曳。
-       pointer 事件會負責處理拖曳，
-       所以不使用原生 draggable。
-    */
-    touch-action:none;
-
-    transition:
-        transform .18s ease,
-        box-shadow .18s ease,
-        opacity .18s ease;
-}
-
-.destination-card:hover{
-    box-shadow:0 10px 30px rgba(0,0,0,.045);
-}
-
-.destination-card.dragging{
-    opacity:.65;
-    transform:scale(.97);
-    box-shadow:
-        0 18px 40px rgba(0,0,0,.12);
-    z-index:20;
-}
-
-.destination-card.drag-target{
-    box-shadow:
-        0 0 0 2px #cfcac1 inset;
-}
-
-.destination-card.drag-before{
-    transform:translateY(-5px);
-}
-
-.destination-number{
-    color:#b0ada7;
-    font-size:11px;
-    letter-spacing:.12em;
-}
-
-.destination-name{
-    margin-top:auto;
-    padding-top:35px;
-    font-size:28px;
-    font-weight:600;
-    letter-spacing:-.025em;
-}
-
-.destination-bottom{
-    margin-top:22px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.destination-count{
-    color:#999;
-    font-size:12px;
-}
-
-.destination-actions{
-    display:flex;
-    gap:13px;
-    opacity:0;
-    transition:opacity .15s ease;
-}
-
-.destination-card:hover .destination-actions{
-    opacity:1;
-}
-
-.small-action{
-    border:0;
-    background:none;
-    color:#aaa;
-    padding:0;
-    font-size:12px;
-}
-
-.small-action:hover{
-    color:#333;
-}
-
-.add-destination-card{
-    min-height:190px;
-    border:1px dashed #d8d5cf;
-    background:transparent;
-    border-radius:var(--radius);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#aaa;
-    font-size:13px;
-}
-
-.drag-placeholder{
-    border:1px dashed #cfcac1;
-    background:#eeece8;
-    border-radius:var(--radius);
-    min-height:190px;
-}
-
-/* =========================
-   Login
-========================= */
-
-.login-page{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-}
 
 .login-box{
-    width:100%;
-    max-width:380px;
-    background:#fff;
-    border-radius:26px;
-    padding:38px;
+    max-width:420px;
+    margin:100px auto;
+    background:white;
+    border-radius:24px;
+    padding:30px;
+    box-shadow:0 10px 35px rgba(0,0,0,.06);
 }
 
-.login-logo{
-    font-size:24px;
-    font-weight:700;
-    margin-bottom:8px;
+.login-box h1{
+    margin:0 0 8px;
 }
 
-.login-sub{
-    color:#999;
-    font-size:13px;
-    margin-bottom:30px;
+.login-box p{
+    color:#777;
+    margin-bottom:25px;
 }
 
 .field{
-    margin-bottom:16px;
+    margin-bottom:15px;
 }
 
 .field label{
     display:block;
-    color:#777;
-    font-size:12px;
-    margin-bottom:8px;
+    margin-bottom:7px;
+    font-size:14px;
+    color:#666;
 }
 
-.input,
-.textarea,
-.select{
+.field input,
+.field textarea,
+.field select{
     width:100%;
-    border:1px solid var(--line);
-    background:#faf9f7;
-    border-radius:13px;
-    padding:12px 13px;
-    color:#333;
+    border:1px solid #ddd;
+    background:#fafafa;
+    border-radius:12px;
+    padding:12px;
     outline:none;
 }
 
-.input:focus,
-.textarea:focus,
-.select:focus{
-    border-color:#bcb8b0;
-    background:#fff;
-}
-
-.textarea{
+.field textarea{
+    min-height:100px;
     resize:vertical;
-    min-height:90px;
 }
 
-.primary-btn{
-    width:100%;
-    border:0;
-    border-radius:13px;
-    background:#333;
-    color:#fff;
-    padding:13px;
-    margin-top:5px;
+.field input:focus,
+.field textarea:focus,
+.field select:focus{
+    border-color:#999;
+    background:white;
 }
 
 .login-message{
-    min-height:20px;
-    color:#999;
-    font-size:12px;
-    margin-top:12px;
+    margin-top:15px;
+    color:#a34e45;
+    font-size:14px;
 }
 
 /* =========================
-   Destination page
+   PAGE TITLE
+========================= */
+
+.home-intro{
+    padding:28px 20px 20px;
+}
+
+.title-row{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.home-title{
+    margin:0;
+    font-size:30px;
+    line-height:1.2;
+    letter-spacing:-.5px;
+    font-weight:750;
+}
+
+.home-subtitle{
+    margin:7px 0 0;
+    color:#888;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.edit-intro-btn{
+    flex-shrink:0;
+    border:none;
+    background:#e8e6e1;
+    border-radius:12px;
+    padding:8px 12px;
+    color:#555;
+    font-size:13px;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+.section{
+    padding:10px 20px;
+}
+
+.section-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:15px;
+}
+
+.section-title{
+    margin:0;
+    font-size:22px;
+}
+
+.section-description{
+    color:#888;
+    font-size:13px;
+}
+
+/* =========================
+   DESTINATION LIST
+========================= */
+
+.destination-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.destination-card{
+    background:white;
+    border-radius:18px;
+    padding:16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    box-shadow:0 4px 18px rgba(0,0,0,.035);
+}
+
+.destination-main{
+    flex:1;
+    min-width:0;
+    cursor:pointer;
+}
+
+.destination-name{
+    font-size:19px;
+    font-weight:700;
+}
+
+.destination-count{
+    margin-top:4px;
+    color:#999;
+    font-size:13px;
+}
+
+.destination-actions{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    flex-wrap:wrap;
+}
+
+.icon-btn{
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:10px;
+    background:#f0efeb;
+    color:#444;
+}
+
+.icon-btn:disabled{
+    opacity:.3;
+    cursor:not-allowed;
+}
+
+.add-destination{
+    width:100%;
+    border:1px dashed #c8c6c1;
+    background:transparent;
+    color:#555;
+    border-radius:16px;
+    padding:15px;
+    margin-top:3px;
+}
+
+/* =========================
+   JOURNEYS
 ========================= */
 
 .back-btn{
-    border:0;
-    background:none;
-    color:#999;
+    border:none;
+    background:transparent;
+    color:#555;
     padding:0;
-    font-size:13px;
-    margin-bottom:28px;
+    margin-bottom:15px;
 }
 
-.back-btn:hover{
-    color:#333;
-}
-
-.page-title{
-    font-size:clamp(34px,6vw,55px);
-    font-weight:600;
-    letter-spacing:-.04em;
+.destination-heading{
+    font-size:32px;
     margin:0;
-}
-
-.page-subtitle{
-    color:#999;
-    margin-top:10px;
-    font-size:14px;
 }
 
 .journey-list{
     display:flex;
     flex-direction:column;
-    gap:12px;
+    gap:14px;
 }
 
 .journey-card{
-    background:#fff;
+    background:white;
     border-radius:20px;
-    padding:22px 24px;
-    border:1px solid rgba(0,0,0,.035);
+    padding:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.04);
+}
+
+.journey-top{
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    gap:20px;
-    user-select:none;
-    -webkit-user-select:none;
-    touch-action:none;
-    transition:
-        transform .18s ease,
-        opacity .18s ease,
-        box-shadow .18s ease;
+    gap:15px;
 }
 
-.journey-card.dragging{
-    opacity:.65;
-    transform:scale(.98);
-    box-shadow:
-        0 18px 40px rgba(0,0,0,.12);
-    z-index:20;
-}
-
-.journey-card.drag-target{
-    box-shadow:
-        0 0 0 2px #d4d1ca inset;
-}
-
-.journey-info{
-    min-width:0;
+.journey-main{
+    flex:1;
+    cursor:pointer;
 }
 
 .journey-title{
-    font-size:20px;
-    font-weight:600;
+    font-size:21px;
+    font-weight:750;
 }
 
 .journey-subtitle{
-    color:#999;
-    font-size:13px;
-    margin-top:6px;
+    margin-top:7px;
+    color:#777;
+    font-size:14px;
 }
 
-.journey-meta{
-    color:#aaa;
-    font-size:11px;
-    margin-top:12px;
-}
-
-.journey-arrow{
-    color:#bbb;
-    font-size:20px;
-    flex:none;
-}
-
-.journey-placeholder{
-    border:1px dashed #cfcac1;
-    background:#eeece8;
-    border-radius:20px;
-    min-height:80px;
-}
-
-.empty-state{
-    padding:55px 20px;
-    text-align:center;
-    color:#aaa;
-    background:#fff;
-    border-radius:20px;
-}
-
-.add-journey{
-    margin-top:15px;
-    width:100%;
-    border:1px dashed #d7d4ce;
-    background:transparent;
-    color:#999;
-    border-radius:20px;
-    padding:22px;
-}
-
-.add-journey:hover{
-    background:#faf9f7;
+.journey-creator{
+    margin-top:10px;
     color:#555;
+    font-size:14px;
+}
+
+.journey-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    align-items:flex-start;
 }
 
 /* =========================
-   Trip Detail
+   DETAIL
 ========================= */
 
-.detail-top{
-    margin-bottom:38px;
+.detail-header{
+    padding:20px;
 }
 
-.detail-creator{
-    color:#999;
-    font-size:13px;
-    margin-top:14px;
+.detail-title{
+    margin:0;
+    font-size:34px;
 }
 
-.detail-description{
-    color:#777;
+.detail-subtitle{
+    color:#888;
+    margin:7px 0;
+    font-size:14px;
+}
+
+.detail-meta{
+    color:#888;
     font-size:14px;
     line-height:1.8;
-    margin-top:18px;
-    white-space:pre-wrap;
 }
 
 .total-box{
-    margin:28px 0;
-    background:#eae8e3;
+    margin-top:20px;
+    background:#292929;
+    color:white;
     border-radius:20px;
-    padding:23px 25px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+    padding:20px;
 }
 
 .total-label{
-    color:#777;
     font-size:13px;
+    opacity:.7;
 }
 
 .total-price{
-    font-size:28px;
-    font-weight:600;
-}
-
-.detail-section{
-    margin-top:38px;
-}
-
-.detail-section-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:15px;
-}
-
-.detail-section-title{
-    font-size:20px;
-    font-weight:600;
+    font-size:30px;
+    font-weight:800;
+    margin-top:5px;
 }
 
 .day-card{
-    background:#fff;
+    background:white;
     border-radius:20px;
-    padding:22px;
-    margin-bottom:12px;
+    padding:18px;
+    margin-bottom:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.035);
+}
+
+.day-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:15px;
 }
 
 .day-title{
-    font-size:17px;
-    font-weight:600;
-    margin-bottom:16px;
+    font-size:21px;
+    font-weight:750;
 }
 
-.item-card{
-    border-top:1px solid var(--line);
-    padding:17px 0;
-}
-
-.item-card:first-child{
-    border-top:0;
-    padding-top:0;
-}
-
-.item-title{
-    font-weight:600;
-    font-size:15px;
-}
-
-.item-location{
-    color:#999;
-    font-size:12px;
-    margin-top:5px;
-}
-
-.item-info{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    color:#888;
-    font-size:11px;
-    margin-top:10px;
-}
-
-.item-notes{
-    color:#777;
-    font-size:12px;
-    line-height:1.7;
-    margin-top:8px;
-    white-space:pre-wrap;
-}
-
+.item-card,
 .stay-card{
-    background:#fff;
-    border-radius:20px;
-    padding:21px;
+    border:1px solid #e7e5e0;
+    border-radius:15px;
+    padding:14px;
     margin-bottom:10px;
 }
 
-.stay-name{
-    font-weight:600;
+.item-title{
+    font-weight:700;
+    font-size:16px;
 }
 
-.stay-address{
-    color:#999;
-    font-size:12px;
+.item-info{
+    color:#777;
+    font-size:13px;
+    line-height:1.8;
     margin-top:5px;
 }
 
-.stay-info{
-    color:#888;
-    font-size:11px;
+.item-price{
+    margin-top:8px;
+    font-weight:700;
+}
+
+.item-actions{
     margin-top:10px;
-    line-height:1.8;
+    display:flex;
+    gap:6px;
 }
 
-.add-day-btn{
+.add-item-btn{
     width:100%;
-    border:1px dashed #d7d4ce;
-    background:transparent;
-    color:#999;
-    padding:17px;
-    border-radius:17px;
-    margin-top:4px;
+    border:1px dashed #ccc;
+    background:#faf9f6;
+    padding:11px;
+    border-radius:12px;
+    color:#666;
 }
 
-.add-day-btn:hover{
-    background:#faf9f7;
+.stay-section{
+    margin-top:25px;
+}
+
+.stay-section h3{
+    margin-bottom:12px;
 }
 
 /* =========================
-   Modal
+   EMPTY
+========================= */
+
+.empty{
+    text-align:center;
+    padding:40px 20px;
+    color:#999;
+}
+
+/* =========================
+   MODAL
 ========================= */
 
 .modal-backdrop{
     position:fixed;
     inset:0;
-    background:rgba(30,30,30,.28);
-    display:flex;
-    align-items:center;
+    background:rgba(0,0,0,.4);
+    display:none;
+    align-items:flex-end;
     justify-content:center;
-    padding:20px;
-    z-index:100;
+    z-index:1000;
+    padding:15px;
+}
+
+.modal-backdrop.show{
+    display:flex;
 }
 
 .modal{
     width:100%;
-    max-width:500px;
+    max-width:600px;
     max-height:90vh;
     overflow:auto;
-    background:#fff;
-    border-radius:25px;
-    padding:28px;
+    background:white;
+    border-radius:24px;
+    padding:24px;
 }
 
-.modal-title{
-    font-size:20px;
-    font-weight:600;
-    margin-bottom:22px;
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
 }
 
-.modal-actions{
+.modal-header h2{
+    margin:0;
+}
+
+.close-btn{
+    border:none;
+    background:#eee;
+    width:36px;
+    height:36px;
+    border-radius:50%;
+}
+
+.modal-footer{
     display:flex;
     gap:10px;
-    margin-top:22px;
+    margin-top:20px;
 }
 
-.modal-actions button{
+.modal-footer button{
     flex:1;
 }
 
-.cancel-btn{
-    border:1px solid var(--line);
-    background:#fff;
-    border-radius:12px;
-    padding:12px;
-    color:#777;
-}
-
-.save-btn{
-    border:0;
-    background:#333;
-    color:#fff;
-    border-radius:12px;
-    padding:12px;
-}
-
-.danger-btn{
-    border:0;
-    background:#f0eeee;
-    color:#888;
-    border-radius:12px;
-    padding:12px;
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
 }
 
 /* =========================
-   Responsive
+   LOADING
 ========================= */
 
-@media(max-width:680px){
+.loading{
+    padding:60px 20px;
+    text-align:center;
+    color:#888;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
 
     .header{
-        padding:19px 20px;
+        padding:22px 16px 12px;
     }
 
-    .page{
-        padding:20px 20px 60px;
+    .logo{
+        font-size:27px;
+        letter-spacing:.5px;
     }
 
     .user-email{
         display:none;
     }
 
-    .hero{
-        padding:25px 0 42px;
+    .home-intro{
+        padding:24px 16px 18px;
     }
 
-    .hero-title{
-        font-size:32px;
+    .home-title{
+        font-size:27px;
     }
 
-    .hero-subtitle{
-        font-size:15px;
-        margin-top:10px;
+    .home-subtitle{
+        font-size:13px;
+        margin-top:6px;
     }
 
-    .destination-list{
-        grid-template-columns:1fr;
-        gap:12px;
+    .edit-intro-btn{
+        padding:7px 10px;
+        font-size:12px;
+    }
+
+    .section{
+        padding:10px 16px;
     }
 
     .destination-card{
-        min-height:165px;
-    }
-
-    .add-destination-card{
-        min-height:165px;
+        padding:14px;
     }
 
     .destination-actions{
-        opacity:1;
+        max-width:125px;
+        justify-content:flex-end;
     }
 
-    .destination-name{
-        font-size:26px;
+    .destination-actions .icon-btn{
+        width:31px;
+        height:31px;
     }
 
-    .journey-card{
-        padding:19px;
+    .journey-top{
+        flex-direction:column;
+    }
+
+    .journey-actions{
+        justify-content:flex-start;
+    }
+
+    .detail-title{
+        font-size:29px;
+    }
+
+    .detail-subtitle{
+        font-size:14px;
+    }
+
+    .row{
+        grid-template-columns:1fr;
     }
 
     .modal-backdrop{
-        align-items:flex-end;
         padding:0;
     }
 
     .modal{
-        max-height:88vh;
-        border-radius:25px 25px 0 0;
-        padding:25px 20px calc(25px + env(safe-area-inset-bottom));
+        border-radius:24px 24px 0 0;
+        max-height:94vh;
     }
-
-}
-
-/* =========================
-   Dragging
-========================= */
-
-.no-select,
-.no-select *{
-    user-select:none !important;
-    -webkit-user-select:none !important;
-}
-
-.drag-ghost{
-    position:fixed;
-    z-index:9999;
-    pointer-events:none;
-    opacity:.96;
-    transform:rotate(1deg) scale(.98);
-    box-shadow:
-        0 20px 50px rgba(0,0,0,.18);
-}
-
-.drag-source-hidden{
-    opacity:.12 !important;
 }
 </style>
 </head>
 
 <body>
 
+<div id="app"></div>
+
 <!-- =========================
-     LOGIN
+     INTRO MODAL
 ========================= -->
 
-<div id="loginPage" class="login-page hidden">
+<div id="introModal" class="modal-backdrop">
+    <div class="modal">
 
-    <div class="login-box">
+        <div class="modal-header">
+            <h2>編輯主頁文案</h2>
 
-        <div class="login-logo">
-            GOYA｜走呀
-        </div>
-
-        <div class="login-sub">
-            輕鬆規劃你的下一趟旅行
+            <button
+                class="close-btn"
+                onclick="closeModal('introModal')"
+            >
+                ×
+            </button>
         </div>
 
         <div class="field">
-            <label>Email</label>
+            <label>主標題</label>
+
             <input
-                id="loginEmail"
-                class="input"
-                type="email"
-                autocomplete="email"
-                placeholder="輸入 Email"
+                id="introTitleInput"
+                type="text"
+                placeholder="例如：去哪裡玩？"
             >
         </div>
 
         <div class="field">
-            <label>密碼</label>
+            <label>副標題</label>
+
             <input
-                id="loginPassword"
-                class="input"
-                type="password"
-                autocomplete="current-password"
-                placeholder="輸入密碼"
+                id="introSubtitleInput"
+                type="text"
+                placeholder="例如：小資也能輕鬆飛"
             >
         </div>
 
-        <button id="loginBtn" class="primary-btn">
-            登入
-        </button>
+        <div class="modal-footer">
 
-        <div id="loginMessage" class="login-message"></div>
+            <button
+                class="btn btn-light"
+                onclick="closeModal('introModal')"
+            >
+                取消
+            </button>
+
+            <button
+                class="btn"
+                onclick="saveIntro()"
+            >
+                儲存
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- =========================
+     DESTINATION MODAL
+========================= -->
+
+<div id="destinationModal" class="modal-backdrop">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2 id="destinationModalTitle">
+                新增目的地
+            </h2>
+
+            <button
+                class="close-btn"
+                onclick="closeModal('destinationModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="field">
+
+            <label>目的地名稱</label>
+
+            <input
+                id="destinationInput"
+                type="text"
+                placeholder="例如：日本"
+            >
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                class="btn btn-light"
+                onclick="closeModal('destinationModal')"
+            >
+                取消
+            </button>
+
+            <button
+                class="btn"
+                onclick="saveDestination()"
+            >
+                儲存
+            </button>
+
+        </div>
 
     </div>
 
 </div>
 
-
 <!-- =========================
-     APP
+     JOURNEY MODAL
 ========================= -->
 
-<div id="app" class="hidden">
+<div id="journeyModal" class="modal-backdrop">
 
-    <header class="header">
+    <div class="modal">
 
-        <div class="header-inner">
+        <div class="modal-header">
 
-            <div class="logo">
-                GOYA<span>｜走呀</span>
+            <h2 id="journeyModalTitle">
+                新增旅程
+            </h2>
+
+            <button
+                class="close-btn"
+                onclick="closeModal('journeyModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="field">
+
+            <label>主標題</label>
+
+            <input
+                id="journeyTitleInput"
+                type="text"
+                placeholder="例如：大阪 5 天 4 夜"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>副標題</label>
+
+            <input
+                id="journeySubtitleInput"
+                type="text"
+                placeholder="例如：五天四夜只要兩萬"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>創作者名稱</label>
+
+            <input
+                id="journeyCreatorInput"
+                type="text"
+                placeholder="例如：IVY"
+            >
+
+        </div>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>開始日期</label>
+
+                <input
+                    id="journeyStartInput"
+                    type="date"
+                >
+
             </div>
 
-            <div class="header-right">
+            <div class="field">
 
-                <div id="userEmail" class="user-email"></div>
+                <label>結束日期</label>
 
-                <button
-                    id="logoutBtn"
-                    class="simple-btn"
+                <input
+                    id="journeyEndInput"
+                    type="date"
                 >
-                    登出
-                </button>
 
             </div>
 
         </div>
 
-    </header>
+        <div class="field">
 
+            <label>旅程介紹</label>
 
-    <main class="page">
+            <textarea
+                id="journeyDescriptionInput"
+                placeholder="可以寫這趟旅程的特色、適合誰等等"
+            ></textarea>
 
-        <!-- HOME -->
-        <section id="homeView">
+        </div>
 
-            <div class="hero">
-
-                <div class="eyebrow">
-                    TRAVEL PLANNER
-                </div>
-
-                <div class="hero-title-row">
-
-                    <div>
-                        <h1 id="heroTitle" class="hero-title">
-                            去哪裡玩？
-                        </h1>
-
-                        <p id="heroSubtitle" class="hero-subtitle">
-                            小資也能輕鬆飛
-                        </p>
-                    </div>
-
-                    <button
-                        id="editHeroBtn"
-                        class="edit-text"
-                    >
-                        編輯
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div class="section-head">
-
-                <div>
-                    <div class="section-title">
-                        旅行目的地
-                    </div>
-
-                    <div class="section-caption">
-                        長按卡片，就可以移動順序
-                    </div>
-                </div>
-
-                <button
-                    id="addDestinationBtn"
-                    class="add-text-btn"
-                >
-                    ＋ 新增
-                </button>
-
-            </div>
-
-
-            <div
-                id="destinationList"
-                class="destination-list"
-            ></div>
-
-        </section>
-
-
-        <!-- DESTINATION -->
-        <section id="destinationView" class="hidden">
+        <div class="modal-footer">
 
             <button
-                id="backHomeBtn"
-                class="back-btn"
+                class="btn btn-light"
+                onclick="closeModal('journeyModal')"
             >
-                ← 所有目的地
+                取消
             </button>
-
-            <div class="section-head">
-
-                <div>
-
-                    <h1
-                        id="destinationTitle"
-                        class="page-title"
-                    ></h1>
-
-                    <div
-                        id="destinationSubtitle"
-                        class="page-subtitle"
-                    >
-                        我的旅行
-                    </div>
-
-                </div>
-
-                <button
-                    id="editCurrentDestinationBtn"
-                    class="edit-text"
-                >
-                    編輯
-                </button>
-
-            </div>
-
-
-            <div
-                id="journeyList"
-                class="journey-list"
-            ></div>
 
             <button
-                id="addJourneyBtn"
-                class="add-journey"
+                class="btn"
+                onclick="saveJourney()"
             >
-                ＋ 新增一趟旅程
+                儲存
             </button>
 
-        </section>
+        </div>
 
-
-        <!-- TRIP DETAIL -->
-        <section id="tripView" class="hidden">
-
-            <button
-                id="backDestinationBtn"
-                class="back-btn"
-            >
-                ← 返回
-            </button>
-
-            <div class="detail-top">
-
-                <h1
-                    id="tripTitle"
-                    class="page-title"
-                ></h1>
-
-                <div
-                    id="tripSubtitle"
-                    class="page-subtitle"
-                ></div>
-
-                <div
-                    id="tripCreator"
-                    class="detail-creator"
-                ></div>
-
-                <div
-                    id="tripDescription"
-                    class="detail-description"
-                ></div>
-
-            </div>
-
-
-            <div class="total-box">
-
-                <div class="total-label">
-                    旅程總花費
-                </div>
-
-                <div
-                    id="tripTotal"
-                    class="total-price"
-                >
-                    NT$ 0
-                </div>
-
-            </div>
-
-
-            <div class="detail-section">
-
-                <div class="detail-section-head">
-
-                    <div class="detail-section-title">
-                        行程
-                    </div>
-
-                </div>
-
-                <div id="itineraryContainer"></div>
-
-                <button
-                    id="addDayBtn"
-                    class="add-day-btn"
-                >
-                    ＋ 新增一天
-                </button>
-
-            </div>
-
-
-            <div class="detail-section">
-
-                <div class="detail-section-head">
-
-                    <div class="detail-section-title">
-                        住宿
-                    </div>
-
-                    <button
-                        id="addStayBtn"
-                        class="add-text-btn"
-                    >
-                        ＋ 新增住宿
-                    </button>
-
-                </div>
-
-                <div id="stayContainer"></div>
-
-            </div>
-
-        </section>
-
-    </main>
+    </div>
 
 </div>
-
 
 <!-- =========================
-     MODAL
+     ITINERARY MODAL
 ========================= -->
 
-<div
-    id="modalBackdrop"
-    class="modal-backdrop hidden"
->
+<div id="itemModal" class="modal-backdrop">
 
-    <div
-        id="modal"
-        class="modal"
-    ></div>
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2 id="itemModalTitle">
+                新增行程
+            </h2>
+
+            <button
+                class="close-btn"
+                onclick="closeModal('itemModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="field">
+
+            <label>行程名稱</label>
+
+            <input
+                id="itemTitleInput"
+                type="text"
+                placeholder="例如：伏見稻荷大社"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>地點</label>
+
+            <input
+                id="itemLocationInput"
+                type="text"
+                placeholder="例如：京都"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>交通</label>
+
+            <input
+                id="itemTransportInput"
+                type="text"
+                placeholder="例如：搭 JR"
+            >
+
+        </div>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>價格（台幣）</label>
+
+                <input
+                    id="itemPriceInput"
+                    type="number"
+                    min="0"
+                    placeholder="0"
+                >
+
+            </div>
+
+            <div class="field">
+
+                <label>需要時間</label>
+
+                <input
+                    id="itemDurationInput"
+                    type="text"
+                    placeholder="例如：2 小時"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>開始時間</label>
+
+                <input
+                    id="itemStartInput"
+                    type="time"
+                >
+
+            </div>
+
+            <div class="field">
+
+                <label>結束時間</label>
+
+                <input
+                    id="itemEndInput"
+                    type="time"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="field">
+
+            <label>備註</label>
+
+            <textarea
+                id="itemNotesInput"
+                placeholder="例如：記得提前預約"
+            ></textarea>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                class="btn btn-light"
+                onclick="closeModal('itemModal')"
+            >
+                取消
+            </button>
+
+            <button
+                class="btn"
+                onclick="saveItem()"
+            >
+                儲存
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 
+<!-- =========================
+     STAY MODAL
+========================= -->
+
+<div id="stayModal" class="modal-backdrop">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2 id="stayModalTitle">
+                新增住宿
+            </h2>
+
+            <button
+                class="close-btn"
+                onclick="closeModal('stayModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="field">
+
+            <label>住宿名稱</label>
+
+            <input
+                id="stayNameInput"
+                type="text"
+                placeholder="例如：大阪難波飯店"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>地址</label>
+
+            <input
+                id="stayAddressInput"
+                type="text"
+                placeholder="住宿地址"
+            >
+
+        </div>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>入住</label>
+
+                <input
+                    id="stayCheckInInput"
+                    type="date"
+                >
+
+            </div>
+
+            <div class="field">
+
+                <label>退房</label>
+
+                <input
+                    id="stayCheckOutInput"
+                    type="date"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="field">
+
+            <label>價格（台幣）</label>
+
+            <input
+                id="stayPriceInput"
+                type="number"
+                min="0"
+                placeholder="0"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>訂房資訊</label>
+
+            <input
+                id="stayBookingInput"
+                type="text"
+                placeholder="例如：Booking.com"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>備註</label>
+
+            <textarea
+                id="stayNotesInput"
+                placeholder="例如：含早餐"
+            ></textarea>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                class="btn btn-light"
+                onclick="closeModal('stayModal')"
+            >
+                取消
+            </button>
+
+            <button
+                class="btn"
+                onclick="saveStay()"
+            >
+                儲存
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
 <script>
-/* =========================================================
+
+/* =====================================================
    SUPABASE
-========================================================= */
+===================================================== */
 
 const SUPABASE_URL =
     "https://vkwriekcbvvvkmsmlbzu.supabase.co";
@@ -1175,35 +1182,9 @@ const supabaseClient =
     );
 
 
-/* =========================================================
-   STATE
-========================================================= */
-
-let currentUser = null;
-
-let destinations = [];
-
-let currentDestination = null;
-
-let currentTrip = null;
-
-let currentTrips = [];
-
-let allItineraries = [];
-
-let allStays = [];
-
-
-/* =========================================================
-   DRAG STATE
-========================================================= */
-
-let activeDrag = null;
-
-
-/* =========================================================
-   DEFAULT DESTINATIONS
-========================================================= */
+/* =====================================================
+   DEFAULT DATA
+===================================================== */
 
 const DEFAULT_DESTINATIONS = [
     "日本",
@@ -1213,243 +1194,271 @@ const DEFAULT_DESTINATIONS = [
 ];
 
 
-/* =========================================================
-   DOM
-========================================================= */
+/* =====================================================
+   STATE
+===================================================== */
 
-const loginPage =
-    document.getElementById("loginPage");
+let currentPage = "home";
 
-const app =
-    document.getElementById("app");
+let currentDestination = "";
 
-const homeView =
-    document.getElementById("homeView");
+let currentTrip = null;
 
-const destinationView =
-    document.getElementById("destinationView");
+let currentDay = 1;
 
-const tripView =
-    document.getElementById("tripView");
+let editingDestinationIndex = -1;
 
-const modalBackdrop =
-    document.getElementById("modalBackdrop");
+let editingJourneyId = null;
 
-const modal =
-    document.getElementById("modal");
+let editingItemId = null;
+
+let editingStayId = null;
+
+let currentTrips = [];
 
 
-/* =========================================================
+/* =====================================================
+   LOCAL STORAGE
+===================================================== */
+
+function getDestinations(){
+
+    const saved =
+        localStorage.getItem("goya_destinations");
+
+    if(saved === null){
+
+        localStorage.setItem(
+            "goya_destinations",
+            JSON.stringify(DEFAULT_DESTINATIONS)
+        );
+
+        return [...DEFAULT_DESTINATIONS];
+    }
+
+    try{
+
+        return JSON.parse(saved);
+
+    }catch(e){
+
+        return [...DEFAULT_DESTINATIONS];
+
+    }
+}
+
+
+function saveDestinations(list){
+
+    localStorage.setItem(
+        "goya_destinations",
+        JSON.stringify(list)
+    );
+}
+
+
+function getIntro(){
+
+    return {
+
+        title:
+            localStorage.getItem(
+                "goya_intro_title"
+            )
+            || "去哪裡玩？",
+
+        subtitle:
+            localStorage.getItem(
+                "goya_intro_subtitle"
+            )
+            || "小資也能輕鬆飛"
+
+    };
+}
+
+
+function saveIntroData(title, subtitle){
+
+    localStorage.setItem(
+        "goya_intro_title",
+        title
+    );
+
+    localStorage.setItem(
+        "goya_intro_subtitle",
+        subtitle
+    );
+}
+
+
+/* =====================================================
+   JOURNEY ORDER
+===================================================== */
+
+function getJourneyOrder(destination){
+
+    const key =
+        "goya_journey_order_" +
+        destination;
+
+    const saved =
+        localStorage.getItem(key);
+
+    if(!saved){
+        return [];
+    }
+
+    try{
+
+        return JSON.parse(saved);
+
+    }catch(e){
+
+        return [];
+
+    }
+}
+
+
+function saveJourneyOrder(destination, ids){
+
+    localStorage.setItem(
+        "goya_journey_order_" + destination,
+        JSON.stringify(ids)
+    );
+}
+
+
+function sortTripsBySavedOrder(trips){
+
+    const order =
+        getJourneyOrder(
+            currentDestination
+        );
+
+    if(!order.length){
+
+        return trips;
+
+    }
+
+    const map = new Map(
+        trips.map(
+            trip => [
+                trip.id,
+                trip
+            ]
+        )
+    );
+
+    const result = [];
+
+    order.forEach(id => {
+
+        if(map.has(id)){
+
+            result.push(
+                map.get(id)
+            );
+
+            map.delete(id);
+
+        }
+
+    });
+
+    map.forEach(trip => {
+
+        result.push(trip);
+
+    });
+
+    return result;
+}
+
+
+/* =====================================================
    INIT
-========================================================= */
+===================================================== */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    async () => {
+async function init(){
 
-        setupEvents();
-
-        const {
-            data:{
-                session
-            }
-        } =
-            await supabaseClient.auth.getSession();
-
-        if(session?.user){
-
-            currentUser =
-                session.user;
-
-            showApp();
-
-        }else{
-
-            showLogin();
-
+    const {
+        data:{
+            session
         }
+    } =
+        await supabaseClient.auth.getSession();
+
+    if(!session){
+
+        renderLogin();
+
+        return;
 
     }
-);
 
-
-supabaseClient.auth.onAuthStateChange(
-    (_event, session) => {
-
-        if(session?.user){
-
-            currentUser =
-                session.user;
-
-            showApp();
-
-        }else{
-
-            currentUser = null;
-
-            showLogin();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   BASIC EVENTS
-========================================================= */
-
-function setupEvents(){
-
-    document
-        .getElementById("loginBtn")
-        .addEventListener(
-            "click",
-            login
-        );
-
-    document
-        .getElementById("loginPassword")
-        .addEventListener(
-            "keydown",
-            e => {
-
-                if(e.key === "Enter"){
-                    login();
-                }
-
-            }
-        );
-
-    document
-        .getElementById("logoutBtn")
-        .addEventListener(
-            "click",
-            async () => {
-
-                await supabaseClient
-                    .auth
-                    .signOut();
-
-            }
-        );
-
-    document
-        .getElementById("editHeroBtn")
-        .addEventListener(
-            "click",
-            editHero
-        );
-
-    document
-        .getElementById("addDestinationBtn")
-        .addEventListener(
-            "click",
-            addDestination
-        );
-
-    document
-        .getElementById("backHomeBtn")
-        .addEventListener(
-            "click",
-            showHome
-        );
-
-    document
-        .getElementById("addJourneyBtn")
-        .addEventListener(
-            "click",
-            addJourney
-        );
-
-    document
-        .getElementById("backDestinationBtn")
-        .addEventListener(
-            "click",
-            async () => {
-
-                tripView.classList.add(
-                    "hidden"
-                );
-
-                destinationView.classList.remove(
-                    "hidden"
-                );
-
-                await renderJourneys();
-
-            }
-        );
-
-    document
-        .getElementById("addDayBtn")
-        .addEventListener(
-            "click",
-            addDay
-        );
-
-    document
-        .getElementById("addStayBtn")
-        .addEventListener(
-            "click",
-            () => openStayModal()
-        );
-
-    modalBackdrop.addEventListener(
-        "click",
-        e => {
-
-            if(
-                e.target ===
-                modalBackdrop
-            ){
-
-                closeModal();
-
-            }
-
-        }
-    );
+    renderHome();
 
 }
 
 
-/* =========================================================
-   AUTH
-========================================================= */
+/* =====================================================
+   LOGIN
+===================================================== */
 
-function showLogin(){
+function renderLogin(){
 
-    loginPage.classList.remove(
-        "hidden"
-    );
+    document.getElementById("app").innerHTML = `
 
-    app.classList.add(
-        "hidden"
-    );
+        <div class="login-box">
 
-}
+            <h1>GOYA｜走呀</h1>
 
+            <p>
+                登入後開始整理你的旅行。
+            </p>
 
-async function showApp(){
+            <div class="field">
 
-    loginPage.classList.add(
-        "hidden"
-    );
+                <label>電子信箱</label>
 
-    app.classList.remove(
-        "hidden"
-    );
+                <input
+                    id="loginEmail"
+                    type="email"
+                    placeholder="Email"
+                >
 
-    document.getElementById(
-        "userEmail"
-    ).textContent =
-        currentUser?.email || "";
+            </div>
 
-    await loadDestinations();
+            <div class="field">
 
-    showHome();
+                <label>密碼</label>
 
+                <input
+                    id="loginPassword"
+                    type="password"
+                    placeholder="密碼"
+                >
+
+            </div>
+
+            <button
+                class="btn"
+                style="width:100%;"
+                onclick="login()"
+            >
+                登入
+            </button>
+
+            <div
+                id="loginMessage"
+                class="login-message"
+            ></div>
+
+        </div>
+
+    `;
 }
 
 
@@ -1457,32 +1466,28 @@ async function login(){
 
     const email =
         document
-            .getElementById(
-                "loginEmail"
-            )
+            .getElementById("loginEmail")
             .value
             .trim();
 
     const password =
         document
-            .getElementById(
-                "loginPassword"
-            )
+            .getElementById("loginPassword")
             .value;
 
     const message =
-        document
-            .getElementById(
-                "loginMessage"
-            );
+        document.getElementById(
+            "loginMessage"
+        );
 
     message.textContent =
-        "登入中…";
+        "登入中……";
 
     const {
         error
     } =
-        await supabaseClient.auth
+        await supabaseClient
+            .auth
             .signInWithPassword({
                 email,
                 password
@@ -1491,194 +1496,147 @@ async function login(){
     if(error){
 
         message.textContent =
-            "登入失敗：" +
             error.message;
 
-    }else{
-
-        message.textContent = "";
+        return;
 
     }
 
+    renderHome();
 }
 
 
-/* =========================================================
-   HERO
-========================================================= */
+async function logout(){
 
-function loadHero(){
+    await supabaseClient
+        .auth
+        .signOut();
 
-    const title =
-        localStorage.getItem(
-            "goya_intro_title"
-        ) ||
-        "去哪裡玩？";
-
-    const subtitle =
-        localStorage.getItem(
-            "goya_intro_subtitle"
-        ) ||
-        "小資也能輕鬆飛";
-
-    document.getElementById(
-        "heroTitle"
-    ).textContent =
-        title;
-
-    document.getElementById(
-        "heroSubtitle"
-    ).textContent =
-        subtitle;
-
+    renderLogin();
 }
 
 
-function editHero(){
+/* =====================================================
+   HOME
+===================================================== */
 
-    openModal(`
-        <div class="modal-title">
-            編輯首頁文字
-        </div>
+async function renderHome(){
 
-        <div class="field">
-            <label>主標題</label>
-            <input
-                id="modalHeroTitle"
-                class="input"
-                value="${escapeAttr(
-                    localStorage.getItem(
-                        "goya_intro_title"
-                    ) ||
-                    "去哪裡玩？"
-                )}"
-            >
-        </div>
+    currentPage = "home";
 
-        <div class="field">
-            <label>副標題</label>
-            <input
-                id="modalHeroSubtitle"
-                class="input"
-                value="${escapeAttr(
-                    localStorage.getItem(
-                        "goya_intro_subtitle"
-                    ) ||
-                    "小資也能輕鬆飛"
-                )}"
-            >
-        </div>
+    currentDestination = "";
 
-        <div class="modal-actions">
+    currentTrip = null;
 
-            <button
-                class="cancel-btn"
-                onclick="closeModal()"
-            >
-                取消
-            </button>
-
-            <button
-                class="save-btn"
-                onclick="saveHero()"
-            >
-                儲存
-            </button>
-
-        </div>
-    `);
-
-}
-
-
-function saveHero(){
-
-    const title =
-        document.getElementById(
-            "modalHeroTitle"
-        )
-        .value
-        .trim();
-
-    const subtitle =
-        document.getElementById(
-            "modalHeroSubtitle"
-        )
-        .value
-        .trim();
-
-    localStorage.setItem(
-        "goya_intro_title",
-        title ||
-        "去哪裡玩？"
-    );
-
-    localStorage.setItem(
-        "goya_intro_subtitle",
-        subtitle ||
-        "小資也能輕鬆飛"
-    );
-
-    loadHero();
-
-    closeModal();
-
-}
-
-
-/* =========================================================
-   DESTINATIONS
-========================================================= */
-
-function getStoredDestinations(){
-
-    try{
-
-        const data =
-            JSON.parse(
-                localStorage.getItem(
-                    "goya_destinations"
-                )
-            );
-
-        if(
-            Array.isArray(data) &&
-            data.length
-        ){
-
-            return data;
-
+    const {
+        data:{
+            user
         }
+    } =
+        await supabaseClient
+            .auth
+            .getUser();
 
-    }catch(e){}
+    const intro =
+        getIntro();
 
-    return [
-        ...DEFAULT_DESTINATIONS
-    ];
+    document.getElementById("app").innerHTML = `
 
-}
+        <div class="app">
+
+            <header class="header">
+
+                <div class="logo">
+                    GOYA <span>｜走呀</span>
+                </div>
+
+                <div class="header-right">
+
+                    <div class="user-email">
+                        ${escapeHtml(
+                            user?.email || ""
+                        )}
+                    </div>
+
+                    <button
+                        class="btn btn-light btn-small"
+                        onclick="logout()"
+                    >
+                        登出
+                    </button>
+
+                </div>
+
+            </header>
 
 
-function saveDestinations(){
+            <section class="home-intro">
 
-    localStorage.setItem(
-        "goya_destinations",
-        JSON.stringify(
-            destinations
-        )
-    );
+                <div class="title-row">
 
-}
+                    <div>
+
+                        <h1 class="home-title">
+                            ${escapeHtml(
+                                intro.title
+                            )}
+                        </h1>
+
+                        <div class="home-subtitle">
+                            ${escapeHtml(
+                                intro.subtitle
+                            )}
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="edit-intro-btn"
+                        onclick="openIntroModal()"
+                    >
+                        編輯
+                    </button>
+
+                </div>
+
+            </section>
 
 
-async function loadDestinations(){
+            <section class="section">
 
-    destinations =
-        getStoredDestinations();
+                <div class="section-header">
 
-    saveDestinations();
+                    <div>
 
-    loadHero();
+                        <h2 class="section-title">
+                            目的地
+                        </h2>
+
+                        <div class="section-description">
+                            可以自由新增、編輯、刪除、上下移動
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="destinationList"
+                    class="destination-list"
+                >
+
+                    <div class="loading">
+                        載入中……
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    `;
 
     await renderDestinations();
 
@@ -1687,309 +1645,277 @@ async function loadDestinations(){
 
 async function renderDestinations(){
 
+    const list =
+        getDestinations();
+
     const container =
         document.getElementById(
             "destinationList"
         );
 
-    container.innerHTML = "";
-
-    if(!destinations.length){
-
-        container.innerHTML = `
-            <div class="empty-state">
-                還沒有目的地
-            </div>
-        `;
+    if(!container){
 
         return;
 
     }
 
-    const tripCounts =
-        await getTripCounts();
+    let html = "";
 
+    for(
+        let i = 0;
+        i < list.length;
+        i++
+    ){
 
-    destinations.forEach(
-        (destination, index) => {
+        const destination =
+            list[i];
 
-            const card =
-                document.createElement(
-                    "div"
-                );
+        const {
+            count
+        } =
+            await getDestinationCount(
+                destination
+            );
 
-            card.className =
-                "destination-card";
+        html += `
 
-            card.dataset.id =
-                destination;
+            <div class="destination-card">
 
-            card.innerHTML = `
+                <div
+                    class="destination-main"
+                    onclick="openDestination('${escapeJs(destination)}')"
+                >
 
-                <div>
-                    <div class="destination-number">
-                        ${String(
-                            index + 1
-                        ).padStart(2,"0")}
+                    <div class="destination-name">
+                        ${escapeHtml(destination)}
                     </div>
-                </div>
-
-                <div class="destination-name">
-                    ${escapeHTML(
-                        destination
-                    )}
-                </div>
-
-                <div class="destination-bottom">
 
                     <div class="destination-count">
-                        ${
-                            tripCounts[
-                                destination
-                            ] || 0
-                        } 趟旅程
-                    </div>
-
-                    <div class="destination-actions">
-
-                        <button
-                            class="small-action"
-                            data-action="edit"
-                        >
-                            編輯
-                        </button>
-
-                        <button
-                            class="small-action"
-                            data-action="delete"
-                        >
-                            刪除
-                        </button>
-
+                        ${count} 個旅程
                     </div>
 
                 </div>
-            `;
 
 
-            card.addEventListener(
-                "click",
-                e => {
+                <div class="destination-actions">
 
-                    if(
-                        e.target.closest(
-                            ".destination-actions"
-                        )
-                    ){
+                    <button
+                        class="icon-btn"
+                        title="往上"
+                        onclick="moveDestination(${i}, -1)"
+                        ${i === 0 ? "disabled" : ""}
+                    >
+                        ↑
+                    </button>
 
-                        return;
+                    <button
+                        class="icon-btn"
+                        title="往下"
+                        onclick="moveDestination(${i}, 1)"
+                        ${i === list.length - 1 ? "disabled" : ""}
+                    >
+                        ↓
+                    </button>
 
-                    }
+                    <button
+                        class="icon-btn"
+                        title="編輯"
+                        onclick="openDestinationModal(${i})"
+                    >
+                        ✏️
+                    </button>
 
-                    if(
-                        card.dataset.wasDragged ===
-                        "true"
-                    ){
+                    <button
+                        class="icon-btn"
+                        title="刪除"
+                        onclick="deleteDestination(${i})"
+                    >
+                        🗑
+                    </button>
 
-                        card.dataset.wasDragged =
-                            "false";
+                </div>
 
-                        return;
+            </div>
 
-                    }
+        `;
+    }
 
-                    openDestination(
-                        destination
-                    );
+    html += `
 
-                }
-            );
+        <button
+            class="add-destination"
+            onclick="openDestinationModal(-1)"
+        >
+            ＋ 新增目的地
+        </button>
 
+    `;
 
-            card
-                .querySelector(
-                    '[data-action="edit"]'
-                )
-                .addEventListener(
-                    "click",
-                    e => {
-
-                        e.stopPropagation();
-
-                        editDestination(
-                            destination
-                        );
-
-                    }
-                );
-
-
-            card
-                .querySelector(
-                    '[data-action="delete"]'
-                )
-                .addEventListener(
-                    "click",
-                    e => {
-
-                        e.stopPropagation();
-
-                        deleteDestination(
-                            destination
-                        );
-
-                    }
-                );
-
-
-            setupPointerDrag(
-                card,
-                "destination"
-            );
-
-
-            container.appendChild(
-                card
-            );
-
-        }
-    );
-
-
-    const addCard =
-        document.createElement(
-            "div"
-        );
-
-    addCard.className =
-        "add-destination-card";
-
-    addCard.textContent =
-        "＋ 新增目的地";
-
-    addCard.addEventListener(
-        "click",
-        addDestination
-    );
-
-    container.appendChild(
-        addCard
-    );
+    container.innerHTML =
+        html;
 
 }
 
 
-async function getTripCounts(){
-
-    const counts = {};
-
-    destinations.forEach(
-        d => counts[d] = 0
-    );
+async function getDestinationCount(
+    destination
+){
 
     const {
-        data,
-        error
+        count
     } =
         await supabaseClient
             .from("trips")
             .select(
-                "destination"
+                "id",
+                {
+                    count:"exact",
+                    head:true
+                }
+            )
+            .eq(
+                "destination",
+                destination
             );
 
-    if(error){
+    return {
+        count:count || 0
+    };
 
-        console.error(error);
+}
 
-        return counts;
 
-    }
+/* =====================================================
+   INTRO EDIT
+===================================================== */
 
-    (data || []).forEach(
-        trip => {
+function openIntroModal(){
 
-            if(
-                Object.prototype.hasOwnProperty.call(
-                    counts,
-                    trip.destination
-                )
-            ){
+    const intro =
+        getIntro();
 
-                counts[
-                    trip.destination
-                ]++;
+    document.getElementById(
+        "introTitleInput"
+    ).value =
+        intro.title;
 
-            }
+    document.getElementById(
+        "introSubtitleInput"
+    ).value =
+        intro.subtitle;
 
-        }
+    openModal(
+        "introModal"
     );
 
-    return counts;
-
 }
 
 
-/* =========================================================
-   ADD DESTINATION
-========================================================= */
+function saveIntro(){
 
-function addDestination(){
-
-    openModal(`
-        <div class="modal-title">
-            新增目的地
-        </div>
-
-        <div class="field">
-            <label>目的地名稱</label>
-            <input
-                id="newDestination"
-                class="input"
-                placeholder="例如：泰國"
-            >
-        </div>
-
-        <div class="modal-actions">
-
-            <button
-                class="cancel-btn"
-                onclick="closeModal()"
-            >
-                取消
-            </button>
-
-            <button
-                class="save-btn"
-                onclick="saveNewDestination()"
-            >
-                新增
-            </button>
-
-        </div>
-    `);
-
-}
-
-
-async function saveNewDestination(){
-
-    const name =
+    const title =
         document
             .getElementById(
-                "newDestination"
+                "introTitleInput"
             )
             .value
             .trim();
+
+    const subtitle =
+        document
+            .getElementById(
+                "introSubtitleInput"
+            )
+            .value
+            .trim();
+
+    saveIntroData(
+        title || "去哪裡玩？",
+        subtitle || "小資也能輕鬆飛"
+    );
+
+    closeModal(
+        "introModal"
+    );
+
+    renderHome();
+
+}
+
+
+/* =====================================================
+   DESTINATION
+===================================================== */
+
+function openDestinationModal(index){
+
+    editingDestinationIndex =
+        index;
+
+    if(index === -1){
+
+        document.getElementById(
+            "destinationModalTitle"
+        ).textContent =
+            "新增目的地";
+
+        document.getElementById(
+            "destinationInput"
+        ).value =
+            "";
+
+    }else{
+
+        const list =
+            getDestinations();
+
+        document.getElementById(
+            "destinationModalTitle"
+        ).textContent =
+            "編輯目的地";
+
+        document.getElementById(
+            "destinationInput"
+        ).value =
+            list[index];
+
+    }
+
+    openModal(
+        "destinationModal"
+    );
+
+}
+
+
+async function saveDestination(){
+
+    const input =
+        document.getElementById(
+            "destinationInput"
+        );
+
+    const name =
+        input.value.trim();
 
     if(!name){
 
+        alert(
+            "請輸入目的地名稱"
+        );
+
         return;
 
     }
 
+    const list =
+        getDestinations();
+
     if(
-        destinations.includes(
-            name
+        list.includes(name) &&
+        (
+            editingDestinationIndex === -1 ||
+            list[editingDestinationIndex] !== name
         )
     ){
 
@@ -2001,187 +1927,86 @@ async function saveNewDestination(){
 
     }
 
-    destinations.push(
-        name
-    );
-
-    saveDestinations();
-
-    await renderDestinations();
-
-    closeModal();
-
-}
-
-
-/* =========================================================
-   EDIT DESTINATION
-========================================================= */
-
-function editDestination(
-    oldName
-){
-
-    openModal(`
-        <div class="modal-title">
-            編輯目的地
-        </div>
-
-        <div class="field">
-            <label>目的地名稱</label>
-            <input
-                id="editDestinationInput"
-                class="input"
-                value="${escapeAttr(
-                    oldName
-                )}"
-            >
-        </div>
-
-        <div class="modal-actions">
-
-            <button
-                class="cancel-btn"
-                onclick="closeModal()"
-            >
-                取消
-            </button>
-
-            <button
-                class="save-btn"
-                onclick="saveEditedDestination(
-                    ${JSON.stringify(oldName)}
-                )"
-            >
-                儲存
-            </button>
-
-        </div>
-    `);
-
-}
-
-
-async function saveEditedDestination(
-    oldName
-){
-
-    const newName =
-        document
-            .getElementById(
-                "editDestinationInput"
-            )
-            .value
-            .trim();
-
-    if(!newName){
-
-        return;
-
-    }
-
     if(
-        newName !== oldName &&
-        destinations.includes(
-            newName
-        )
+        editingDestinationIndex === -1
     ){
 
-        alert(
-            "這個目的地已經存在"
+        list.push(name);
+
+        saveDestinations(
+            list
         );
 
-        return;
+    }else{
 
-    }
+        const oldName =
+            list[
+                editingDestinationIndex
+            ];
 
-    const index =
-        destinations.indexOf(
-            oldName
-        );
+        if(oldName !== name){
 
-    if(index !== -1){
+            list[
+                editingDestinationIndex
+            ] = name;
 
-        destinations[index] =
-            newName;
+            saveDestinations(
+                list
+            );
 
-    }
-
-    saveDestinations();
-
-
-    if(
-        newName !== oldName
-    ){
-
-        const {
-            error
-        } =
             await supabaseClient
                 .from("trips")
                 .update({
-                    destination:
-                        newName
+                    destination:name
                 })
                 .eq(
                     "destination",
                     oldName
                 );
 
-        if(error){
+            const oldOrder =
+                getJourneyOrder(
+                    oldName
+                );
 
-            console.error(error);
+            if(oldOrder.length){
 
-        }
+                saveJourneyOrder(
+                    name,
+                    oldOrder
+                );
 
+                localStorage.removeItem(
+                    "goya_journey_order_" +
+                    oldName
+                );
 
-        const oldKey =
-            "goya_journey_order_" +
-            oldName;
-
-        const newKey =
-            "goya_journey_order_" +
-            newName;
-
-        const oldOrder =
-            localStorage.getItem(
-                oldKey
-            );
-
-        if(oldOrder){
-
-            localStorage.setItem(
-                newKey,
-                oldOrder
-            );
-
-            localStorage.removeItem(
-                oldKey
-            );
+            }
 
         }
 
     }
 
+    closeModal(
+        "destinationModal"
+    );
 
-    await renderDestinations();
-
-    closeModal();
+    await renderHome();
 
 }
 
 
-/* =========================================================
-   DELETE DESTINATION
-========================================================= */
+async function deleteDestination(index){
 
-async function deleteDestination(
-    destination
-){
+    const list =
+        getDestinations();
+
+    const name =
+        list[index];
 
     const ok =
         confirm(
-            `確定要移除「${destination}」嗎？\n\n目的地會從首頁移除，但原本的旅程資料不會刪除。`
+            `確定要刪除「${name}」嗎？\n\n目的地會從主頁移除，但原本的旅程資料不會刪除。`
         );
 
     if(!ok){
@@ -2190,85 +2015,150 @@ async function deleteDestination(
 
     }
 
-    destinations =
-        destinations.filter(
-            d =>
-                d !== destination
-        );
-
-    saveDestinations();
-
-    localStorage.removeItem(
-        "goya_journey_order_" +
-        destination
+    list.splice(
+        index,
+        1
     );
 
-    await renderDestinations();
+    saveDestinations(
+        list
+    );
+
+    await renderHome();
 
 }
 
 
-/* =========================================================
+function moveDestination(
+    index,
+    direction
+){
+
+    const list =
+        getDestinations();
+
+    const newIndex =
+        index + direction;
+
+    if(
+        newIndex < 0 ||
+        newIndex >= list.length
+    ){
+
+        return;
+
+    }
+
+    [
+        list[index],
+        list[newIndex]
+    ] =
+    [
+        list[newIndex],
+        list[index]
+    ];
+
+    saveDestinations(
+        list
+    );
+
+    renderHome();
+
+}
+
+
+/* =====================================================
    DESTINATION PAGE
-========================================================= */
+===================================================== */
 
 async function openDestination(
     destination
 ){
 
+    currentPage =
+        "destination";
+
     currentDestination =
         destination;
 
-    homeView.classList.add(
-        "hidden"
-    );
-
-    tripView.classList.add(
-        "hidden"
-    );
-
-    destinationView.classList.remove(
-        "hidden"
-    );
-
     document.getElementById(
-        "destinationTitle"
-    ).textContent =
-        destination;
+        "app"
+    ).innerHTML = `
+
+        <div class="app">
+
+            <header class="header">
+
+                <div class="logo">
+                    GOYA <span>｜走呀</span>
+                </div>
+
+                <button
+                    class="btn btn-light btn-small"
+                    onclick="renderHome()"
+                >
+                    回首頁
+                </button>
+
+            </header>
+
+
+            <section class="section">
+
+                <button
+                    class="back-btn"
+                    onclick="renderHome()"
+                >
+                    ← 回目的地
+                </button>
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h1 class="destination-heading">
+                            ${escapeHtml(
+                                destination
+                            )}
+                        </h1>
+
+                        <div class="section-description">
+                            大家分享的旅行行程
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="btn btn-small"
+                        onclick="openJourneyModal(null)"
+                    >
+                        ＋ 新增旅程
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="journeyList"
+                    class="journey-list"
+                >
+
+                    <div class="loading">
+                        載入中……
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    `;
 
     await renderJourneys();
 
 }
 
-
-function showHome(){
-
-    currentDestination = null;
-
-    currentTrip = null;
-
-    destinationView.classList.add(
-        "hidden"
-    );
-
-    tripView.classList.add(
-        "hidden"
-    );
-
-    homeView.classList.remove(
-        "hidden"
-    );
-
-    loadHero();
-
-    renderDestinations();
-
-}
-
-
-/* =========================================================
-   JOURNEYS
-========================================================= */
 
 async function renderJourneys(){
 
@@ -2277,7 +2167,11 @@ async function renderJourneys(){
             "journeyList"
         );
 
-    container.innerHTML = "";
+    if(!container){
+
+        return;
+
+    }
 
     const {
         data,
@@ -2293,12 +2187,14 @@ async function renderJourneys(){
 
     if(error){
 
-        console.error(error);
-
         container.innerHTML = `
-            <div class="empty-state">
-                無法讀取旅程
+
+            <div class="empty">
+                ${escapeHtml(
+                    error.message
+                )}
             </div>
+
         `;
 
         return;
@@ -2307,131 +2203,1899 @@ async function renderJourneys(){
 
     currentTrips =
         sortTripsBySavedOrder(
-            data || [],
-            currentDestination
+            data || []
         );
-
 
     if(!currentTrips.length){
 
         container.innerHTML = `
-            <div class="empty-state">
-                還沒有旅程<br>
-                <span style="font-size:12px;">
-                    新增你的第一趟旅行吧
-                </span>
+
+            <div class="empty">
+
+                還沒有旅程。
+
+                <br><br>
+
+                <button
+                    class="btn"
+                    onclick="openJourneyModal(null)"
+                >
+                    ＋ 新增第一個旅程
+                </button>
+
             </div>
+
         `;
 
         return;
 
     }
 
+    let html = "";
 
     currentTrips.forEach(
-        trip => {
+        (
+            trip,
+            index
+        ) => {
 
-            const meta =
+            const info =
                 parseTripDescription(
                     trip.description
                 );
 
-            const card =
-                document.createElement(
-                    "div"
-                );
+            html += `
 
-            card.className =
-                "journey-card";
+                <div class="journey-card">
 
-            card.dataset.id =
-                trip.id;
+                    <div class="journey-top">
 
-            card.innerHTML = `
+                        <div
+                            class="journey-main"
+                            onclick="openTrip('${escapeJs(trip.id)}')"
+                        >
 
-                <div class="journey-info">
-
-                    <div class="journey-title">
-                        ${escapeHTML(
-                            trip.title ||
-                            "未命名旅程"
-                        )}
-                    </div>
-
-                    ${
-                        meta.subtitle
-                        ? `
-                            <div class="journey-subtitle">
-                                ${escapeHTML(
-                                    meta.subtitle
+                            <div class="journey-title">
+                                ${escapeHtml(
+                                    trip.title ||
+                                    "未命名旅程"
                                 )}
                             </div>
-                        `
-                        : ""
-                    }
 
-                    <div class="journey-meta">
-                        ${
-                            meta.creator
-                            ? "by " +
-                              escapeHTML(
-                                  meta.creator
-                              )
-                            : "旅程"
-                        }
+                            ${
+                                info.subtitle
+                                ?
+                                `
+                                <div class="journey-subtitle">
+                                    ${escapeHtml(
+                                        info.subtitle
+                                    )}
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            <div class="journey-creator">
+                                ${
+                                    info.creator
+                                    ?
+                                    `by ${escapeHtml(
+                                        info.creator
+                                    )}`
+                                    :
+                                    "尚未設定創作者"
+                                }
+                            </div>
+
+                        </div>
+
+
+                        <div class="journey-actions">
+
+                            <button
+                                class="icon-btn"
+                                onclick="moveJourney(${index}, -1)"
+                                ${index === 0 ? "disabled" : ""}
+                            >
+                                ↑
+                            </button>
+
+                            <button
+                                class="icon-btn"
+                                onclick="moveJourney(${index}, 1)"
+                                ${index === currentTrips.length - 1 ? "disabled" : ""}
+                            >
+                                ↓
+                            </button>
+
+                            <button
+                                class="icon-btn"
+                                onclick="openJourneyModal('${escapeJs(trip.id)}')"
+                            >
+                                ✏️
+                            </button>
+
+                            <button
+                                class="icon-btn"
+                                onclick="deleteJourney('${escapeJs(trip.id)}')"
+                            >
+                                🗑
+                            </button>
+
+                        </div>
+
                     </div>
 
                 </div>
 
-                <div class="journey-arrow">
-                    ›
-                </div>
             `;
 
+        }
+    );
 
-            card.addEventListener(
-                "click",
-                () => {
+    container.innerHTML =
+        html;
 
-                    if(
-                        card.dataset.wasDragged ===
-                        "true"
-                    ){
+}
 
-                        card.dataset.wasDragged =
-                            "false";
 
-                        return;
+/* =====================================================
+   JOURNEY ORDER
+===================================================== */
 
-                    }
+function moveJourney(
+    index,
+    direction
+){
 
-                    openTrip(trip);
+    const newIndex =
+        index + direction;
 
-                }
+    if(
+        newIndex < 0 ||
+        newIndex >= currentTrips.length
+    ){
+
+        return;
+
+    }
+
+    const ids =
+        currentTrips.map(
+            trip => trip.id
+        );
+
+    [
+        ids[index],
+        ids[newIndex]
+    ] =
+    [
+        ids[newIndex],
+        ids[index]
+    ];
+
+    saveJourneyOrder(
+        currentDestination,
+        ids
+    );
+
+    renderJourneys();
+
+}
+
+
+/* =====================================================
+   JOURNEY MODAL
+===================================================== */
+
+function openJourneyModal(
+    tripId
+){
+
+    editingJourneyId =
+        tripId;
+
+    if(!tripId){
+
+        document.getElementById(
+            "journeyModalTitle"
+        ).textContent =
+            "新增旅程";
+
+        document.getElementById(
+            "journeyTitleInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "journeySubtitleInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "journeyCreatorInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "journeyStartInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "journeyEndInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "journeyDescriptionInput"
+        ).value =
+            "";
+
+    }else{
+
+        const trip =
+            currentTrips.find(
+                t =>
+                    t.id === tripId
             );
 
+        if(!trip){
 
-            setupPointerDrag(
-                card,
-                "journey"
-            );
-
-
-            container.appendChild(
-                card
-            );
+            return;
 
         }
+
+        const info =
+            parseTripDescription(
+                trip.description
+            );
+
+        document.getElementById(
+            "journeyModalTitle"
+        ).textContent =
+            "編輯旅程";
+
+        document.getElementById(
+            "journeyTitleInput"
+        ).value =
+            trip.title || "";
+
+        document.getElementById(
+            "journeySubtitleInput"
+        ).value =
+            info.subtitle || "";
+
+        document.getElementById(
+            "journeyCreatorInput"
+        ).value =
+            info.creator || "";
+
+        document.getElementById(
+            "journeyStartInput"
+        ).value =
+            trip.start_date || "";
+
+        document.getElementById(
+            "journeyEndInput"
+        ).value =
+            trip.end_date || "";
+
+        document.getElementById(
+            "journeyDescriptionInput"
+        ).value =
+            info.description || "";
+
+    }
+
+    openModal(
+        "journeyModal"
     );
 
 }
 
 
-function parseTripDescription(
-    description
+async function saveJourney(){
+
+    const title =
+        document
+            .getElementById(
+                "journeyTitleInput"
+            )
+            .value
+            .trim();
+
+    if(!title){
+
+        alert(
+            "請輸入旅程主標題"
+        );
+
+        return;
+
+    }
+
+    const subtitle =
+        document
+            .getElementById(
+                "journeySubtitleInput"
+            )
+            .value
+            .trim();
+
+    const creator =
+        document
+            .getElementById(
+                "journeyCreatorInput"
+            )
+            .value
+            .trim();
+
+    const startDate =
+        document
+            .getElementById(
+                "journeyStartInput"
+            )
+            .value ||
+        null;
+
+    const endDate =
+        document
+            .getElementById(
+                "journeyEndInput"
+            )
+            .value ||
+        null;
+
+    const description =
+        document
+            .getElementById(
+                "journeyDescriptionInput"
+            )
+            .value
+            .trim();
+
+    const {
+        data:{
+            user
+        }
+    } =
+        await supabaseClient
+            .auth
+            .getUser();
+
+    const descriptionJson =
+        JSON.stringify({
+            subtitle,
+            creator,
+            description
+        });
+
+    if(!editingJourneyId){
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("trips")
+                .insert({
+
+                    owner_id:
+                        user.id,
+
+                    title,
+
+                    destination:
+                        currentDestination,
+
+                    start_date:
+                        startDate,
+
+                    end_date:
+                        endDate,
+
+                    description:
+                        descriptionJson
+
+                })
+                .select()
+                .single();
+
+        if(error){
+
+            alert(
+                error.message
+            );
+
+            return;
+
+        }
+
+        const order =
+            getJourneyOrder(
+                currentDestination
+            );
+
+        order.push(
+            data.id
+        );
+
+        saveJourneyOrder(
+            currentDestination,
+            order
+        );
+
+    }else{
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("trips")
+                .update({
+
+                    title,
+
+                    start_date:
+                        startDate,
+
+                    end_date:
+                        endDate,
+
+                    description:
+                        descriptionJson
+
+                })
+                .eq(
+                    "id",
+                    editingJourneyId
+                );
+
+        if(error){
+
+            alert(
+                error.message
+            );
+
+            return;
+
+        }
+
+    }
+
+    closeModal(
+        "journeyModal"
+    );
+
+    await renderJourneys();
+
+}
+
+
+/* =====================================================
+   DELETE JOURNEY
+===================================================== */
+
+async function deleteJourney(
+    tripId
 ){
 
-    if(!description){
+    const ok =
+        confirm(
+            "確定要刪除這個旅程嗎？\n\n裡面的行程與住宿也會一起刪除。"
+        );
+
+    if(!ok){
+
+        return;
+
+    }
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("trips")
+            .delete()
+            .eq(
+                "id",
+                tripId
+            );
+
+    if(error){
+
+        alert(
+            error.message
+        );
+
+        return;
+
+    }
+
+    const order =
+        getJourneyOrder(
+            currentDestination
+        )
+        .filter(
+            id =>
+                id !== tripId
+        );
+
+    saveJourneyOrder(
+        currentDestination,
+        order
+    );
+
+    await renderJourneys();
+
+}
+
+
+/* =====================================================
+   TRIP DETAIL
+===================================================== */
+
+async function openTrip(
+    tripId
+){
+
+    currentPage =
+        "detail";
+
+    const {
+        data:trip,
+        error
+    } =
+        await supabaseClient
+            .from("trips")
+            .select("*")
+            .eq(
+                "id",
+                tripId
+            )
+            .single();
+
+    if(error){
+
+        alert(
+            error.message
+        );
+
+        return;
+
+    }
+
+    currentTrip =
+        trip;
+
+    await renderTripDetail();
+
+}
+
+
+async function renderTripDetail(){
+
+    const trip =
+        currentTrip;
+
+    const info =
+        parseTripDescription(
+            trip.description
+        );
+
+    const [
+        itineraryResult,
+        staysResult
+    ] =
+        await Promise.all([
+
+            supabaseClient
+                .from("itineraries")
+                .select("*")
+                .eq(
+                    "trip_id",
+                    trip.id
+                )
+                .order(
+                    "day_number"
+                )
+                .order(
+                    "start_time"
+                ),
+
+            supabaseClient
+                .from("stays")
+                .select("*")
+                .eq(
+                    "trip_id",
+                    trip.id
+                )
+                .order(
+                    "check_in"
+                )
+
+        ]);
+
+    const items =
+        itineraryResult.data || [];
+
+    const stays =
+        staysResult.data || [];
+
+    const itineraryTotal =
+        items.reduce(
+            (
+                sum,
+                item
+            ) =>
+                sum +
+                Number(
+                    item.price || 0
+                ),
+            0
+        );
+
+    const stayTotal =
+        stays.reduce(
+            (
+                sum,
+                stay
+            ) =>
+                sum +
+                Number(
+                    stay.price || 0
+                ),
+            0
+        );
+
+    const total =
+        itineraryTotal +
+        stayTotal;
+
+    const days = {};
+
+    items.forEach(
+        item => {
+
+            if(!days[
+                item.day_number
+            ]){
+
+                days[
+                    item.day_number
+                ] = [];
+
+            }
+
+            days[
+                item.day_number
+            ].push(item);
+
+        }
+    );
+
+    let daysHtml = "";
+
+    const dayNumbers =
+        Object.keys(days)
+            .map(Number)
+            .sort(
+                (a,b) =>
+                    a-b
+            );
+
+    dayNumbers.forEach(
+        day => {
+
+            daysHtml += `
+
+                <div class="day-card">
+
+                    <div class="day-header">
+
+                        <div class="day-title">
+                            Day ${day}
+                        </div>
+
+                        <button
+                            class="btn btn-light btn-small"
+                            onclick="openItemModal(${day}, null)"
+                        >
+                            ＋ 新增行程
+                        </button>
+
+                    </div>
+
+            `;
+
+            days[day].forEach(
+                item => {
+
+                    daysHtml += `
+
+                        <div class="item-card">
+
+                            <div class="item-title">
+                                ${escapeHtml(
+                                    item.title ||
+                                    "未命名行程"
+                                )}
+                            </div>
+
+                            <div class="item-info">
+
+                                ${
+                                    item.location
+                                    ?
+                                    `📍 ${escapeHtml(
+                                        item.location
+                                    )}<br>`
+                                    :
+                                    ""
+                                }
+
+                                ${
+                                    item.transport
+                                    ?
+                                    `🚇 ${escapeHtml(
+                                        item.transport
+                                    )}<br>`
+                                    :
+                                    ""
+                                }
+
+                                ${
+                                    item.duration
+                                    ?
+                                    `⏱ ${escapeHtml(
+                                        item.duration
+                                    )}<br>`
+                                    :
+                                    ""
+                                }
+
+                                ${
+                                    item.start_time ||
+                                    item.end_time
+                                    ?
+                                    `🕐 ${formatTime(
+                                        item.start_time
+                                    )} ${
+                                        item.end_time
+                                        ?
+                                        "－" +
+                                        formatTime(
+                                            item.end_time
+                                        )
+                                        :
+                                        ""
+                                    }<br>`
+                                    :
+                                    ""
+                                }
+
+                                ${
+                                    item.notes
+                                    ?
+                                    `備註：${escapeHtml(
+                                        item.notes
+                                    )}`
+                                    :
+                                    ""
+                                }
+
+                            </div>
+
+                            ${
+                                Number(
+                                    item.price || 0
+                                ) > 0
+                                ?
+                                `
+                                <div class="item-price">
+                                    NT$ ${formatMoney(
+                                        item.price
+                                    )}
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            <div class="item-actions">
+
+                                <button
+                                    class="btn btn-light btn-small"
+                                    onclick="openItemModal(${item.day_number}, '${escapeJs(item.id)}')"
+                                >
+                                    編輯
+                                </button>
+
+                                <button
+                                    class="btn btn-danger btn-small"
+                                    onclick="deleteItem('${escapeJs(item.id)}')"
+                                >
+                                    刪除
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+            daysHtml += `
+
+                    <button
+                        class="add-item-btn"
+                        onclick="openItemModal(${day}, null)"
+                    >
+                        ＋ 新增 Day ${day} 行程
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    if(!dayNumbers.length){
+
+        daysHtml = `
+
+            <div class="empty">
+
+                還沒有行程。
+
+                <br><br>
+
+                <button
+                    class="btn"
+                    onclick="addDayAndItem()"
+                >
+                    ＋ 新增 Day 1
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+
+    let staysHtml = "";
+
+    stays.forEach(
+        stay => {
+
+            staysHtml += `
+
+                <div class="stay-card">
+
+                    <div class="item-title">
+                        ${escapeHtml(
+                            stay.name ||
+                            "未命名住宿"
+                        )}
+                    </div>
+
+                    <div class="item-info">
+
+                        ${
+                            stay.address
+                            ?
+                            `📍 ${escapeHtml(
+                                stay.address
+                            )}<br>`
+                            :
+                            ""
+                        }
+
+                        ${
+                            stay.check_in ||
+                            stay.check_out
+                            ?
+                            `🏨 ${formatDate(
+                                stay.check_in
+                            )} ${
+                                stay.check_out
+                                ?
+                                "－" +
+                                formatDate(
+                                    stay.check_out
+                                )
+                                :
+                                ""
+                            }<br>`
+                            :
+                            ""
+                        }
+
+                        ${
+                            stay.booking_info
+                            ?
+                            `訂房：${escapeHtml(
+                                stay.booking_info
+                            )}<br>`
+                            :
+                            ""
+                        }
+
+                        ${
+                            stay.notes
+                            ?
+                            `備註：${escapeHtml(
+                                stay.notes
+                            )}`
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                    ${
+                        Number(
+                            stay.price || 0
+                        ) > 0
+                        ?
+                        `
+                        <div class="item-price">
+                            NT$ ${formatMoney(
+                                stay.price
+                            )}
+                        </div>
+                        `
+                        :
+                        ""
+                    }
+
+                    <div class="item-actions">
+
+                        <button
+                            class="btn btn-light btn-small"
+                            onclick="openStayModal('${escapeJs(stay.id)}')"
+                        >
+                            編輯
+                        </button>
+
+                        <button
+                            class="btn btn-danger btn-small"
+                            onclick="deleteStay('${escapeJs(stay.id)}')"
+                        >
+                            刪除
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    document.getElementById(
+        "app"
+    ).innerHTML = `
+
+        <div class="app">
+
+            <header class="header">
+
+                <div class="logo">
+                    GOYA <span>｜走呀</span>
+                </div>
+
+                <button
+                    class="btn btn-light btn-small"
+                    onclick="openDestination(currentDestination)"
+                >
+                    ← 回 ${escapeHtml(
+                        currentDestination
+                    )}
+                </button>
+
+            </header>
+
+
+            <section class="detail-header">
+
+                <div class="detail-meta">
+                    ${escapeHtml(
+                        currentDestination
+                    )}
+                </div>
+
+                <h1 class="detail-title">
+                    ${escapeHtml(
+                        trip.title ||
+                        "未命名旅程"
+                    )}
+                </h1>
+
+                ${
+                    info.subtitle
+                    ?
+                    `
+                    <div class="detail-subtitle">
+                        ${escapeHtml(
+                            info.subtitle
+                        )}
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+                ${
+                    info.creator
+                    ?
+                    `
+                    <div class="detail-meta">
+                        by ${escapeHtml(
+                            info.creator
+                        )}
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+                ${
+                    trip.start_date ||
+                    trip.end_date
+                    ?
+                    `
+                    <div class="detail-meta">
+                        📅 ${formatDate(
+                            trip.start_date
+                        )}
+                        ${
+                            trip.end_date
+                            ?
+                            "－" +
+                            formatDate(
+                                trip.end_date
+                            )
+                            :
+                            ""
+                        }
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+                ${
+                    info.description
+                    ?
+                    `
+                    <div
+                        class="detail-meta"
+                        style="margin-top:10px;"
+                    >
+                        ${escapeHtml(
+                            info.description
+                        )}
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+
+                <div class="total-box">
+
+                    <div class="total-label">
+                        旅程總花費
+                    </div>
+
+                    <div class="total-price">
+                        NT$ ${formatMoney(
+                            total
+                        )}
+                    </div>
+
+                    <div
+                        style="
+                            font-size:12px;
+                            opacity:.65;
+                            margin-top:5px;
+                        "
+                    >
+                        行程 NT$ ${formatMoney(
+                            itineraryTotal
+                        )}
+                        ＋
+                        住宿 NT$ ${formatMoney(
+                            stayTotal
+                        )}
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="section">
+
+                <div class="section-header">
+
+                    <h2 class="section-title">
+                        旅程
+                    </h2>
+
+                    <button
+                        class="btn btn-small"
+                        onclick="addNextDay()"
+                    >
+                        ＋ 新增一天
+                    </button>
+
+                </div>
+
+                ${daysHtml}
+
+
+                <div class="stay-section">
+
+                    <div class="section-header">
+
+                        <h3>
+                            🏨 住宿
+                        </h3>
+
+                        <button
+                            class="btn btn-light btn-small"
+                            onclick="openStayModal(null)"
+                        >
+                            ＋ 新增住宿
+                        </button>
+
+                    </div>
+
+                    ${
+                        staysHtml ||
+                        `
+                        <div class="empty">
+                            還沒有住宿資料
+                        </div>
+                        `
+                    }
+
+                </div>
+
+            </section>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   ADD DAY
+===================================================== */
+
+async function addNextDay(){
+
+    const {
+        data
+    } =
+        await supabaseClient
+            .from("itineraries")
+            .select("day_number")
+            .eq(
+                "trip_id",
+                currentTrip.id
+            )
+            .order(
+                "day_number",
+                {
+                    ascending:false
+                }
+            )
+            .limit(1);
+
+    const maxDay =
+        data &&
+        data.length
+        ?
+        Number(
+            data[0].day_number
+        )
+        :
+        0;
+
+    openItemModal(
+        maxDay + 1,
+        null
+    );
+
+}
+
+
+async function addDayAndItem(){
+
+    openItemModal(
+        1,
+        null
+    );
+
+}
+
+
+/* =====================================================
+   ITEM MODAL
+===================================================== */
+
+function openItemModal(
+    day,
+    itemId
+){
+
+    currentDay =
+        day;
+
+    editingItemId =
+        itemId;
+
+    if(!itemId){
+
+        document.getElementById(
+            "itemModalTitle"
+        ).textContent =
+            `Day ${day}｜新增行程`;
+
+        document.getElementById(
+            "itemTitleInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "itemLocationInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "itemTransportInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "itemPriceInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "itemDurationInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "itemStartInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "itemEndInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "itemNotesInput"
+        ).value =
+            "";
+
+        openModal(
+            "itemModal"
+        );
+
+        return;
+
+    }
+
+    loadItemForEdit(
+        itemId
+    );
+
+}
+
+
+async function loadItemForEdit(
+    itemId
+){
+
+    const {
+        data:item,
+        error
+    } =
+        await supabaseClient
+            .from("itineraries")
+            .select("*")
+            .eq(
+                "id",
+                itemId
+            )
+            .single();
+
+    if(error){
+
+        alert(
+            error.message
+        );
+
+        return;
+
+    }
+
+    currentDay =
+        item.day_number;
+
+    document.getElementById(
+        "itemModalTitle"
+    ).textContent =
+        `Day ${item.day_number}｜編輯行程`;
+
+    document.getElementById(
+        "itemTitleInput"
+    ).value =
+        item.title || "";
+
+    document.getElementById(
+        "itemLocationInput"
+    ).value =
+        item.location || "";
+
+    document.getElementById(
+        "itemTransportInput"
+    ).value =
+        item.transport || "";
+
+    document.getElementById(
+        "itemPriceInput"
+    ).value =
+        item.price || "";
+
+    document.getElementById(
+        "itemDurationInput"
+    ).value =
+        item.duration || "";
+
+    document.getElementById(
+        "itemStartInput"
+    ).value =
+        item.start_time || "";
+
+    document.getElementById(
+        "itemEndInput"
+    ).value =
+        item.end_time || "";
+
+    document.getElementById(
+        "itemNotesInput"
+    ).value =
+        item.notes || "";
+
+    openModal(
+        "itemModal"
+    );
+
+}
+
+
+async function saveItem(){
+
+    const title =
+        document.getElementById(
+            "itemTitleInput"
+        )
+        .value
+        .trim();
+
+    if(!title){
+
+        alert(
+            "請輸入行程名稱"
+        );
+
+        return;
+
+    }
+
+    const payload = {
+
+        trip_id:
+            currentTrip.id,
+
+        day_number:
+            currentDay,
+
+        title,
+
+        location:
+            document.getElementById(
+                "itemLocationInput"
+            )
+            .value
+            .trim(),
+
+        transport:
+            document.getElementById(
+                "itemTransportInput"
+            )
+            .value
+            .trim(),
+
+        price:
+            Number(
+                document.getElementById(
+                    "itemPriceInput"
+                )
+                .value ||
+                0
+            ),
+
+        duration:
+            document.getElementById(
+                "itemDurationInput"
+            )
+            .value
+            .trim(),
+
+        start_time:
+            document.getElementById(
+                "itemStartInput"
+            )
+            .value ||
+            null,
+
+        end_time:
+            document.getElementById(
+                "itemEndInput"
+            )
+            .value ||
+            null,
+
+        notes:
+            document.getElementById(
+                "itemNotesInput"
+            )
+            .value
+            .trim()
+
+    };
+
+
+    let result;
+
+    if(editingItemId){
+
+        result =
+            await supabaseClient
+                .from("itineraries")
+                .update(
+                    payload
+                )
+                .eq(
+                    "id",
+                    editingItemId
+                );
+
+    }else{
+
+        result =
+            await supabaseClient
+                .from("itineraries")
+                .insert(
+                    payload
+                );
+
+    }
+
+
+    if(result.error){
+
+        alert(
+            result.error.message
+        );
+
+        return;
+
+    }
+
+    closeModal(
+        "itemModal"
+    );
+
+    await renderTripDetail();
+
+}
+
+
+async function deleteItem(
+    itemId
+){
+
+    if(
+        !confirm(
+            "確定要刪除這個行程嗎？"
+        )
+    ){
+
+        return;
+
+    }
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("itineraries")
+            .delete()
+            .eq(
+                "id",
+                itemId
+            );
+
+    if(error){
+
+        alert(
+            error.message
+        );
+
+        return;
+
+    }
+
+    await renderTripDetail();
+
+}
+
+
+/* =====================================================
+   STAY MODAL
+===================================================== */
+
+function openStayModal(
+    stayId
+){
+
+    editingStayId =
+        stayId;
+
+    if(!stayId){
+
+        document.getElementById(
+            "stayModalTitle"
+        ).textContent =
+            "新增住宿";
+
+        document.getElementById(
+            "stayNameInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "stayAddressInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "stayCheckInInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "stayCheckOutInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "stayPriceInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "stayBookingInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "stayNotesInput"
+        ).value =
+            "";
+
+        openModal(
+            "stayModal"
+        );
+
+        return;
+
+    }
+
+    loadStayForEdit(
+        stayId
+    );
+
+}
+
+
+async function loadStayForEdit(
+    stayId
+){
+
+    const {
+        data:stay,
+        error
+    } =
+        await supabaseClient
+            .from("stays")
+            .select("*")
+            .eq(
+                "id",
+                stayId
+            )
+            .single();
+
+    if(error){
+
+        alert(
+            error.message
+        );
+
+        return;
+
+    }
+
+    document.getElementById(
+        "stayModalTitle"
+    ).textContent =
+        "編輯住宿";
+
+    document.getElementById(
+        "stayNameInput"
+    ).value =
+        stay.name || "";
+
+    document.getElementById(
+        "stayAddressInput"
+    ).value =
+        stay.address || "";
+
+    document.getElementById(
+        "stayCheckInInput"
+    ).value =
+        stay.check_in || "";
+
+    document.getElementById(
+        "stayCheckOutInput"
+    ).value =
+        stay.check_out || "";
+
+    document.getElementById(
+        "stayPriceInput"
+    ).value =
+        stay.price || "";
+
+    document.getElementById(
+        "stayBookingInput"
+    ).value =
+        stay.booking_info || "";
+
+    document.getElementById(
+        "stayNotesInput"
+    ).value =
+        stay.notes || "";
+
+    openModal(
+        "stayModal"
+    );
+
+}
+
+
+async function saveStay(){
+
+    const name =
+        document.getElementById(
+            "stayNameInput"
+        )
+        .value
+        .trim();
+
+    if(!name){
+
+        alert(
+            "請輸入住宿名稱"
+        );
+
+        return;
+
+    }
+
+    const payload = {
+
+        trip_id:
+            currentTrip.id,
+
+        name,
+
+        address:
+            document.getElementById(
+                "stayAddressInput"
+            )
+            .value
+            .trim(),
+
+        check_in:
+            document.getElementById(
+                "stayCheckInInput"
+            )
+            .value ||
+            null,
+
+        check_out:
+            document.getElementById(
+                "stayCheckOutInput"
+            )
+            .value ||
+            null,
+
+        price:
+            Number(
+                document.getElementById(
+                    "stayPriceInput"
+                )
+                .value ||
+                0
+            ),
+
+        booking_info:
+            document.getElementById(
+                "stayBookingInput"
+            )
+            .value
+            .trim(),
+
+        notes:
+            document.getElementById(
+                "stayNotesInput"
+            )
+            .value
+            .trim()
+
+    };
+
+
+    let result;
+
+    if(editingStayId){
+
+        result =
+            await supabaseClient
+                .from("stays")
+                .update(
+                    payload
+                )
+                .eq(
+                    "id",
+                    editingStayId
+                );
+
+    }else{
+
+        result =
+            await supabaseClient
+                .from("stays")
+                .insert(
+                    payload
+                );
+
+    }
+
+
+    if(result.error){
+
+        alert(
+            result.error.message
+        );
+
+        return;
+
+    }
+
+    closeModal(
+        "stayModal"
+    );
+
+    await renderTripDetail();
+
+}
+
+
+async function deleteStay(
+    stayId
+){
+
+    if(
+        !confirm(
+            "確定要刪除這個住宿嗎？"
+        )
+    ){
+
+        return;
+
+    }
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("stays")
+            .delete()
+            .eq(
+                "id",
+                stayId
+            );
+
+    if(error){
+
+        alert(
+            error.message
+        );
+
+        return;
+
+    }
+
+    await renderTripDetail();
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function openModal(id){
+
+    document
+        .getElementById(id)
+        .classList
+        .add("show");
+
+}
+
+
+function closeModal(id){
+
+    document
+        .getElementById(id)
+        .classList
+        .remove("show");
+
+}
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function parseTripDescription(
+    value
+){
+
+    if(!value){
 
         return {
             subtitle:"",
@@ -2444,25 +4108,27 @@ function parseTripDescription(
     try{
 
         const parsed =
-            JSON.parse(
-                description
-            );
+            JSON.parse(value);
 
         if(
-            parsed &&
-            typeof parsed === "object"
+            typeof parsed ===
+            "object"
         ){
 
             return {
+
                 subtitle:
                     parsed.subtitle ||
                     "",
+
                 creator:
                     parsed.creator ||
                     "",
+
                 description:
                     parsed.description ||
                     ""
+
             };
 
         }
@@ -2470,2451 +4136,12 @@ function parseTripDescription(
     }catch(e){}
 
     return {
+
         subtitle:"",
         creator:"",
-        description:
-            description || ""
-    };
-
-}
-
-
-function sortTripsBySavedOrder(
-    trips,
-    destination
-){
-
-    const key =
-        "goya_journey_order_" +
-        destination;
-
-    let order = [];
-
-    try{
-
-        order =
-            JSON.parse(
-                localStorage.getItem(
-                    key
-                )
-            ) || [];
-
-    }catch(e){
-
-        order = [];
-
-    }
-
-
-    const map =
-        new Map(
-            trips.map(
-                trip =>
-                    [
-                        trip.id,
-                        trip
-                    ]
-            )
-        );
-
-
-    const sorted = [];
-
-
-    order.forEach(
-        id => {
-
-            if(
-                map.has(id)
-            ){
-
-                sorted.push(
-                    map.get(id)
-                );
-
-                map.delete(id);
-
-            }
-
-        }
-    );
-
-
-    trips.forEach(
-        trip => {
-
-            if(
-                map.has(
-                    trip.id
-                )
-            ){
-
-                sorted.push(
-                    trip
-                );
-
-            }
-
-        }
-    );
-
-
-    return sorted;
-
-}
-
-
-function saveJourneyOrder(){
-
-    if(
-        !currentDestination
-    ){
-
-        return;
-
-    }
-
-    localStorage.setItem(
-        "goya_journey_order_" +
-        currentDestination,
-        JSON.stringify(
-            currentTrips.map(
-                trip =>
-                    trip.id
-            )
-        )
-    );
-
-}
-
-
-/* =========================================================
-   ADD JOURNEY
-========================================================= */
-
-function addJourney(){
-
-    openModal(`
-        <div class="modal-title">
-            新增旅程
-        </div>
-
-        <div class="field">
-            <label>旅程名稱</label>
-            <input
-                id="journeyTitleInput"
-                class="input"
-                placeholder="例如：大阪 5 天 4 夜"
-            >
-        </div>
-
-        <div class="field">
-            <label>副標題</label>
-            <input
-                id="journeySubtitleInput"
-                class="input"
-                placeholder="例如：五天四夜只要兩萬"
-            >
-        </div>
-
-        <div class="field">
-            <label>創作者</label>
-            <input
-                id="journeyCreatorInput"
-                class="input"
-                placeholder="例如：IVY"
-            >
-        </div>
-
-        <div class="field">
-            <label>開始日期</label>
-            <input
-                id="journeyStartInput"
-                class="input"
-                type="date"
-            >
-        </div>
-
-        <div class="field">
-            <label>結束日期</label>
-            <input
-                id="journeyEndInput"
-                class="input"
-                type="date"
-            >
-        </div>
-
-        <div class="field">
-            <label>旅程介紹</label>
-            <textarea
-                id="journeyDescriptionInput"
-                class="textarea"
-                placeholder="想寫什麼都可以"
-            ></textarea>
-        </div>
-
-        <div class="modal-actions">
-
-            <button
-                class="cancel-btn"
-                onclick="closeModal()"
-            >
-                取消
-            </button>
-
-            <button
-                class="save-btn"
-                onclick="saveJourney()"
-            >
-                建立
-            </button>
-
-        </div>
-    `);
-
-}
-
-
-async function saveJourney(){
-
-    const title =
-        document.getElementById(
-            "journeyTitleInput"
-        )
-        .value
-        .trim();
-
-    const subtitle =
-        document.getElementById(
-            "journeySubtitleInput"
-        )
-        .value
-        .trim();
-
-    const creator =
-        document.getElementById(
-            "journeyCreatorInput"
-        )
-        .value
-        .trim();
-
-    const startDate =
-        document.getElementById(
-            "journeyStartInput"
-        )
-        .value ||
-        null;
-
-    const endDate =
-        document.getElementById(
-            "journeyEndInput"
-        )
-        .value ||
-        null;
-
-    const description =
-        document.getElementById(
-            "journeyDescriptionInput"
-        )
-        .value
-        .trim();
-
-
-    if(!title){
-
-        alert(
-            "請輸入旅程名稱"
-        );
-
-        return;
-
-    }
-
-
-    const storedDescription =
-        JSON.stringify({
-            subtitle,
-            creator,
-            description
-        });
-
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("trips")
-            .insert({
-                owner_id:
-                    currentUser.id,
-                title,
-                destination:
-                    currentDestination,
-                start_date:
-                    startDate,
-                end_date:
-                    endDate,
-                description:
-                    storedDescription
-            })
-            .select()
-            .single();
-
-
-    if(error){
-
-        alert(
-            "建立失敗：" +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    currentTrips.push(
-        data
-    );
-
-    saveJourneyOrder();
-
-    closeModal();
-
-    await renderJourneys();
-
-}
-
-
-/* =========================================================
-   TRIP DETAIL
-========================================================= */
-
-async function openTrip(
-    trip
-){
-
-    currentTrip =
-        trip;
-
-    homeView.classList.add(
-        "hidden"
-    );
-
-    destinationView.classList.add(
-        "hidden"
-    );
-
-    tripView.classList.remove(
-        "hidden"
-    );
-
-
-    const meta =
-        parseTripDescription(
-            trip.description
-        );
-
-
-    document.getElementById(
-        "tripTitle"
-    ).textContent =
-        trip.title ||
-        "未命名旅程";
-
-
-    document.getElementById(
-        "tripSubtitle"
-    ).textContent =
-        meta.subtitle;
-
-
-    document.getElementById(
-        "tripCreator"
-    ).textContent =
-        meta.creator
-        ? "by " +
-          meta.creator
-        : "";
-
-
-    document.getElementById(
-        "tripDescription"
-    ).textContent =
-        meta.description;
-
-
-    await loadTripData();
-
-}
-
-
-async function loadTripData(){
-
-    if(!currentTrip){
-
-        return;
-
-    }
-
-
-    const [
-        itineraryResult,
-        stayResult
-    ] =
-        await Promise.all([
-
-            supabaseClient
-                .from("itineraries")
-                .select("*")
-                .eq(
-                    "trip_id",
-                    currentTrip.id
-                )
-                .order(
-                    "day_number",
-                    {
-                        ascending:true
-                    }
-                )
-                .order(
-                    "start_time",
-                    {
-                        ascending:true
-                    }
-                ),
-
-            supabaseClient
-                .from("stays")
-                .select("*")
-                .eq(
-                    "trip_id",
-                    currentTrip.id
-                )
-                .order(
-                    "check_in",
-                    {
-                        ascending:true
-                    }
-                )
-
-        ]);
-
-
-    if(
-        itineraryResult.error
-    ){
-
-        console.error(
-            itineraryResult.error
-        );
-
-    }
-
-
-    if(
-        stayResult.error
-    ){
-
-        console.error(
-            stayResult.error
-        );
-
-    }
-
-
-    allItineraries =
-        itineraryResult.data ||
-        [];
-
-    allStays =
-        stayResult.data ||
-        [];
-
-
-    renderItineraries();
-
-    renderStays();
-
-    calculateTotal();
-
-}
-
-
-/* =========================================================
-   ITINERARIES
-========================================================= */
-
-function renderItineraries(){
-
-    const container =
-        document.getElementById(
-            "itineraryContainer"
-        );
-
-    container.innerHTML = "";
-
-
-    const dayNumbers =
-        [
-            ...new Set(
-                allItineraries.map(
-                    item =>
-                        item.day_number
-                )
-            )
-        ]
-        .sort(
-            (a,b) => a-b
-        );
-
-
-    if(
-        !dayNumbers.length
-    ){
-
-        return;
-
-    }
-
-
-    dayNumbers.forEach(
-        dayNumber => {
-
-            const dayItems =
-                allItineraries.filter(
-                    item =>
-                        item.day_number ===
-                        dayNumber
-                );
-
-
-            const day =
-                document.createElement(
-                    "div"
-                );
-
-            day.className =
-                "day-card";
-
-
-            day.innerHTML = `
-                <div class="day-title">
-                    Day ${dayNumber}
-                </div>
-            `;
-
-
-            dayItems.forEach(
-                item => {
-
-                    const card =
-                        document.createElement(
-                            "div"
-                        );
-
-                    card.className =
-                        "item-card";
-
-
-                    const price =
-                        Number(
-                            item.price ||
-                            0
-                        );
-
-
-                    card.innerHTML = `
-
-                        <div class="item-title">
-                            ${escapeHTML(
-                                item.title ||
-                                "未命名行程"
-                            )}
-                        </div>
-
-                        ${
-                            item.location
-                            ? `
-                                <div class="item-location">
-                                    ${escapeHTML(
-                                        item.location
-                                    )}
-                                </div>
-                            `
-                            : ""
-                        }
-
-                        <div class="item-info">
-
-                            ${
-                                item.transport
-                                ? `<span>${escapeHTML(item.transport)}</span>`
-                                : ""
-                            }
-
-                            ${
-                                item.duration
-                                ? `<span>${escapeHTML(item.duration)}</span>`
-                                : ""
-                            }
-
-                            ${
-                                item.start_time
-                                ? `<span>${escapeHTML(formatTime(item.start_time))}</span>`
-                                : ""
-                            }
-
-                            ${
-                                item.end_time
-                                ? `<span>～ ${escapeHTML(formatTime(item.end_time))}</span>`
-                                : ""
-                            }
-
-                            ${
-                                price
-                                ? `<span>NT$ ${formatMoney(price)}</span>`
-                                : ""
-                            }
-
-                        </div>
-
-                        ${
-                            item.notes
-                            ? `
-                                <div class="item-notes">
-                                    ${escapeHTML(
-                                        item.notes
-                                    )}
-                                </div>
-                            `
-                            : ""
-                        }
-
-                    `;
-
-
-                    card.addEventListener(
-                        "click",
-                        () =>
-                            editItinerary(
-                                item
-                            )
-                    );
-
-
-                    day.appendChild(
-                        card
-                    );
-
-                }
-            );
-
-
-            container.appendChild(
-                day
-            );
-
-        }
-    );
-
-}
-
-
-function addDay(){
-
-    const maxDay =
-        allItineraries.length
-        ? Math.max(
-            ...allItineraries.map(
-                i =>
-                    i.day_number
-            )
-        )
-        : 0;
-
-    openItineraryModal(
-        maxDay + 1
-    );
-
-}
-
-
-function openItineraryModal(
-    dayNumber,
-    existing = null
-){
-
-    openModal(`
-
-        <div class="modal-title">
-            ${
-                existing
-                ? "編輯行程"
-                : "新增行程"
-            }
-        </div>
-
-        <div class="field">
-            <label>Day</label>
-            <input
-                id="itemDay"
-                class="input"
-                type="number"
-                min="1"
-                value="${
-                    existing
-                    ? existing.day_number
-                    : dayNumber
-                }"
-            >
-        </div>
-
-        <div class="field">
-            <label>行程名稱</label>
-            <input
-                id="itemTitle"
-                class="input"
-                placeholder="例如：伏見稻荷大社"
-                value="${escapeAttr(
-                    existing?.title ||
-                    ""
-                )}"
-            >
-        </div>
-
-        <div class="field">
-            <label>地點</label>
-            <input
-                id="itemLocation"
-                class="input"
-                placeholder="例如：京都"
-                value="${escapeAttr(
-                    existing?.location ||
-                    ""
-                )}"
-            >
-        </div>
-
-        <div class="field">
-            <label>交通</label>
-            <input
-                id="itemTransport"
-                class="input"
-                placeholder="例如：JR / 地鐵 / 步行"
-                value="${escapeAttr(
-                    existing?.transport ||
-                    ""
-                )}"
-            >
-        </div>
-
-        <div class="field">
-            <label>價格（台幣）</label>
-            <input
-                id="itemPrice"
-                class="input"
-                type="number"
-                min="0"
-                value="${
-                    existing?.price ??
-                    ""
-                }"
-            >
-        </div>
-
-        <div class="field">
-            <label>需要時間</label>
-            <input
-                id="itemDuration"
-                class="input"
-                placeholder="例如：2 小時"
-                value="${escapeAttr(
-                    existing?.duration ||
-                    ""
-                )}"
-            >
-        </div>
-
-        <div class="field">
-            <label>開始時間</label>
-            <input
-                id="itemStart"
-                class="input"
-                type="time"
-                value="${
-                    existing?.start_time ||
-                    ""
-                }"
-            >
-        </div>
-
-        <div class="field">
-            <label>結束時間</label>
-            <input
-                id="itemEnd"
-                class="input"
-                type="time"
-                value="${
-                    existing?.end_time ||
-                    ""
-                }"
-            >
-        </div>
-
-        <div class="field">
-            <label>備註</label>
-            <textarea
-                id="itemNotes"
-                class="textarea"
-                placeholder="不限時、有插座、必吃、注意事項……"
-            >${escapeHTML(
-                existing?.notes ||
-                ""
-            )}</textarea>
-        </div>
-
-        <div class="modal-actions">
-
-            ${
-                existing
-                ? `
-                    <button
-                        class="danger-btn"
-                        onclick="deleteItinerary(
-                            '${existing.id}'
-                        )"
-                    >
-                        刪除
-                    </button>
-                `
-                : ""
-            }
-
-            <button
-                class="cancel-btn"
-                onclick="closeModal()"
-            >
-                取消
-            </button>
-
-            <button
-                class="save-btn"
-                onclick="saveItinerary(
-                    ${
-                        existing
-                        ? JSON.stringify(
-                            existing.id
-                        )
-                        : "null"
-                    }
-                )"
-            >
-                儲存
-            </button>
-
-        </div>
-
-    `);
-
-}
-
-
-async function saveItinerary(
-    existingId
-){
-
-    const payload = {
-
-        trip_id:
-            currentTrip.id,
-
-        day_number:
-            Number(
-                document.getElementById(
-                    "itemDay"
-                ).value
-            ) || 1,
-
-        title:
-            document.getElementById(
-                "itemTitle"
-            ).value
-            .trim(),
-
-        location:
-            document.getElementById(
-                "itemLocation"
-            ).value
-            .trim(),
-
-        transport:
-            document.getElementById(
-                "itemTransport"
-            ).value
-            .trim(),
-
-        price:
-            Number(
-                document.getElementById(
-                    "itemPrice"
-                ).value
-            ) || 0,
-
-        duration:
-            document.getElementById(
-                "itemDuration"
-            ).value
-            .trim(),
-
-        start_time:
-            document.getElementById(
-                "itemStart"
-            ).value ||
-            null,
-
-        end_time:
-            document.getElementById(
-                "itemEnd"
-            ).value ||
-            null,
-
-        notes:
-            document.getElementById(
-                "itemNotes"
-            ).value
-            .trim()
+        description:value
 
     };
-
-
-    if(!payload.title){
-
-        alert(
-            "請輸入行程名稱"
-        );
-
-        return;
-
-    }
-
-
-    let result;
-
-
-    if(existingId){
-
-        result =
-            await supabaseClient
-                .from("itineraries")
-                .update(
-                    payload
-                )
-                .eq(
-                    "id",
-                    existingId
-                );
-
-    }else{
-
-        result =
-            await supabaseClient
-                .from("itineraries")
-                .insert(
-                    payload
-                );
-
-    }
-
-
-    if(result.error){
-
-        alert(
-            "儲存失敗：" +
-            result.error.message
-        );
-
-        return;
-
-    }
-
-
-    closeModal();
-
-    await loadTripData();
-
-}
-
-
-function editItinerary(
-    item
-){
-
-    openItineraryModal(
-        item.day_number,
-        item
-    );
-
-}
-
-
-async function deleteItinerary(
-    id
-){
-
-    const ok =
-        confirm(
-            "確定要刪除這個行程嗎？"
-        );
-
-    if(!ok){
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("itineraries")
-            .delete()
-            .eq(
-                "id",
-                id
-            );
-
-
-    if(error){
-
-        alert(
-            "刪除失敗：" +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    closeModal();
-
-    await loadTripData();
-
-}
-
-
-/* =========================================================
-   STAYS
-========================================================= */
-
-function renderStays(){
-
-    const container =
-        document.getElementById(
-            "stayContainer"
-        );
-
-    container.innerHTML = "";
-
-
-    if(
-        !allStays.length
-    ){
-
-        container.innerHTML = `
-            <div class="empty-state">
-                還沒有住宿
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    allStays.forEach(
-        stay => {
-
-            const card =
-                document.createElement(
-                    "div"
-                );
-
-            card.className =
-                "stay-card";
-
-
-            const price =
-                Number(
-                    stay.price ||
-                    0
-                );
-
-
-            card.innerHTML = `
-
-                <div class="stay-name">
-                    ${escapeHTML(
-                        stay.name ||
-                        "未命名住宿"
-                    )}
-                </div>
-
-                ${
-                    stay.address
-                    ? `
-                        <div class="stay-address">
-                            ${escapeHTML(
-                                stay.address
-                            )}
-                        </div>
-                    `
-                    : ""
-                }
-
-                <div class="stay-info">
-
-                    ${
-                        stay.check_in
-                        ? `入住：${escapeHTML(stay.check_in)}`
-                        : ""
-                    }
-
-                    ${
-                        stay.check_out
-                        ? `　退房：${escapeHTML(stay.check_out)}`
-                        : ""
-                    }
-
-                    ${
-                        price
-                        ? `<br>價格：NT$ ${formatMoney(price)}`
-                        : ""
-                    }
-
-                    ${
-                        stay.booking_info
-                        ? `<br>訂房：${escapeHTML(stay.booking_info)}`
-                        : ""
-                    }
-
-                    ${
-                        stay.notes
-                        ? `<br>備註：${escapeHTML(stay.notes)}`
-                        : ""
-                    }
-
-                </div>
-
-            `;
-
-
-            card.addEventListener(
-                "click",
-                () =>
-                    editStay(
-                        stay
-                    )
-            );
-
-
-            container.appendChild(
-                card
-            );
-
-        }
-    );
-
-}
-
-
-function openStayModal(
-    existing = null
-){
-
-    openModal(`
-
-        <div class="modal-title">
-            ${
-                existing
-                ? "編輯住宿"
-                : "新增住宿"
-            }
-        </div>
-
-        <div class="field">
-            <label>住宿名稱</label>
-            <input
-                id="stayName"
-                class="input"
-                placeholder="例如：大阪難波飯店"
-                value="${escapeAttr(
-                    existing?.name ||
-                    ""
-                )}"
-            >
-        </div>
-
-        <div class="field">
-            <label>地址</label>
-            <input
-                id="stayAddress"
-                class="input"
-                value="${escapeAttr(
-                    existing?.address ||
-                    ""
-                )}"
-            >
-        </div>
-
-        <div class="field">
-            <label>入住</label>
-            <input
-                id="stayCheckIn"
-                class="input"
-                type="date"
-                value="${
-                    existing?.check_in ||
-                    ""
-                }"
-            >
-        </div>
-
-        <div class="field">
-            <label>退房</label>
-            <input
-                id="stayCheckOut"
-                class="input"
-                type="date"
-                value="${
-                    existing?.check_out ||
-                    ""
-                }"
-            >
-        </div>
-
-        <div class="field">
-            <label>價格（台幣）</label>
-            <input
-                id="stayPrice"
-                class="input"
-                type="number"
-                min="0"
-                value="${
-                    existing?.price ??
-                    ""
-                }"
-            >
-        </div>
-
-        <div class="field">
-            <label>訂房資訊</label>
-            <input
-                id="stayBooking"
-                class="input"
-                placeholder="例如：Booking / Agoda"
-                value="${escapeAttr(
-                    existing?.booking_info ||
-                    ""
-                )}"
-            >
-        </div>
-
-        <div class="field">
-            <label>備註</label>
-            <textarea
-                id="stayNotes"
-                class="textarea"
-            >${escapeHTML(
-                existing?.notes ||
-                ""
-            )}</textarea>
-        </div>
-
-        <div class="modal-actions">
-
-            ${
-                existing
-                ? `
-                    <button
-                        class="danger-btn"
-                        onclick="deleteStay(
-                            '${existing.id}'
-                        )"
-                    >
-                        刪除
-                    </button>
-                `
-                : ""
-            }
-
-            <button
-                class="cancel-btn"
-                onclick="closeModal()"
-            >
-                取消
-            </button>
-
-            <button
-                class="save-btn"
-                onclick="saveStay(
-                    ${
-                        existing
-                        ? JSON.stringify(
-                            existing.id
-                        )
-                        : "null"
-                    }
-                )"
-            >
-                儲存
-            </button>
-
-        </div>
-
-    `);
-
-}
-
-
-async function saveStay(
-    existingId
-){
-
-    const payload = {
-
-        trip_id:
-            currentTrip.id,
-
-        name:
-            document.getElementById(
-                "stayName"
-            ).value
-            .trim(),
-
-        address:
-            document.getElementById(
-                "stayAddress"
-            ).value
-            .trim(),
-
-        check_in:
-            document.getElementById(
-                "stayCheckIn"
-            ).value ||
-            null,
-
-        check_out:
-            document.getElementById(
-                "stayCheckOut"
-            ).value ||
-            null,
-
-        price:
-            Number(
-                document.getElementById(
-                    "stayPrice"
-                ).value
-            ) || 0,
-
-        booking_info:
-            document.getElementById(
-                "stayBooking"
-            ).value
-            .trim(),
-
-        notes:
-            document.getElementById(
-                "stayNotes"
-            ).value
-            .trim()
-
-    };
-
-
-    if(!payload.name){
-
-        alert(
-            "請輸入住宿名稱"
-        );
-
-        return;
-
-    }
-
-
-    let result;
-
-
-    if(existingId){
-
-        result =
-            await supabaseClient
-                .from("stays")
-                .update(
-                    payload
-                )
-                .eq(
-                    "id",
-                    existingId
-                );
-
-    }else{
-
-        result =
-            await supabaseClient
-                .from("stays")
-                .insert(
-                    payload
-                );
-
-    }
-
-
-    if(result.error){
-
-        alert(
-            "儲存失敗：" +
-            result.error.message
-        );
-
-        return;
-
-    }
-
-
-    closeModal();
-
-    await loadTripData();
-
-}
-
-
-function editStay(
-    stay
-){
-
-    openStayModal(
-        stay
-    );
-
-}
-
-
-async function deleteStay(
-    id
-){
-
-    const ok =
-        confirm(
-            "確定要刪除這筆住宿嗎？"
-        );
-
-    if(!ok){
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("stays")
-            .delete()
-            .eq(
-                "id",
-                id
-            );
-
-
-    if(error){
-
-        alert(
-            "刪除失敗：" +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    closeModal();
-
-    await loadTripData();
-
-}
-
-
-/* =========================================================
-   TOTAL
-========================================================= */
-
-function calculateTotal(){
-
-    const itineraryTotal =
-        allItineraries.reduce(
-            (sum,item) =>
-                sum +
-                Number(
-                    item.price ||
-                    0
-                ),
-            0
-        );
-
-
-    const stayTotal =
-        allStays.reduce(
-            (sum,item) =>
-                sum +
-                Number(
-                    item.price ||
-                    0
-                ),
-            0
-        );
-
-
-    const total =
-        itineraryTotal +
-        stayTotal;
-
-
-    document.getElementById(
-        "tripTotal"
-    ).textContent =
-        "NT$ " +
-        formatMoney(
-            total
-        );
-
-}
-
-
-/* =========================================================
-   REAL POINTER DRAG
-========================================================= */
-
-/*
-    這裡完全拿掉原本的 HTML5 draggable。
-
-    手機：
-    1. 長按 320ms
-    2. 卡片進入拖曳狀態
-    3. 手指移動時，DOM 會即時交換位置
-    4. 放開後直接儲存
-
-    電腦：
-    按住滑鼠拖曳即可。
-*/
-
-function setupPointerDrag(
-    element,
-    type
-){
-
-    let pressTimer = null;
-
-    let pointerId = null;
-
-    let startX = 0;
-
-    let startY = 0;
-
-    let started = false;
-
-    element.addEventListener(
-        "pointerdown",
-        e => {
-
-            if(
-                e.target.closest(
-                    "button"
-                )
-            ){
-
-                return;
-
-            }
-
-            pointerId =
-                e.pointerId;
-
-            startX =
-                e.clientX;
-
-            startY =
-                e.clientY;
-
-            started = false;
-
-
-            if(
-                e.pointerType ===
-                "mouse"
-            ){
-
-                pressTimer =
-                    setTimeout(
-                        () => {
-
-                            beginDrag(
-                                element,
-                                type,
-                                e
-                            );
-
-                            started =
-                                true;
-
-                        },
-                        120
-                    );
-
-            }else{
-
-                pressTimer =
-                    setTimeout(
-                        () => {
-
-                            beginDrag(
-                                element,
-                                type,
-                                e
-                            );
-
-                            started =
-                                true;
-
-                        },
-                        320
-                    );
-
-            }
-
-
-            element.setPointerCapture(
-                pointerId
-            );
-
-        }
-    );
-
-
-    element.addEventListener(
-        "pointermove",
-        e => {
-
-            if(
-                e.pointerId !==
-                pointerId
-            ){
-
-                return;
-
-            }
-
-
-            const dx =
-                e.clientX -
-                startX;
-
-            const dy =
-                e.clientY -
-                startY;
-
-
-            /*
-               如果還沒進入拖曳，
-               手指移太遠就取消長按。
-            */
-
-            if(
-                !activeDrag &&
-                !started &&
-                Math.sqrt(
-                    dx * dx +
-                    dy * dy
-                ) > 10
-            ){
-
-                clearTimeout(
-                    pressTimer
-                );
-
-                return;
-
-            }
-
-
-            if(
-                activeDrag &&
-                activeDrag.element ===
-                element
-            ){
-
-                e.preventDefault();
-
-                moveDrag(
-                    e.clientX,
-                    e.clientY
-                );
-
-            }
-
-        }
-    );
-
-
-    element.addEventListener(
-        "pointerup",
-        e => {
-
-            clearTimeout(
-                pressTimer
-            );
-
-
-            if(
-                activeDrag &&
-                activeDrag.element ===
-                element
-            ){
-
-                e.preventDefault();
-
-                finishDrag(
-                    element,
-                    type
-                );
-
-                return;
-
-            }
-
-            try{
-
-                element.releasePointerCapture(
-                    pointerId
-                );
-
-            }catch(err){}
-
-        }
-    );
-
-
-    element.addEventListener(
-        "pointercancel",
-        () => {
-
-            clearTimeout(
-                pressTimer
-            );
-
-            if(
-                activeDrag &&
-                activeDrag.element ===
-                element
-            ){
-
-                cancelDrag();
-
-            }
-
-        }
-    );
-
-}
-
-
-function beginDrag(
-    element,
-    type,
-    event
-){
-
-    if(activeDrag){
-
-        return;
-
-    }
-
-
-    const rect =
-        element.getBoundingClientRect();
-
-
-    const ghost =
-        element.cloneNode(
-            true
-        );
-
-
-    ghost.classList.add(
-        "drag-ghost"
-    );
-
-
-    ghost.style.width =
-        rect.width +
-        "px";
-
-    ghost.style.height =
-        rect.height +
-        "px";
-
-    ghost.style.left =
-        rect.left +
-        "px";
-
-    ghost.style.top =
-        rect.top +
-        "px";
-
-
-    document.body.appendChild(
-        ghost
-    );
-
-
-    element.classList.add(
-        "drag-source-hidden"
-    );
-
-    element.classList.add(
-        "dragging"
-    );
-
-
-    document.body.classList.add(
-        "dragging-mode"
-    );
-
-    document.body.classList.add(
-        "no-select"
-    );
-
-
-    activeDrag = {
-
-        element,
-
-        ghost,
-
-        type,
-
-        startIndex:
-            getElementIndex(
-                element
-            ),
-
-        currentIndex:
-            getElementIndex(
-                element
-            ),
-
-        offsetX:
-            event.clientX -
-            rect.left,
-
-        offsetY:
-            event.clientY -
-            rect.top
-
-    };
-
-}
-
-
-function moveDrag(
-    x,
-    y
-){
-
-    if(!activeDrag){
-
-        return;
-
-    }
-
-
-    const {
-        element,
-        ghost,
-        type
-    } =
-        activeDrag;
-
-
-    ghost.style.left =
-        (
-            x -
-            activeDrag.offsetX
-        ) +
-        "px";
-
-    ghost.style.top =
-        (
-            y -
-            activeDrag.offsetY
-        ) +
-        "px";
-
-
-    const selector =
-        type ===
-        "destination"
-        ? ".destination-card"
-        : ".journey-card";
-
-
-    const cards =
-        [
-            ...document.querySelectorAll(
-                selector
-            )
-        ]
-        .filter(
-            card =>
-                card !==
-                element
-        );
-
-
-    let target = null;
-
-
-    for(
-        const card of cards
-    ){
-
-        const rect =
-            card.getBoundingClientRect();
-
-
-        const centerY =
-            rect.top +
-            rect.height / 2;
-
-
-        const centerX =
-            rect.left +
-            rect.width / 2;
-
-
-        /*
-           兩欄目的地要看 X + Y。
-           一欄旅程主要看 Y。
-        */
-
-        if(
-            type ===
-            "destination"
-        ){
-
-            if(
-                y >= rect.top &&
-                y <= rect.bottom &&
-                x >= rect.left &&
-                x <= rect.right
-            ){
-
-                target =
-                    card;
-
-                break;
-
-            }
-
-        }else{
-
-            if(
-                y <
-                centerY
-            ){
-
-                target =
-                    card;
-
-                break;
-
-            }
-
-        }
-
-    }
-
-
-    if(!target){
-
-        if(cards.length){
-
-            const last =
-                cards[
-                    cards.length - 1
-                ];
-
-            const lastRect =
-                last.getBoundingClientRect();
-
-            if(
-                y >
-                lastRect.bottom
-            ){
-
-                target =
-                    null;
-
-            }
-
-        }
-
-    }
-
-
-    document
-        .querySelectorAll(
-            ".drag-target"
-        )
-        .forEach(
-            el =>
-                el.classList.remove(
-                    "drag-target"
-                )
-        );
-
-
-    if(target){
-
-        target.classList.add(
-            "drag-target"
-        );
-
-
-        const targetRect =
-            target.getBoundingClientRect();
-
-
-        if(
-            type ===
-            "journey"
-        ){
-
-            if(
-                y <
-                targetRect.top +
-                targetRect.height / 2
-            ){
-
-                target.parentNode.insertBefore(
-                    element,
-                    target
-                );
-
-            }else{
-
-                target.parentNode.insertBefore(
-                    element,
-                    target.nextSibling
-                );
-
-            }
-
-        }else{
-
-            /*
-               Grid 排序：
-               使用目前 DOM 中最接近的卡片，
-               直接插到它前面或後面。
-            */
-
-            const all =
-                [
-                    ...target.parentNode.children
-                ]
-                .filter(
-                    el =>
-                        el.classList.contains(
-                            "destination-card"
-                        ) &&
-                        el !== element
-                );
-
-
-            const targetIndex =
-                all.indexOf(
-                    target
-                );
-
-
-            const elementRect =
-                element.getBoundingClientRect();
-
-
-            if(
-                targetIndex !== -1
-            ){
-
-                if(
-                    x <
-                    targetRect.left +
-                    targetRect.width / 2
-                ){
-
-                    target.parentNode.insertBefore(
-                        element,
-                        target
-                    );
-
-                }else{
-
-                    target.parentNode.insertBefore(
-                        element,
-                        target.nextSibling
-                    );
-
-                }
-
-            }
-
-        }
-
-    }else{
-
-        /*
-           沒有 target，
-           代表拖到最下面。
-        */
-
-        if(
-            type ===
-            "journey"
-        ){
-
-            const list =
-                element.parentNode;
-
-            list.appendChild(
-                element
-            );
-
-        }
-
-    }
-
-}
-
-
-async function finishDrag(
-    element,
-    type
-){
-
-    if(!activeDrag){
-
-        return;
-
-    }
-
-
-    const wasMoved =
-        getElementIndex(
-            element
-        ) !==
-        activeDrag.startIndex;
-
-
-    const ghost =
-        activeDrag.ghost;
-
-
-    if(ghost){
-
-        ghost.remove();
-
-    }
-
-
-    element.classList.remove(
-        "drag-source-hidden"
-    );
-
-    element.classList.remove(
-        "dragging"
-    );
-
-
-    document
-        .querySelectorAll(
-            ".drag-target"
-        )
-        .forEach(
-            el =>
-                el.classList.remove(
-                    "drag-target"
-                )
-        );
-
-
-    document.body.classList.remove(
-        "dragging-mode"
-    );
-
-    document.body.classList.remove(
-        "no-select"
-    );
-
-
-    if(wasMoved){
-
-        element.dataset.wasDragged =
-            "true";
-
-    }
-
-
-    /*
-       先把目前 DOM 順序讀出來，
-       再同步 state。
-    */
-
-    if(
-        type ===
-        "destination"
-    ){
-
-        const cards =
-            [
-                ...document.querySelectorAll(
-                    ".destination-card"
-                )
-            ];
-
-
-        destinations =
-            cards.map(
-                card =>
-                    card.dataset.id
-            );
-
-
-        saveDestinations();
-
-        await renderDestinations();
-
-    }
-
-
-    if(
-        type ===
-        "journey"
-    ){
-
-        const cards =
-            [
-                ...document.querySelectorAll(
-                    ".journey-card"
-                )
-            ];
-
-
-        const ids =
-            cards.map(
-                card =>
-                    card.dataset.id
-            );
-
-
-        const map =
-            new Map(
-                currentTrips.map(
-                    trip =>
-                        [
-                            trip.id,
-                            trip
-                        ]
-                )
-            );
-
-
-        currentTrips =
-            ids
-                .map(
-                    id =>
-                        map.get(id)
-                )
-                .filter(Boolean);
-
-
-        saveJourneyOrder();
-
-        await renderJourneys();
-
-    }
-
-
-    activeDrag = null;
-
-}
-
-
-function cancelDrag(){
-
-    if(!activeDrag){
-
-        return;
-
-    }
-
-
-    if(
-        activeDrag.ghost
-    ){
-
-        activeDrag.ghost.remove();
-
-    }
-
-
-    activeDrag.element.classList.remove(
-        "drag-source-hidden"
-    );
-
-    activeDrag.element.classList.remove(
-        "dragging"
-    );
-
-
-    document
-        .querySelectorAll(
-            ".drag-target"
-        )
-        .forEach(
-            el =>
-                el.classList.remove(
-                    "drag-target"
-                )
-        );
-
-
-    document.body.classList.remove(
-        "dragging-mode"
-    );
-
-    document.body.classList.remove(
-        "no-select"
-    );
-
-
-    activeDrag = null;
-
-}
-
-
-function getElementIndex(
-    element
-){
-
-    const cards =
-        [
-            ...element.parentNode.children
-        ]
-        .filter(
-            child =>
-                child.classList.contains(
-                    "destination-card"
-                ) ||
-                child.classList.contains(
-                    "journey-card"
-                )
-        );
-
-
-    return cards.indexOf(
-        element
-    );
-
-}
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-function openModal(
-    html
-){
-
-    modal.innerHTML =
-        html;
-
-    modalBackdrop.classList.remove(
-        "hidden"
-    );
-
-}
-
-
-function closeModal(){
-
-    modalBackdrop.classList.add(
-        "hidden"
-    );
-
-    modal.innerHTML = "";
-
-}
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function escapeHTML(
-    value
-){
-
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-
-}
-
-
-function escapeAttr(
-    value
-){
-
-    return escapeHTML(
-        value
-    );
 
 }
 
@@ -4925,8 +4152,27 @@ function formatMoney(
 
     return Number(
         value || 0
-    ).toLocaleString(
+    )
+    .toLocaleString(
         "zh-TW"
+    );
+
+}
+
+
+function formatDate(
+    value
+){
+
+    if(!value){
+
+        return "";
+
+    }
+
+    return value.replaceAll(
+        "-",
+        "/"
     );
 
 }
@@ -4944,12 +4190,78 @@ function formatTime(
 
     return String(
         value
-    ).slice(
+    )
+    .slice(
         0,
         5
     );
 
 }
+
+
+function escapeHtml(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
+
+}
+
+
+function escapeJs(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replaceAll(
+        "\\",
+        "\\\\"
+    )
+    .replaceAll(
+        "'",
+        "\\'"
+    )
+    .replaceAll(
+        "\n",
+        "\\n"
+    )
+    .replaceAll(
+        "\r",
+        "\\r"
+    );
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+init();
 
 </script>
 
