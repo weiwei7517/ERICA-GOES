@@ -3,347 +3,683 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>GOYA｜走呀</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
-body {
-    margin: 0;
-    background: #f5f4f1;
-    color: #292929;
-    font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+
+body{
+    margin:0;
+    background:#f5f4f1;
+    color:#292929;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Sans TC",
+        "PingFang TC",
+        "Microsoft JhengHei",
+        sans-serif;
 }
-button, input, textarea, select {
-    font: inherit;
+
+button,
+input,
+textarea,
+select{
+    font:inherit;
 }
-button {
-    cursor: pointer;
+
+button{
+    cursor:pointer;
 }
-a {
-    color: inherit;
+
+a{
+    color:inherit;
 }
-.app {
-    max-width: 900px;
-    margin: 0 auto;
-    min-height: 100vh;
-    padding-bottom: 60px;
+
+.app{
+    max-width:900px;
+    margin:0 auto;
+    min-height:100vh;
+    padding-bottom:60px;
 }
 
 /* =========================
    HEADER
 ========================= */
-.header {
-    padding: 28px 20px 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
+
+.header{
+    padding:28px 20px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
 }
-.logo {
-    font-size: 34px;
-    font-weight: 900;
-    letter-spacing: 1.5px;
-    color: #292929;
-    line-height: 1;
+
+.logo{
+    font-size:34px;
+    font-weight:900;
+    letter-spacing:1.5px;
+    color:#292929;
+    line-height:1;
 }
-.logo span {
-    font-size: 30px;
-    font-weight: 600;
-    color: #555;
+
+.logo span{
+    font-size:30px;
+    font-weight:600;
+    color:#555;
 }
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:8px;
 }
-.user-email {
-    font-size: 13px;
-    color: #777;
+
+.user-email{
+    font-size:13px;
+    color:#777;
 }
-.btn {
-    border: none;
-    border-radius: 12px;
-    padding: 10px 15px;
-    background: #292929;
-    color: white;
+
+.btn{
+    border:none;
+    border-radius:12px;
+    padding:10px 15px;
+    background:#292929;
+    color:white;
 }
-.btn-light {
-    background: #e8e6e1;
-    color: #292929;
+
+.btn-light{
+    background:#e8e6e1;
+    color:#292929;
 }
-.btn-small {
-    padding: 7px 10px;
-    font-size: 13px;
+
+.btn-small{
+    padding:7px 10px;
+    font-size:13px;
 }
-.btn-danger {
-    background: #eee3e1;
-    color: #9a4b43;
+
+.btn-danger{
+    background:#eee3e1;
+    color:#9a4b43;
 }
 
 /* =========================
    LOGIN
 ========================= */
-.login-box {
-    max-width: 420px;
-    margin: 100px auto;
-    background: white;
-    border-radius: 24px;
-    padding: 30px;
-    box-shadow: 0 10px 35px rgba(0,0,0,.06);
-}
-.login-box h1 { margin: 0 0 8px; }
-.login-box p { color: #777; margin-bottom: 25px; }
-.field { margin-bottom: 15px; }
-.field label {
-    display: block;
-    margin-bottom: 7px;
-    font-size: 14px;
-    color: #666;
-}
-.field input, .field textarea, .field select {
-    width: 100%;
-    border: 1px solid #ddd;
-    background: #fafafa;
-    border-radius: 12px;
-    padding: 12px;
-    outline: none;
-}
-.field textarea { min-height: 100px; resize: vertical; }
-.field input:focus, .field textarea:focus, .field select:focus {
-    border-color: #999;
-    background: white;
-}
-.login-message { margin-top: 15px; color: #a34e45; font-size: 14px; }
 
-/* =========================
-   新增：幣值與價格群組樣式 (需求3)
-========================= */
-.price-group {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-.price-group select {
-    width: 35%; /* 幣值選單寬度 */
-}
-.price-group input {
-    width: 65%; /* 價格輸入寬度 */
+.login-box{
+    max-width:420px;
+    margin:100px auto;
+    background:white;
+    border-radius:24px;
+    padding:30px;
+    box-shadow:0 10px 35px rgba(0,0,0,.06);
 }
 
+.login-box h1{
+    margin:0 0 8px;
+}
+
+.login-box p{
+    color:#777;
+    margin-bottom:25px;
+}
+
+.field{
+    margin-bottom:15px;
+}
+
+.field label{
+    display:block;
+    margin-bottom:7px;
+    font-size:14px;
+    color:#666;
+}
+
+.field input,
+.field textarea,
+.field select{
+    width:100%;
+    border:1px solid #ddd;
+    background:#fafafa;
+    border-radius:12px;
+    padding:12px;
+    outline:none;
+}
+
+.field textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus{
+    border-color:#999;
+    background:white;
+}
+
+.login-message{
+    margin-top:15px;
+    color:#a34e45;
+    font-size:14px;
+}
+
 /* =========================
-   PAGE TITLE & SECTION (簡略保留)
+   PAGE TITLE
 ========================= */
-.section { padding: 10px 20px; }
-.destination-card {
-    background: white; border-radius: 18px; padding: 16px;
-    display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+
+.home-intro{
+    padding:24px 20px 20px;
+}
+
+.title-row{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.home-title{
+    margin:0;
+    font-size:24px;
+    line-height:1.2;
+    letter-spacing:-.3px;
+    font-weight:700;
+}
+
+.home-subtitle{
+    margin:6px 0 0;
+    color:#999;
+    font-size:12px;
+    line-height:1.5;
+    letter-spacing:.2px;
+}
+
+.edit-intro-btn{
+    flex-shrink:0;
+    border:1px solid #dedcd7;
+    background:rgba(255,255,255,.65);
+    border-radius:10px;
+    padding:7px 13px;
+    color:#555;
+    font-size:12px;
+    transition:.2s ease;
+}
+
+.edit-intro-btn:hover{
+    background:#fff;
+    border-color:#ccc8c0;
+    color:#292929;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+.section{
+    padding:10px 20px;
+}
+
+.section-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:15px;
+}
+
+.section-title{
+    margin:0;
+    font-size:22px;
+}
+
+.section-description{
+    color:#888;
+    font-size:13px;
+}
+
+/* =========================
+   DESTINATION LIST
+========================= */
+
+.destination-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.destination-card{
+    background:white;
+    border-radius:18px;
+    padding:16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    box-shadow:0 4px 18px rgba(0,0,0,.035);
+}
+
+.destination-main{
+    flex:1;
+    min-width:0;
+    cursor:pointer;
+}
+
+.destination-name{
+    font-size:19px;
+    font-weight:700;
+}
+
+.destination-count{
+    margin-top:4px;
+    color:#999;
+    font-size:13px;
+}
+
+.destination-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.icon-btn{
+    width:auto;
+    min-width:34px;
+    height:34px;
+    padding:0 9px;
+    border:1px solid #e1dfda;
+    border-radius:9px;
+    background:#faf9f6;
+    color:#555;
+    font-size:13px;
+    transition:.2s ease;
+}
+
+.icon-btn:hover{
+    background:#f0efeb;
+    border-color:#d4d1ca;
+    color:#292929;
+}
+
+.icon-btn:disabled{
+    opacity:.3;
+    cursor:not-allowed;
+}
+
+.text-action{
+    width:auto;
+    height:34px;
+    padding:0 10px;
+    border:1px solid #e1dfda;
+    border-radius:9px;
+    background:#faf9f6;
+    color:#555;
+    font-size:13px;
+    transition:.2s ease;
+}
+
+.text-action:hover{
+    background:#f0efeb;
+    border-color:#d4d1ca;
+    color:#292929;
+}
+
+.text-action.delete{
+    color:#8a625d;
+}
+
+.text-action.delete:hover{
+    background:#f3e9e6;
+    border-color:#e3d2ce;
+    color:#8a4e47;
+}
+
+.add-destination{
+    width:100%;
+    border:1px dashed #c8c6c1;
+    background:transparent;
+    color:#555;
+    border-radius:16px;
+    padding:15px;
+    margin-top:3px;
+}
+
+/* =========================
+   COOPERATION
+========================= */
+
+.cooperation-card{
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 4px 18px rgba(0,0,0,.035);
+}
+
+.cooperation-empty{
+    color:#999;
+    font-size:14px;
+    line-height:1.7;
+}
+
+.cooperation-title{
+    font-size:18px;
+    font-weight:750;
+}
+
+.cooperation-description{
+    margin-top:6px;
+    color:#777;
+    font-size:14px;
+    line-height:1.7;
+}
+
+.cooperation-link{
+    display:inline-block;
+    margin-top:12px;
+    padding:8px 12px;
+    background:#f0efeb;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:13px;
+}
+
+.cooperation-actions{
+    display:flex;
+    gap:7px;
+    margin-top:14px;
+}
+
+/* =========================
+   JOURNEYS
+========================= */
+
+.back-btn{
+    border:none;
+    background:transparent;
+    color:#555;
+    padding:0;
+    margin-bottom:15px;
+}
+
+.destination-heading{
+    font-size:32px;
+    margin:0;
+}
+
+.journey-list{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.journey-card{
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.04);
+}
+
+.journey-top{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.journey-main{
+    flex:1;
+    cursor:pointer;
+}
+
+.journey-title{
+    font-size:21px;
+    font-weight:750;
+}
+
+.journey-subtitle{
+    margin-top:7px;
+    color:#777;
+    font-size:14px;
+}
+
+.journey-creator{
+    margin-top:10px;
+    color:#555;
+    font-size:14px;
+}
+
+.journey-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:flex-start;
+}
+
+/* =========================
+   DETAIL
+========================= */
+
+.detail-header{
+    padding:20px;
+}
+
+.detail-title{
+    margin:0;
+    font-size:34px;
+}
+
+.detail-subtitle{
+    color:#888;
+    margin:7px 0;
+    font-size:14px;
+}
+
+.detail-meta{
+    color:#888;
+    font-size:14px;
+    line-height:1.8;
+}
+
+.total-box{
+    margin-top:20px;
+    background:#292929;
+    color:white;
+    border-radius:20px;
+    padding:20px;
+}
+
+.total-label{
+    font-size:13px;
+    opacity:.7;
+}
+
+.total-price{
+    font-size:30px;
+    font-weight:800;
+    margin-top:5px;
+}
+
+.info-box{
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.035);
+}
+
+.info-box-title{
+    font-size:19px;
+    font-weight:750;
+    margin-bottom:10px;
+}
+
+.info-box-content{
+    color:#666;
+    font-size:14px;
+    line-height:1.8;
+    white-space:pre-wrap;
+}
+
+.info-box-actions{
+    display:flex;
+    gap:7px;
+    margin-top:14px;
 }
 
 /* =========================
    VISA
 ========================= */
-.visa-editor {
-    border: 1px solid #e5e2dc;
-    background: #faf9f6;
-    border-radius: 15px;
-    padding: 14px;
-    margin-bottom: 10px;
-}
-.visa-editor-header {
-    display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
-}
-.visa-editor-title { font-size: 14px; font-weight: 700; color: #555; }
-.visa-remove-btn {
-    border: none; background: #eee3e1; color: #8a4e47; border-radius: 9px; padding: 6px 9px; font-size: 12px;
+
+.visa-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
 }
 
-/* 補全截斷的 CSS */
-.item-rating {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    color: #ff9800;
-    font-size: 14px;
-    margin-top: 8px;
+.visa-card{
+    border:1px solid #e7e5e0;
+    border-radius:14px;
+    padding:13px;
+    background:#faf9f6;
 }
-.page-container {
-    display: none; /* 用於切換頁面 */
+
+.visa-name{
+    font-size:15px;
+    font-weight:700;
+    color:#333;
 }
-.page-container.active {
-    display: block;
+
+.visa-info{
+    margin-top:6px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:7px;
+    font-size:13px;
+    color:#777;
 }
-</style>
-</head>
-<body>
 
-<div class="app">
-    <!-- Header -->
-    <header class="header">
-        <div class="logo">GOYA<span>.</span></div>
-        <div class="header-right" id="header-user-info" style="display:none;">
-            <span class="user-email" id="user-email-display"></span>
-            <button class="btn btn-light btn-small" onclick="handleLogout()">登出</button>
-        </div>
-    </header>
+.visa-price{
+    font-weight:700;
+    color:#555;
+}
 
-    <!-- 登入頁面 -->
-    <div id="page-login" class="page-container active">
-        <div class="login-box">
-            <h1>登入 / 註冊</h1>
-            <p>準備好出發了嗎？</p>
-            <div class="field">
-                <label>Email</label>
-                <input type="email" id="auth-email" placeholder="example@goya.com">
-            </div>
-            <div class="field">
-                <label>密碼</label>
-                <input type="password" id="auth-password" placeholder="••••••••">
-            </div>
-            <button class="btn" style="width:100%" onclick="handleLogin()">登入</button>
-            <div id="login-message" class="login-message"></div>
-        </div>
-    </div>
+.visa-link{
+    display:inline-block;
+    padding:5px 9px;
+    background:#eeece7;
+    border-radius:8px;
+    text-decoration:none;
+    color:#555;
+    font-size:12px;
+}
 
-    <!-- 首頁 / 列表頁面 -->
-    <div id="page-home" class="page-container">
-        <div class="section">
-            <h2 class="section-title">我的旅程</h2>
-            <div class="destination-card" onclick="switchPage('page-detail')">
-                <div class="destination-main">
-                    <div class="destination-name">東京五日遊 (測試點擊)</div>
-                </div>
-            </div>
-        </div>
-    </div>
+.visa-link:hover{
+    background:#e5e3dd;
+}
 
-    <!-- 旅程詳細與編輯頁面 -->
-    <div id="page-detail" class="page-container">
-        <div class="section">
-            <button class="btn btn-light btn-small" onclick="switchPage('page-home')" style="margin-bottom: 20px;">← 返回列表</button>
-            
-            <h2 class="section-title">編輯旅程資訊</h2>
-            
-            <!-- 簽證/入境資訊編輯區塊 (需求2) -->
-            <div class="visa-editor">
-                <div class="visa-editor-header">
-                    <span class="visa-editor-title">簽證／入境資訊</span>
-                    <button class="visa-remove-btn">移除</button>
-                </div>
-                
-                <div class="field">
-                    <label>名稱</label>
-                    <input type="text" placeholder="例如：日本 VJW">
-                </div>
-                
-                <div class="field">
-                    <label>連結</label>
-                    <input type="text" placeholder="https://...">
-                </div>
-                
-                <div class="field">
-                    <label>價格 (需求3：手動選擇幣值)</label>
-                    <div class="price-group">
-                        <select class="currency-select">
-                            <option value="TWD">TWD (台幣)</option>
-                            <option value="JPY">JPY (日圓)</option>
-                            <option value="USD">USD (美金)</option>
-                            <option value="KRW">KRW (韓元)</option>
-                            <option value="EUR">EUR (歐元)</option>
-                        </select>
-                        <input type="number" placeholder="輸入價格">
-                    </div>
-                </div>
-            </div>
+.visa-empty{
+    color:#999;
+    font-size:14px;
+}
 
-            <!-- 其他費用區塊 (示範需求3) -->
-            <div class="visa-editor">
-                <div class="visa-editor-header">
-                    <span class="visa-editor-title">新增一般項目 (機票/住宿等)</span>
-                </div>
-                <div class="field">
-                    <label>項目費用 (只要有價格都有幣值選項)</label>
-                    <div class="price-group">
-                        <select class="currency-select">
-                            <option value="TWD">TWD (台幣)</option>
-                            <option value="JPY">JPY (日圓)</option>
-                            <option value="USD">USD (美金)</option>
-                        </select>
-                        <input type="number" placeholder="輸入價格">
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-    </div>
-</div>
+.visa-editor{
+    border:1px solid #e5e2dc;
+    background:#faf9f6;
+    border-radius:15px;
+    padding:14px;
+    margin-bottom:10px;
+}
 
-<script>
-    // Supabase 初始化 (請填入你的 URL 與 Key)
-    const supabaseUrl = 'YOUR_SUPABASE_URL';
-    const supabaseKey = 'YOUR_SUPABASE_KEY';
-    // const supabase = supabase.createClient(supabaseUrl, supabaseKey); 
-    // 若尚未連接 supabase，以下會用模擬的方式執行頁面切換邏輯。
+.visa-editor-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:10px;
+}
 
-    // --- 需求1：頁面刷新時僅需記憶位置，不再跳回登入頁 ---
-    
-    // 切換頁面函式
-    function switchPage(pageId) {
-        // 隱藏所有頁面
-        document.querySelectorAll('.page-container').forEach(page => {
-            page.classList.remove('active');
-        });
-        // 顯示目標頁面
-        document.getElementById(pageId).classList.add('active');
-        
-        // 儲存當前頁面到 localStorage，刷新時讀取
-        localStorage.setItem('goya_current_page', pageId);
-    }
+.visa-editor-title{
+    font-size:14px;
+    font-weight:700;
+    color:#555;
+}
 
-    // 頁面載入時驗證狀態
-    window.addEventListener('DOMContentLoaded', async () => {
-        // 模擬取得 Supabase Session
-        // const { data: { session } } = await supabase.auth.getSession();
-        
-        // 【測試用】模擬已登入，若有真實 supabase 請改成依 session 判斷
-        const isUserLoggedIn = true; 
+.visa-remove-btn{
+    border:none;
+    background:#eee3e1;
+    color:#8a4e47;
+    border-radius:9px;
+    padding:6px 9px;
+    font-size:12px;
+}
 
-        if (isUserLoggedIn) {
-            document.getElementById('header-user-info').style.display = 'flex';
-            document.getElementById('user-email-display').textContent = "user@goya.com";
-            
-            // 讀取上次紀錄的頁面，若無則預設為首頁 (home)
-            const savedPage = localStorage.getItem('goya_current_page') || 'page-home';
-            
-            // 如果存的頁面是 login，但已登入，強制導向首頁
-            if (savedPage === 'page-login') {
-                switchPage('page-home');
-            } else {
-                switchPage(savedPage); 
-            }
-        } else {
-            // 未登入則強制前往 login
-            switchPage('page-login');
-        }
-    });
+.visa-editor-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
 
-    // 模擬登入
-    function handleLogin() {
-        // supabase.auth.signInWithPassword(...)
-        document.getElementById('header-user-info').style.display = 'flex';
-        document.getElementById('user-email-display').textContent = "user@goya.com";
-        switchPage('page-home');
-    }
+.visa-add-btn{
+    width:100%;
+    border:1px dashed #c8c6c1;
+    background:white;
+    color:#666;
+    border-radius:12px;
+    padding:11px;
+    margin-top:4px;
+}
 
-    // 模擬登出
-    function handleLogout() {
-        // supabase.auth.signOut()
-        document.getElementById('header-user-info').style.display = 'none';
-        localStorage.removeItem('goya_current_page'); // 清除頁面記憶
-        switchPage('page-login');
-    }
-</script>
+.day-card{
+    background:white;
+    border-radius:20px;
+    padding:18px;
+    margin-bottom:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.035);
+}
 
-</body>
-</html>
+.day-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.day-title{
+    font-size:21px;
+    font-weight:750;
+}
+
+.item-card,
+.stay-card{
+    border:1px solid #e7e5e0;
+    border-radius:15px;
+    padding:14px;
+    margin-bottom:10px;
+}
+
+.item-title{
+    font-weight:700;
+    font-size:16px;
+}
+
+.item-info{
+    color:#777;
+    font-size:13px;
+    line-height:1.8;
+    margin-top:5px;
+}
+
+.item-price{
+    margin-top:8px;
+    font-weight:700;
+}
+
+.item-rating{
+    display
