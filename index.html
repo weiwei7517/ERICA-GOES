@@ -245,7 +245,7 @@ a{
 }
 
 /* =========================
-   DESTINATION LIST
+   DESTINATION
 ========================= */
 
 .destination-list{
@@ -504,6 +504,13 @@ a{
     margin-top:5px;
 }
 
+.total-breakdown{
+    font-size:12px;
+    opacity:.7;
+    margin-top:8px;
+    line-height:1.8;
+}
+
 .info-box{
     background:white;
     border-radius:18px;
@@ -532,7 +539,7 @@ a{
 }
 
 /* =========================
-   VISA / FLIGHT
+   TRIP TOOLS
 ========================= */
 
 .trip-tools{
@@ -571,6 +578,10 @@ a{
     font-size:12px;
 }
 
+/* =========================
+   VISA
+========================= */
+
 .visa-display{
     margin-bottom:15px;
 }
@@ -608,8 +619,26 @@ a{
     font-size:12px;
 }
 
+/* =========================
+   FLIGHT
+========================= */
+
 .flight-display{
     margin-bottom:15px;
+}
+
+.flight-direction{
+    border:1px solid #e7e5e0;
+    border-radius:15px;
+    padding:14px;
+    background:#faf9f6;
+    margin-bottom:10px;
+}
+
+.flight-direction-title{
+    font-size:16px;
+    font-weight:750;
+    margin-bottom:10px;
 }
 
 .flight-grid{
@@ -619,7 +648,7 @@ a{
 }
 
 .flight-field{
-    background:#faf9f6;
+    background:white;
     border:1px solid #e7e5e0;
     border-radius:13px;
     padding:11px;
@@ -636,6 +665,63 @@ a{
     font-size:14px;
     line-height:1.5;
     word-break:break-word;
+}
+
+.flight-total{
+    margin-top:12px;
+    padding:13px;
+    background:#292929;
+    color:white;
+    border-radius:13px;
+}
+
+.flight-total-label{
+    font-size:12px;
+    opacity:.65;
+}
+
+.flight-total-price{
+    margin-top:3px;
+    font-size:20px;
+    font-weight:750;
+}
+
+.flight-total-twd{
+    margin-top:3px;
+    font-size:12px;
+    opacity:.7;
+}
+
+/* =========================
+   STAY
+========================= */
+
+.stay-card{
+    border:1px solid #e7e5e0;
+    border-radius:15px;
+    padding:14px;
+    margin-bottom:10px;
+}
+
+.stay-price-main{
+    margin-top:8px;
+    font-weight:750;
+}
+
+.stay-price-twd{
+    margin-top:3px;
+    color:#888;
+    font-size:12px;
+}
+
+.stay-link{
+    display:inline-block;
+    margin-top:8px;
+    padding:6px 9px;
+    background:#f0efeb;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:12px;
 }
 
 /* =========================
@@ -663,8 +749,7 @@ a{
     font-weight:750;
 }
 
-.item-card,
-.stay-card{
+.item-card{
     border:1px solid #e7e5e0;
     border-radius:15px;
     padding:14px;
@@ -744,7 +829,7 @@ a{
 }
 
 /* =========================
-   PHOTO PAGE
+   PHOTO
 ========================= */
 
 .photo-toolbar{
@@ -878,13 +963,19 @@ a{
 }
 
 /* =========================
-   EMPTY
+   EMPTY / LOADING
 ========================= */
 
 .empty{
     text-align:center;
     padding:40px 20px;
     color:#999;
+}
+
+.loading{
+    padding:60px 20px;
+    text-align:center;
+    color:#888;
 }
 
 /* =========================
@@ -991,16 +1082,6 @@ a{
     background:#292929;
     border-color:#292929;
     color:white;
-}
-
-/* =========================
-   LOADING
-========================= */
-
-.loading{
-    padding:60px 20px;
-    text-align:center;
-    color:#888;
 }
 
 /* =========================
@@ -1117,162 +1198,383 @@ a{
 
 <div id="app"></div>
 
-<!-- INTRO MODAL -->
+<!-- =========================
+     INTRO MODAL
+========================= -->
+
 <div id="introModal" class="modal-backdrop">
     <div class="modal">
+
         <div class="modal-header">
             <h2>編輯主頁文案</h2>
-            <button type="button" class="close-btn" onclick="closeModal('introModal')">×</button>
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeModal('introModal')"
+            >
+                ×
+            </button>
         </div>
 
         <div class="field">
             <label>主標題</label>
-            <input id="introTitleInput" type="text" placeholder="例如：去哪裡玩？">
+
+            <input
+                id="introTitleInput"
+                type="text"
+                placeholder="例如：去哪裡玩？"
+            >
         </div>
 
         <div class="field">
             <label>副標題</label>
-            <input id="introSubtitleInput" type="text" placeholder="例如：小資也能輕鬆飛">
+
+            <input
+                id="introSubtitleInput"
+                type="text"
+                placeholder="例如：小資也能輕鬆飛"
+            >
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-light" onclick="closeModal('introModal')">取消</button>
-            <button type="button" class="btn" onclick="saveIntro()">儲存</button>
+
+            <button
+                type="button"
+                class="btn btn-light"
+                onclick="closeModal('introModal')"
+            >
+                取消
+            </button>
+
+            <button
+                type="button"
+                class="btn"
+                onclick="saveIntro()"
+            >
+                儲存
+            </button>
+
         </div>
+
     </div>
 </div>
 
-<!-- COOPERATION MODAL -->
+<!-- =========================
+     COOPERATION MODAL
+========================= -->
+
 <div id="cooperationModal" class="modal-backdrop">
     <div class="modal">
+
         <div class="modal-header">
             <h2>編輯合作</h2>
-            <button type="button" class="close-btn" onclick="closeModal('cooperationModal')">×</button>
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeModal('cooperationModal')"
+            >
+                ×
+            </button>
         </div>
 
         <div class="field">
             <label>合作名稱</label>
-            <input id="cooperationTitleInput" type="text" placeholder="例如：eSIM 網路">
+
+            <input
+                id="cooperationTitleInput"
+                type="text"
+                placeholder="例如：eSIM 網路"
+            >
         </div>
 
         <div class="field">
             <label>合作說明</label>
-            <textarea id="cooperationDescriptionInput" placeholder="例如：出國上網推薦使用這個 eSIM"></textarea>
+
+            <textarea
+                id="cooperationDescriptionInput"
+                placeholder="例如：出國上網推薦使用這個 eSIM"
+            ></textarea>
         </div>
 
         <div class="field">
             <label>合作連結</label>
-            <input id="cooperationLinkInput" type="url" placeholder="https://...">
+
+            <input
+                id="cooperationLinkInput"
+                type="url"
+                placeholder="https://..."
+            >
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-light" onclick="closeModal('cooperationModal')">取消</button>
-            <button type="button" class="btn" onclick="saveCooperation()">儲存</button>
+
+            <button
+                type="button"
+                class="btn btn-light"
+                onclick="closeModal('cooperationModal')"
+            >
+                取消
+            </button>
+
+            <button
+                type="button"
+                class="btn"
+                onclick="saveCooperation()"
+            >
+                儲存
+            </button>
+
         </div>
+
     </div>
 </div>
 
-<!-- DESTINATION MODAL -->
+<!-- =========================
+     DESTINATION MODAL
+========================= -->
+
 <div id="destinationModal" class="modal-backdrop">
     <div class="modal">
+
         <div class="modal-header">
-            <h2 id="destinationModalTitle">新增目的地</h2>
-            <button type="button" class="close-btn" onclick="closeModal('destinationModal')">×</button>
+
+            <h2 id="destinationModalTitle">
+                新增目的地
+            </h2>
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeModal('destinationModal')"
+            >
+                ×
+            </button>
+
         </div>
 
         <div class="field">
+
             <label>目的地名稱</label>
-            <input id="destinationInput" type="text" placeholder="例如：日本">
+
+            <input
+                id="destinationInput"
+                type="text"
+                placeholder="例如：日本"
+            >
+
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-light" onclick="closeModal('destinationModal')">取消</button>
-            <button type="button" class="btn" onclick="saveDestination()">儲存</button>
+
+            <button
+                type="button"
+                class="btn btn-light"
+                onclick="closeModal('destinationModal')"
+            >
+                取消
+            </button>
+
+            <button
+                type="button"
+                class="btn"
+                onclick="saveDestination()"
+            >
+                儲存
+            </button>
+
         </div>
+
     </div>
 </div>
 
-<!-- JOURNEY MODAL -->
+<!-- =========================
+     JOURNEY MODAL
+========================= -->
+
 <div id="journeyModal" class="modal-backdrop">
     <div class="modal">
+
         <div class="modal-header">
-            <h2 id="journeyModalTitle">新增旅程</h2>
-            <button type="button" class="close-btn" onclick="closeModal('journeyModal')">×</button>
+
+            <h2 id="journeyModalTitle">
+                新增旅程
+            </h2>
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeModal('journeyModal')"
+            >
+                ×
+            </button>
+
         </div>
 
         <div class="field">
             <label>主標題</label>
-            <input id="journeyTitleInput" type="text" placeholder="例如：大阪 5 天 4 夜">
+
+            <input
+                id="journeyTitleInput"
+                type="text"
+                placeholder="例如：大阪 5 天 4 夜"
+            >
         </div>
 
         <div class="field">
             <label>副標題</label>
-            <input id="journeySubtitleInput" type="text" placeholder="例如：五天四夜只要兩萬">
+
+            <input
+                id="journeySubtitleInput"
+                type="text"
+                placeholder="例如：五天四夜只要兩萬"
+            >
         </div>
 
         <div class="field">
             <label>創作者名稱</label>
-            <input id="journeyCreatorInput" type="text" placeholder="例如：IVY">
+
+            <input
+                id="journeyCreatorInput"
+                type="text"
+                placeholder="例如：IVY"
+            >
         </div>
 
         <div class="row">
+
             <div class="field">
                 <label>開始日期</label>
-                <input id="journeyStartInput" type="date">
+
+                <input
+                    id="journeyStartInput"
+                    type="date"
+                >
             </div>
 
             <div class="field">
                 <label>結束日期</label>
-                <input id="journeyEndInput" type="date">
+
+                <input
+                    id="journeyEndInput"
+                    type="date"
+                >
             </div>
+
         </div>
 
         <div class="field">
             <label>旅程介紹</label>
-            <textarea id="journeyDescriptionInput" placeholder="可以寫這趟旅程的特色、適合誰等等"></textarea>
+
+            <textarea
+                id="journeyDescriptionInput"
+                placeholder="可以寫這趟旅程的特色、適合誰等等"
+            ></textarea>
         </div>
 
         <div class="field">
             <label>其他</label>
-            <textarea id="journeyOtherInput" placeholder="其他想補充的資訊"></textarea>
+
+            <textarea
+                id="journeyOtherInput"
+                placeholder="其他想補充的資訊"
+            ></textarea>
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-light" onclick="closeModal('journeyModal')">取消</button>
-            <button type="button" class="btn" onclick="saveJourney()">儲存</button>
+
+            <button
+                type="button"
+                class="btn btn-light"
+                onclick="closeModal('journeyModal')"
+            >
+                取消
+            </button>
+
+            <button
+                type="button"
+                class="btn"
+                onclick="saveJourney()"
+            >
+                儲存
+            </button>
+
         </div>
+
     </div>
 </div>
 
-<!-- VISA MODAL -->
+<!-- =========================
+     VISA MODAL
+========================= -->
+
 <div id="visaModal" class="modal-backdrop">
     <div class="modal">
 
         <div class="modal-header">
-            <h2>簽證</h2>
-            <button type="button" class="close-btn" onclick="closeModal('visaModal')">×</button>
+
+            <h2>🛂 簽證</h2>
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeModal('visaModal')"
+            >
+                ×
+            </button>
+
         </div>
 
         <div class="field">
+
             <label>簽證名稱</label>
-            <input id="visaNameInput" type="text" placeholder="例如：日本簽證">
+
+            <input
+                id="visaNameInput"
+                type="text"
+                placeholder="例如：日本簽證"
+            >
+
         </div>
 
         <div class="field">
+
             <label>網址</label>
-            <input id="visaUrlInput" type="url" placeholder="https://...">
+
+            <input
+                id="visaUrlInput"
+                type="url"
+                placeholder="https://..."
+            >
+
         </div>
 
         <div class="row">
+
             <div class="field">
+
                 <label>價格</label>
-                <input id="visaPriceInput" type="number" min="0" step="0.01" placeholder="0" oninput="updateVisaTwd()">
+
+                <input
+                    id="visaPriceInput"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="0"
+                    oninput="updateVisaTwd()"
+                >
+
             </div>
 
             <div class="field">
+
                 <label>幣值</label>
 
-                <select id="visaCurrencyInput" onchange="updateVisaTwd()">
+                <select
+                    id="visaCurrencyInput"
+                    onchange="updateVisaTwd()"
+                >
                     <option value="TWD">TWD｜新台幣</option>
                     <option value="JPY">JPY｜日圓</option>
                     <option value="KRW">KRW｜韓元</option>
@@ -1287,27 +1589,67 @@ a{
                     <option value="THB">THB｜泰銖</option>
                     <option value="VND">VND｜越南盾</option>
                 </select>
+
             </div>
+
         </div>
 
-        <div id="visaTwdPreview" style="background:#f5f4f1;border-radius:12px;padding:13px;color:#666;font-size:14px;margin-top:-2px;">
+        <div
+            id="visaTwdPreview"
+            style="
+                background:#f5f4f1;
+                border-radius:12px;
+                padding:13px;
+                color:#666;
+                font-size:14px;
+                margin-top:-2px;
+            "
+        >
             台幣換算：NT$ 0
         </div>
 
-        <div id="visaRateMessage" style="color:#999;font-size:12px;margin-top:7px;"></div>
+        <div
+            id="visaRateMessage"
+            style="
+                color:#999;
+                font-size:12px;
+                margin-top:7px;
+            "
+        ></div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-light" onclick="closeModal('visaModal')">取消</button>
-            <button type="button" class="btn" id="saveVisaButton" onclick="saveVisa()">儲存</button>
+
+            <button
+                type="button"
+                class="btn btn-light"
+                onclick="closeModal('visaModal')"
+            >
+                取消
+            </button>
+
+            <button
+                type="button"
+                class="btn"
+                id="saveVisaButton"
+                onclick="saveVisa()"
+            >
+                儲存
+            </button>
+
         </div>
+
     </div>
 </div>
 
-<!-- FLIGHT MODAL -->
+<!-- =========================
+     FLIGHT MODAL
+========================= -->
+
 <div id="flightModal" class="modal-backdrop">
     <div class="modal">
 
         <div class="modal-header">
+
             <h2>✈️ 航班資訊</h2>
 
             <button
@@ -1317,126 +1659,516 @@ a{
             >
                 ×
             </button>
+
+        </div>
+
+        <!-- 去程 -->
+
+        <div
+            style="
+                font-size:18px;
+                font-weight:750;
+                margin-bottom:15px;
+            "
+        >
+            🛫 去程
         </div>
 
         <div class="field">
+
             <label>航空公司</label>
-            <input id="flightAirlineInput" type="text" placeholder="例如：台灣虎航">
+
+            <input
+                id="outboundAirlineInput"
+                type="text"
+                placeholder="例如：台灣虎航"
+            >
+
         </div>
 
         <div class="field">
+
             <label>航班編號</label>
-            <input id="flightNumberInput" type="text" placeholder="例如：IT202">
+
+            <input
+                id="outboundFlightNumberInput"
+                type="text"
+                placeholder="例如：IT202"
+            >
+
         </div>
 
         <div class="row">
+
             <div class="field">
+
                 <label>出發機場</label>
-                <input id="flightDepartureAirportInput" type="text" placeholder="例如：桃園機場 TPE">
+
+                <input
+                    id="outboundDepartureAirportInput"
+                    type="text"
+                    placeholder="例如：桃園機場 TPE"
+                >
+
             </div>
 
             <div class="field">
+
                 <label>抵達機場</label>
-                <input id="flightArrivalAirportInput" type="text" placeholder="例如：關西機場 KIX">
+
+                <input
+                    id="outboundArrivalAirportInput"
+                    type="text"
+                    placeholder="例如：關西機場 KIX"
+                >
+
             </div>
+
         </div>
 
         <div class="row">
+
             <div class="field">
-                <label>出發時間</label>
-                <input id="flightDepartureInput" type="datetime-local">
+
+                <label>出發日期時間</label>
+
+                <input
+                    id="outboundDepartureInput"
+                    type="datetime-local"
+                >
+
             </div>
 
             <div class="field">
-                <label>抵達時間</label>
-                <input id="flightArrivalInput" type="datetime-local">
+
+                <label>抵達日期時間</label>
+
+                <input
+                    id="outboundArrivalInput"
+                    type="datetime-local"
+                >
+
             </div>
+
         </div>
 
         <div class="field">
+
+            <label>行李公斤</label>
+
+            <input
+                id="outboundBaggageInput"
+                type="number"
+                min="0"
+                step="0.1"
+                placeholder="例如：20"
+            >
+
+        </div>
+
+        <hr style="
+            border:none;
+            border-top:1px solid #eee;
+            margin:22px 0;
+        ">
+
+        <!-- 回程 -->
+
+        <div
+            style="
+                font-size:18px;
+                font-weight:750;
+                margin-bottom:15px;
+            "
+        >
+            🛬 回程
+        </div>
+
+        <div class="field">
+
+            <label>航空公司</label>
+
+            <input
+                id="returnAirlineInput"
+                type="text"
+                placeholder="例如：台灣虎航"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>航班編號</label>
+
+            <input
+                id="returnFlightNumberInput"
+                type="text"
+                placeholder="例如：IT203"
+            >
+
+        </div>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>出發機場</label>
+
+                <input
+                    id="returnDepartureAirportInput"
+                    type="text"
+                    placeholder="例如：關西機場 KIX"
+                >
+
+            </div>
+
+            <div class="field">
+
+                <label>抵達機場</label>
+
+                <input
+                    id="returnArrivalAirportInput"
+                    type="text"
+                    placeholder="例如：桃園機場 TPE"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>出發日期時間</label>
+
+                <input
+                    id="returnDepartureInput"
+                    type="datetime-local"
+                >
+
+            </div>
+
+            <div class="field">
+
+                <label>抵達日期時間</label>
+
+                <input
+                    id="returnArrivalInput"
+                    type="datetime-local"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="field">
+
+            <label>行李公斤</label>
+
+            <input
+                id="returnBaggageInput"
+                type="number"
+                min="0"
+                step="0.1"
+                placeholder="例如：20"
+            >
+
+        </div>
+
+        <hr style="
+            border:none;
+            border-top:1px solid #eee;
+            margin:22px 0;
+        ">
+
+        <!-- 總價 -->
+
+        <div
+            style="
+                font-size:18px;
+                font-weight:750;
+                margin-bottom:15px;
+            "
+        >
+            💰 機票總價
+        </div>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>總價格</label>
+
+                <input
+                    id="flightTotalPriceInput"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="例如：12500"
+                    oninput="updateFlightTwd()"
+                >
+
+            </div>
+
+            <div class="field">
+
+                <label>幣值</label>
+
+                <select
+                    id="flightCurrencyInput"
+                    onchange="updateFlightTwd()"
+                >
+                    <option value="TWD">TWD｜新台幣</option>
+                    <option value="JPY">JPY｜日圓</option>
+                    <option value="KRW">KRW｜韓元</option>
+                    <option value="USD">USD｜美元</option>
+                    <option value="CNY">CNY｜人民幣</option>
+                    <option value="HKD">HKD｜港幣</option>
+                    <option value="EUR">EUR｜歐元</option>
+                    <option value="GBP">GBP｜英鎊</option>
+                    <option value="AUD">AUD｜澳幣</option>
+                    <option value="CAD">CAD｜加幣</option>
+                    <option value="SGD">SGD｜新加坡幣</option>
+                    <option value="THB">THB｜泰銖</option>
+                    <option value="VND">VND｜越南盾</option>
+                </select>
+
+            </div>
+
+        </div>
+
+        <div
+            id="flightTwdPreview"
+            style="
+                background:#f5f4f1;
+                border-radius:12px;
+                padding:13px;
+                color:#666;
+                font-size:14px;
+            "
+        >
+            台幣換算：NT$ 0
+        </div>
+
+        <div
+            id="flightRateMessage"
+            style="
+                color:#999;
+                font-size:12px;
+                margin-top:7px;
+            "
+        ></div>
+
+        <div class="field" style="margin-top:15px;">
+
             <label>備註</label>
-            <textarea id="flightNotesInput" placeholder="例如：含 20kg 行李、需要提前 2 小時到機場"></textarea>
+
+            <textarea
+                id="flightNotesInput"
+                placeholder="例如：含 20kg 行李、需要提前 2 小時到機場"
+            ></textarea>
+
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-light" onclick="closeModal('flightModal')">取消</button>
-            <button type="button" class="btn" onclick="saveFlight()">儲存</button>
+
+            <button
+                type="button"
+                class="btn btn-light"
+                onclick="closeModal('flightModal')"
+            >
+                取消
+            </button>
+
+            <button
+                type="button"
+                class="btn"
+                id="saveFlightButton"
+                onclick="saveFlight()"
+            >
+                儲存
+            </button>
+
         </div>
 
     </div>
 </div>
 
-<!-- ITINERARY MODAL -->
+<!-- =========================
+     ITINERARY MODAL
+========================= -->
+
 <div id="itemModal" class="modal-backdrop">
     <div class="modal">
 
         <div class="modal-header">
-            <h2 id="itemModalTitle">新增行程</h2>
-            <button type="button" class="close-btn" onclick="closeModal('itemModal')">×</button>
+
+            <h2 id="itemModalTitle">
+                新增行程
+            </h2>
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeModal('itemModal')"
+            >
+                ×
+            </button>
+
         </div>
 
         <div class="field">
+
             <label>行程名稱</label>
-            <input id="itemTitleInput" type="text" placeholder="例如：伏見稻荷大社">
+
+            <input
+                id="itemTitleInput"
+                type="text"
+                placeholder="例如：伏見稻荷大社"
+            >
+
         </div>
 
         <div class="field">
+
             <label>地址</label>
-            <input id="itemLocationInput" type="text" placeholder="輸入完整地址">
+
+            <input
+                id="itemLocationInput"
+                type="text"
+                placeholder="輸入完整地址"
+            >
+
         </div>
 
         <div class="field">
+
             <label>交通</label>
-            <input id="itemTransportInput" type="text" placeholder="例如：搭 JR">
+
+            <input
+                id="itemTransportInput"
+                type="text"
+                placeholder="例如：搭 JR"
+            >
+
         </div>
 
         <div class="row">
+
             <div class="field">
+
                 <label>價格（台幣）</label>
-                <input id="itemPriceInput" type="number" min="0" placeholder="0">
+
+                <input
+                    id="itemPriceInput"
+                    type="number"
+                    min="0"
+                    placeholder="0"
+                >
+
             </div>
 
             <div class="field">
+
                 <label>需要時間</label>
-                <input id="itemDurationInput" type="text" placeholder="例如：2 小時">
+
+                <input
+                    id="itemDurationInput"
+                    type="text"
+                    placeholder="例如：2 小時"
+                >
+
             </div>
+
         </div>
 
         <div class="field">
+
             <label>推薦程度</label>
 
             <div class="rating-group">
 
                 <div class="rating-option">
-                    <input type="radio" name="itemRating" id="ratingRecommend" value="recommend">
-                    <label for="ratingRecommend">👍🏻 推薦</label>
+
+                    <input
+                        type="radio"
+                        name="itemRating"
+                        id="ratingRecommend"
+                        value="recommend"
+                    >
+
+                    <label for="ratingRecommend">
+                        👍🏻 推薦
+                    </label>
+
                 </div>
 
                 <div class="rating-option">
-                    <input type="radio" name="itemRating" id="ratingNormal" value="normal">
-                    <label for="ratingNormal">👌 普通</label>
+
+                    <input
+                        type="radio"
+                        name="itemRating"
+                        id="ratingNormal"
+                        value="normal"
+                    >
+
+                    <label for="ratingNormal">
+                        👌 普通
+                    </label>
+
                 </div>
 
                 <div class="rating-option">
-                    <input type="radio" name="itemRating" id="ratingNo" value="no">
-                    <label for="ratingNo">👎🏻 不用去</label>
+
+                    <input
+                        type="radio"
+                        name="itemRating"
+                        id="ratingNo"
+                        value="no"
+                    >
+
+                    <label for="ratingNo">
+                        👎🏻 不用去
+                    </label>
+
                 </div>
 
             </div>
+
         </div>
 
         <div class="field">
+
             <label>備註</label>
-            <textarea id="itemNotesInput" placeholder="例如：記得提前預約"></textarea>
+
+            <textarea
+                id="itemNotesInput"
+                placeholder="例如：記得提前預約"
+            ></textarea>
+
         </div>
 
         <div class="field">
+
             <label>其他</label>
-            <textarea id="itemOtherInput" placeholder="可以補充其他資訊"></textarea>
+
+            <textarea
+                id="itemOtherInput"
+                placeholder="可以補充其他資訊"
+            ></textarea>
+
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-light" onclick="closeModal('itemModal')">取消</button>
+
+            <button
+                type="button"
+                class="btn btn-light"
+                onclick="closeModal('itemModal')"
+            >
+                取消
+            </button>
 
             <button
                 id="saveItemButton"
@@ -1446,17 +2178,24 @@ a{
             >
                 儲存
             </button>
+
         </div>
 
     </div>
 </div>
 
-<!-- STAY MODAL -->
+<!-- =========================
+     STAY MODAL
+========================= -->
+
 <div id="stayModal" class="modal-backdrop">
     <div class="modal">
 
         <div class="modal-header">
-            <h2 id="stayModalTitle">新增住宿</h2>
+
+            <h2 id="stayModalTitle">
+                新增住宿
+            </h2>
 
             <button
                 type="button"
@@ -1465,53 +2204,192 @@ a{
             >
                 ×
             </button>
+
         </div>
 
         <div class="field">
+
             <label>住宿名稱</label>
-            <input id="stayNameInput" type="text" placeholder="例如：大阪難波飯店">
+
+            <input
+                id="stayNameInput"
+                type="text"
+                placeholder="例如：大阪難波飯店"
+            >
+
         </div>
 
         <div class="field">
+
             <label>地址</label>
-            <input id="stayAddressInput" type="text" placeholder="住宿地址">
+
+            <input
+                id="stayAddressInput"
+                type="text"
+                placeholder="住宿地址"
+            >
+
         </div>
 
         <div class="row">
+
             <div class="field">
+
                 <label>入住</label>
-                <input id="stayCheckInInput" type="date">
+
+                <input
+                    id="stayCheckInInput"
+                    type="date"
+                >
+
             </div>
 
             <div class="field">
+
                 <label>退房</label>
-                <input id="stayCheckOutInput" type="date">
+
+                <input
+                    id="stayCheckOutInput"
+                    type="date"
+                >
+
             </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>價格</label>
+
+                <input
+                    id="stayPriceInput"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="例如：12000"
+                    oninput="updateStayTwd()"
+                >
+
+            </div>
+
+            <div class="field">
+
+                <label>幣值</label>
+
+                <select
+                    id="stayCurrencyInput"
+                    onchange="updateStayTwd()"
+                >
+                    <option value="TWD">TWD｜新台幣</option>
+                    <option value="JPY">JPY｜日圓</option>
+                    <option value="KRW">KRW｜韓元</option>
+                    <option value="USD">USD｜美元</option>
+                    <option value="CNY">CNY｜人民幣</option>
+                    <option value="HKD">HKD｜港幣</option>
+                    <option value="EUR">EUR｜歐元</option>
+                    <option value="GBP">GBP｜英鎊</option>
+                    <option value="AUD">AUD｜澳幣</option>
+                    <option value="CAD">CAD｜加幣</option>
+                    <option value="SGD">SGD｜新加坡幣</option>
+                    <option value="THB">THB｜泰銖</option>
+                    <option value="VND">VND｜越南盾</option>
+                </select>
+
+            </div>
+
+        </div>
+
+        <div
+            id="stayTwdPreview"
+            style="
+                background:#f5f4f1;
+                border-radius:12px;
+                padding:13px;
+                color:#666;
+                font-size:14px;
+                margin-bottom:15px;
+            "
+        >
+            台幣換算：NT$ 0
+        </div>
+
+        <div
+            id="stayRateMessage"
+            style="
+                color:#999;
+                font-size:12px;
+                margin-top:-8px;
+                margin-bottom:15px;
+            "
+        ></div>
+
+        <div class="field">
+
+            <label>住宿連結</label>
+
+            <input
+                id="stayBookingUrlInput"
+                type="url"
+                placeholder="https://..."
+            >
+
         </div>
 
         <div class="field">
-            <label>價格（台幣）</label>
-            <input id="stayPriceInput" type="number" min="0" placeholder="0">
-        </div>
 
-        <div class="field">
             <label>訂房資訊</label>
-            <input id="stayBookingInput" type="text" placeholder="例如：Booking.com">
+
+            <input
+                id="stayBookingInput"
+                type="text"
+                placeholder="例如：Booking.com"
+            >
+
         </div>
 
         <div class="field">
+
             <label>其他</label>
-            <textarea id="stayOtherInput" placeholder="例如：含早餐、可以寄放行李等等"></textarea>
+
+            <textarea
+                id="stayOtherInput"
+                placeholder="例如：含早餐、可以寄放行李等等"
+            ></textarea>
+
         </div>
 
         <div class="field">
+
             <label>備註</label>
-            <textarea id="stayNotesInput" placeholder="其他備註"></textarea>
+
+            <textarea
+                id="stayNotesInput"
+                placeholder="其他備註"
+            ></textarea>
+
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-light" onclick="closeModal('stayModal')">取消</button>
-            <button type="button" class="btn" onclick="saveStay()">儲存</button>
+
+            <button
+                type="button"
+                class="btn btn-light"
+                onclick="closeModal('stayModal')"
+            >
+                取消
+            </button>
+
+            <button
+                type="button"
+                class="btn"
+                id="saveStayButton"
+                onclick="saveStay()"
+            >
+                儲存
+            </button>
+
         </div>
 
     </div>
@@ -1528,6 +2406,10 @@ a{
 
 <script>
 
+/* =========================
+   SUPABASE
+========================= */
+
 const SUPABASE_URL =
     "https://vkwriekcbvvvkmsmlbzu.supabase.co";
 
@@ -1540,6 +2422,10 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
+/* =========================
+   DEFAULT
+========================= */
+
 const DEFAULT_DESTINATIONS = [
     "日本",
     "韓國",
@@ -1551,29 +2437,37 @@ let currentPage = "home";
 let currentDestination = "";
 let currentTrip = null;
 let currentDay = 1;
+
 let editingDestinationIndex = -1;
 let editingJourneyId = null;
 let editingItemId = null;
 let editingStayId = null;
+
 let currentTrips = [];
 
 let visaRateCache = {};
 
 /* =========================
-   NAVIGATION MEMORY
+   NAVIGATION
 ========================= */
 
 function saveNavigationState(){
 
     const state = {
-        page: currentPage,
-        destination: currentDestination,
+
+        page:
+            currentPage,
+
+        destination:
+            currentDestination,
+
         tripId:
             currentTrip
             ?
             currentTrip.id
             :
             null
+
     };
 
     try{
@@ -1629,23 +2523,35 @@ function getNavigationState(){
 function getDestinations(){
 
     const saved =
-        localStorage.getItem("goya_destinations");
+        localStorage.getItem(
+            "goya_destinations"
+        );
 
     if(saved === null){
 
         localStorage.setItem(
             "goya_destinations",
-            JSON.stringify(DEFAULT_DESTINATIONS)
+            JSON.stringify(
+                DEFAULT_DESTINATIONS
+            )
         );
 
-        return [...DEFAULT_DESTINATIONS];
+        return [
+            ...DEFAULT_DESTINATIONS
+        ];
 
     }
 
     try{
+
         return JSON.parse(saved);
+
     }catch(e){
-        return [...DEFAULT_DESTINATIONS];
+
+        return [
+            ...DEFAULT_DESTINATIONS
+        ];
+
     }
 
 }
@@ -1662,20 +2568,27 @@ function saveDestinations(list){
 function getIntro(){
 
     return {
+
         title:
             localStorage.getItem(
                 "goya_intro_title"
-            ) || "去哪裡玩？",
+            ) ||
+            "去哪裡玩？",
 
         subtitle:
             localStorage.getItem(
                 "goya_intro_subtitle"
-            ) || "小資也能輕鬆飛"
+            ) ||
+            "小資也能輕鬆飛"
+
     };
 
 }
 
-function saveIntroData(title, subtitle){
+function saveIntroData(
+    title,
+    subtitle
+){
 
     localStorage.setItem(
         "goya_intro_title",
@@ -1707,13 +2620,17 @@ function getCooperation(){
     }
 
     try{
+
         return JSON.parse(saved);
+
     }catch(e){
+
         return {
             title:"",
             description:"",
             link:""
         };
+
     }
 
 }
@@ -1739,7 +2656,9 @@ function saveCooperationData(
    DAY COUNT
 ========================= */
 
-function getTripDayCount(tripId){
+function getTripDayCount(
+    tripId
+){
 
     if(!tripId){
         return 1;
@@ -1888,8 +2807,10 @@ function getTripPhotos(){
             JSON.parse(saved);
 
         return Array.isArray(parsed)
-            ? parsed
-            : [];
+            ?
+            parsed
+            :
+            [];
 
     }catch(e){
 
@@ -1899,7 +2820,9 @@ function getTripPhotos(){
 
 }
 
-function saveTripPhotos(photos){
+function saveTripPhotos(
+    photos
+){
 
     const key =
         getPhotoStorageKey();
@@ -1941,7 +2864,9 @@ function openPhotoFilePicker(){
 
 }
 
-async function handlePhotoFiles(event){
+async function handlePhotoFiles(
+    event
+){
 
     const files =
         Array.from(
@@ -1952,16 +2877,24 @@ async function handlePhotoFiles(event){
         return;
     }
 
-    for(const file of files){
+    for(
+        const file of files
+    ){
 
-        if(!file.type.startsWith("image/")){
+        if(
+            !file.type.startsWith(
+                "image/"
+            )
+        ){
             continue;
         }
 
         try{
 
             const dataUrl =
-                await readFileAsDataURL(file);
+                await readFileAsDataURL(
+                    file
+                );
 
             addPhotoNote(
                 dataUrl,
@@ -1980,28 +2913,44 @@ async function handlePhotoFiles(event){
 
 }
 
-function readFileAsDataURL(file){
+function readFileAsDataURL(
+    file
+){
 
     return new Promise(
-        (resolve, reject) => {
+        (
+            resolve,
+            reject
+        ) => {
 
             const reader =
                 new FileReader();
 
             reader.onload =
-                () => resolve(reader.result);
+                () =>
+                    resolve(
+                        reader.result
+                    );
 
             reader.onerror =
-                () => reject(reader.error);
+                () =>
+                    reject(
+                        reader.error
+                    );
 
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(
+                file
+            );
 
         }
     );
 
 }
 
-function addPhotoNote(image, text){
+function addPhotoNote(
+    image,
+    text
+){
 
     const photos =
         getTripPhotos();
@@ -2025,7 +2974,9 @@ function addPhotoNote(image, text){
 
     });
 
-    saveTripPhotos(photos);
+    saveTripPhotos(
+        photos
+    );
 
 }
 
@@ -2049,11 +3000,15 @@ function updatePhotoText(
 
     photo.text = text;
 
-    saveTripPhotos(photos);
+    saveTripPhotos(
+        photos
+    );
 
 }
 
-function deletePhoto(photoId){
+function deletePhoto(
+    photoId
+){
 
     if(
         !confirm(
@@ -2070,7 +3025,9 @@ function deletePhoto(photoId){
                     item.id !== photoId
             );
 
-    saveTripPhotos(photos);
+    saveTripPhotos(
+        photos
+    );
 
     renderPhotoPage();
 
@@ -2099,7 +3056,9 @@ function setupPhotoPaste(){
             const imageItems =
                 items.filter(
                     item =>
-                        item.type.startsWith("image/")
+                        item.type.startsWith(
+                            "image/"
+                        )
                 );
 
             if(!imageItems.length){
@@ -2108,7 +3067,9 @@ function setupPhotoPaste(){
 
             event.preventDefault();
 
-            for(const item of imageItems){
+            for(
+                const item of imageItems
+            ){
 
                 const file =
                     item.getAsFile();
@@ -2120,7 +3081,9 @@ function setupPhotoPaste(){
                 try{
 
                     const dataUrl =
-                        await readFileAsDataURL(file);
+                        await readFileAsDataURL(
+                            file
+                        );
 
                     addPhotoNote(
                         dataUrl,
@@ -2148,7 +3111,9 @@ function setupPhotoPaste(){
    JOURNEY ORDER
 ========================= */
 
-function getJourneyOrder(destination){
+function getJourneyOrder(
+    destination
+){
 
     const key =
         "goya_journey_order_" +
@@ -2162,9 +3127,13 @@ function getJourneyOrder(destination){
     }
 
     try{
+
         return JSON.parse(saved);
+
     }catch(e){
+
         return [];
+
     }
 
 }
@@ -2175,13 +3144,16 @@ function saveJourneyOrder(
 ){
 
     localStorage.setItem(
-        "goya_journey_order_" + destination,
+        "goya_journey_order_" +
+        destination,
         JSON.stringify(ids)
     );
 
 }
 
-function sortTripsBySavedOrder(trips){
+function sortTripsBySavedOrder(
+    trips
+){
 
     const order =
         getJourneyOrder(
@@ -2192,34 +3164,40 @@ function sortTripsBySavedOrder(trips){
         return trips;
     }
 
-    const map = new Map(
-        trips.map(
-            trip => [
-                trip.id,
-                trip
-            ]
-        )
-    );
+    const map =
+        new Map(
+            trips.map(
+                trip =>
+                    [
+                        trip.id,
+                        trip
+                    ]
+            )
+        );
 
     const result = [];
 
-    order.forEach(id => {
+    order.forEach(
+        id => {
 
-        if(map.has(id)){
+            if(map.has(id)){
 
-            result.push(
-                map.get(id)
-            );
+                result.push(
+                    map.get(id)
+                );
 
-            map.delete(id);
+                map.delete(id);
+
+            }
 
         }
+    );
 
-    });
-
-    map.forEach(trip => {
-        result.push(trip);
-    });
+    map.forEach(
+        trip => {
+            result.push(trip);
+        }
+    );
 
     return result;
 
@@ -2236,7 +3214,9 @@ async function init(){
             session
         }
     } =
-        await supabaseClient.auth.getSession();
+        await supabaseClient
+            .auth
+            .getSession();
 
     if(!session){
 
@@ -2263,7 +3243,10 @@ async function restoreNavigation(){
 
     }
 
-    if(state.page === "destination"){
+    if(
+        state.page ===
+        "destination"
+    ){
 
         if(state.destination){
 
@@ -2298,9 +3281,13 @@ async function restoreNavigation(){
                 )
                 .single();
 
-        if(!error && trip){
+        if(
+            !error &&
+            trip
+        ){
 
-            currentTrip = trip;
+            currentTrip =
+                trip;
 
             currentDestination =
                 trip.destination || "";
@@ -2308,7 +3295,9 @@ async function restoreNavigation(){
             currentPage =
                 state.page;
 
-            if(state.page === "photos"){
+            if(
+                state.page === "photos"
+            ){
 
                 renderPhotoPage();
 
@@ -2336,7 +3325,9 @@ function renderLogin(){
 
     clearNavigationState();
 
-    document.getElementById("app").innerHTML = `
+    document.getElementById(
+        "app"
+    ).innerHTML = `
 
         <div class="login-box">
 
@@ -2394,13 +3385,17 @@ async function login(){
 
     const email =
         document
-            .getElementById("loginEmail")
+            .getElementById(
+                "loginEmail"
+            )
             .value
             .trim();
 
     const password =
         document
-            .getElementById("loginPassword")
+            .getElementById(
+                "loginPassword"
+            )
             .value;
 
     const message =
@@ -2475,7 +3470,9 @@ async function renderHome(){
     const cooperation =
         getCooperation();
 
-    document.getElementById("app").innerHTML = `
+    document.getElementById(
+        "app"
+    ).innerHTML = `
 
         <div class="app">
 
@@ -2723,7 +3720,9 @@ async function renderDestinations(){
                 >
 
                     <div class="destination-name">
-                        ${escapeHtml(destination)}
+                        ${escapeHtml(
+                            destination
+                        )}
                     </div>
 
                     <div class="destination-count">
@@ -2737,7 +3736,6 @@ async function renderDestinations(){
                     <button
                         type="button"
                         class="icon-btn"
-                        title="往上"
                         onclick="moveDestination(${i}, -1)"
                         ${i === 0 ? "disabled" : ""}
                     >
@@ -2747,7 +3745,6 @@ async function renderDestinations(){
                     <button
                         type="button"
                         class="icon-btn"
-                        title="往下"
                         onclick="moveDestination(${i}, 1)"
                         ${i === list.length - 1 ? "disabled" : ""}
                     >
@@ -2757,7 +3754,6 @@ async function renderDestinations(){
                     <button
                         type="button"
                         class="text-action"
-                        title="編輯"
                         onclick="openDestinationModal(${i})"
                     >
                         編輯
@@ -2766,7 +3762,6 @@ async function renderDestinations(){
                     <button
                         type="button"
                         class="text-action delete"
-                        title="刪除"
                         onclick="deleteDestination(${i})"
                     >
                         刪除
@@ -2777,6 +3772,7 @@ async function renderDestinations(){
             </div>
 
         `;
+
     }
 
     html += `
@@ -2791,7 +3787,8 @@ async function renderDestinations(){
 
     `;
 
-    container.innerHTML = html;
+    container.innerHTML =
+        html;
 
 }
 
@@ -2841,7 +3838,9 @@ function openIntroModal(){
     ).value =
         intro.subtitle;
 
-    openModal("introModal");
+    openModal(
+        "introModal"
+    );
 
 }
 
@@ -2864,11 +3863,16 @@ function saveIntro(){
             .trim();
 
     saveIntroData(
-        title || "去哪裡玩？",
-        subtitle || "小資也能輕鬆飛"
+        title ||
+            "去哪裡玩？",
+
+        subtitle ||
+            "小資也能輕鬆飛"
     );
 
-    closeModal("introModal");
+    closeModal(
+        "introModal"
+    );
 
     renderHome();
 
@@ -2894,7 +3898,9 @@ function openCooperationModal(){
     ).value =
         cooperation.link || "";
 
-    openModal("cooperationModal");
+    openModal(
+        "cooperationModal"
+    );
 
 }
 
@@ -2930,7 +3936,9 @@ function saveCooperation(){
         link
     );
 
-    closeModal("cooperationModal");
+    closeModal(
+        "cooperationModal"
+    );
 
     renderHome();
 
@@ -2958,7 +3966,9 @@ function deleteCooperation(){
    DESTINATION
 ========================= */
 
-function openDestinationModal(index){
+function openDestinationModal(
+    index
+){
 
     editingDestinationIndex =
         index;
@@ -2972,8 +3982,7 @@ function openDestinationModal(index){
 
         document.getElementById(
             "destinationInput"
-        ).value =
-            "";
+        ).value = "";
 
     }else{
 
@@ -2992,7 +4001,9 @@ function openDestinationModal(index){
 
     }
 
-    openModal("destinationModal");
+    openModal(
+        "destinationModal"
+    );
 
 }
 
@@ -3008,7 +4019,9 @@ async function saveDestination(){
 
     if(!name){
 
-        alert("請輸入目的地名稱");
+        alert(
+            "請輸入目的地名稱"
+        );
 
         return;
 
@@ -3025,7 +4038,9 @@ async function saveDestination(){
         )
     ){
 
-        alert("這個目的地已經存在");
+        alert(
+            "這個目的地已經存在"
+        );
 
         return;
 
@@ -3037,19 +4052,27 @@ async function saveDestination(){
 
         list.push(name);
 
-        saveDestinations(list);
+        saveDestinations(
+            list
+        );
 
     }else{
 
         const oldName =
-            list[editingDestinationIndex];
+            list[
+                editingDestinationIndex
+            ];
 
         if(oldName !== name){
 
-            list[editingDestinationIndex] =
+            list[
+                editingDestinationIndex
+            ] =
                 name;
 
-            saveDestinations(list);
+            saveDestinations(
+                list
+            );
 
             await supabaseClient
                 .from("trips")
@@ -3084,13 +4107,17 @@ async function saveDestination(){
 
     }
 
-    closeModal("destinationModal");
+    closeModal(
+        "destinationModal"
+    );
 
     await renderHome();
 
 }
 
-async function deleteDestination(index){
+async function deleteDestination(
+    index
+){
 
     const list =
         getDestinations();
@@ -3107,9 +4134,14 @@ async function deleteDestination(index){
         return;
     }
 
-    list.splice(index,1);
+    list.splice(
+        index,
+        1
+    );
 
-    saveDestinations(list);
+    saveDestinations(
+        list
+    );
 
     await renderHome();
 
@@ -3142,7 +4174,9 @@ function moveDestination(
         list[index]
     ];
 
-    saveDestinations(list);
+    saveDestinations(
+        list
+    );
 
     renderHome();
 
@@ -3269,11 +4303,13 @@ async function renderJourneys(){
     if(error){
 
         container.innerHTML = `
+
             <div class="empty">
                 ${escapeHtml(
                     error.message
                 )}
             </div>
+
         `;
 
         return;
@@ -3441,7 +4477,8 @@ function moveJourney(
 
     const ids =
         currentTrips.map(
-            trip => trip.id
+            trip =>
+                trip.id
         );
 
     [
@@ -3567,7 +4604,9 @@ function openJourneyModal(
 
     }
 
-    openModal("journeyModal");
+    openModal(
+        "journeyModal"
+    );
 
 }
 
@@ -3583,7 +4622,9 @@ async function saveJourney(){
 
     if(!title){
 
-        alert("請輸入旅程主標題");
+        alert(
+            "請輸入旅程主標題"
+        );
 
         return;
 
@@ -3610,14 +4651,16 @@ async function saveJourney(){
             .getElementById(
                 "journeyStartInput"
             )
-            .value || null;
+            .value ||
+        null;
 
     const endDate =
         document
             .getElementById(
                 "journeyEndInput"
             )
-            .value || null;
+            .value ||
+        null;
 
     const description =
         document
@@ -3646,15 +4689,20 @@ async function saveJourney(){
 
     if(!user){
 
-        alert("登入狀態已失效，請重新登入。");
+        alert(
+            "登入狀態已失效，請重新登入。"
+        );
 
         return;
 
     }
 
     let oldInfo = {
+
         visa:null,
+
         flight:null
+
     };
 
     if(editingJourneyId){
@@ -3662,7 +4710,8 @@ async function saveJourney(){
         const existingTrip =
             currentTrips.find(
                 trip =>
-                    trip.id === editingJourneyId
+                    trip.id ===
+                    editingJourneyId
             );
 
         if(existingTrip){
@@ -3673,11 +4722,15 @@ async function saveJourney(){
                 );
 
             oldInfo = {
+
                 visa:
-                    parsed.visa || null,
+                    parsed.visa ||
+                    null,
 
                 flight:
-                    parsed.flight || null
+                    parsed.flight ||
+                    null
+
             };
 
         }
@@ -3736,7 +4789,9 @@ async function saveJourney(){
 
         if(error){
 
-            alert(error.message);
+            alert(
+                error.message
+            );
 
             return;
 
@@ -3747,14 +4802,15 @@ async function saveJourney(){
                 currentDestination
             );
 
-        order.push(data.id);
+        order.push(
+            data.id
+        );
 
         saveJourneyOrder(
             currentDestination,
             order
         );
 
-        /* 新旅程固定從 Day 1 開始 */
         saveTripDayCount(
             data.id,
             1
@@ -3788,7 +4844,9 @@ async function saveJourney(){
 
         if(error){
 
-            alert(error.message);
+            alert(
+                error.message
+            );
 
             return;
 
@@ -3796,175 +4854,17 @@ async function saveJourney(){
 
     }
 
-    closeModal("journeyModal");
+    closeModal(
+        "journeyModal"
+    );
 
     await renderJourneys();
 
 }
 
 /* =========================
-   VISA
+   CURRENCY
 ========================= */
-
-function openVisaModal(){
-
-    if(!currentTrip){
-        return;
-    }
-
-    const info =
-        parseTripDescription(
-            currentTrip.description
-        );
-
-    const visa =
-        info.visa || null;
-
-    document.getElementById(
-        "visaNameInput"
-    ).value =
-        visa?.name || "";
-
-    document.getElementById(
-        "visaUrlInput"
-    ).value =
-        visa?.url || "";
-
-    document.getElementById(
-        "visaPriceInput"
-    ).value =
-        visa?.price ?? "";
-
-    document.getElementById(
-        "visaCurrencyInput"
-    ).value =
-        visa?.currency || "TWD";
-
-    document.getElementById(
-        "visaTwdPreview"
-    ).textContent =
-        visa?.twd
-        ?
-        `台幣換算：NT$ ${formatMoney(visa.twd)}`
-        :
-        "台幣換算：NT$ 0";
-
-    document.getElementById(
-        "visaRateMessage"
-    ).textContent =
-        "";
-
-    openModal("visaModal");
-
-    if(
-        visa?.price !== undefined &&
-        visa?.price !== null &&
-        visa?.price !== ""
-    ){
-
-        updateVisaTwd();
-
-    }
-
-}
-
-async function updateVisaTwd(){
-
-    const priceInput =
-        document.getElementById(
-            "visaPriceInput"
-        );
-
-    const currencyInput =
-        document.getElementById(
-            "visaCurrencyInput"
-        );
-
-    const preview =
-        document.getElementById(
-            "visaTwdPreview"
-        );
-
-    const message =
-        document.getElementById(
-            "visaRateMessage"
-        );
-
-    if(!priceInput || !currencyInput){
-        return;
-    }
-
-    const price =
-        Number(
-            priceInput.value || 0
-        );
-
-    const currency =
-        currencyInput.value;
-
-    if(!price){
-
-        preview.textContent =
-            "台幣換算：NT$ 0";
-
-        message.textContent = "";
-
-        return;
-
-    }
-
-    if(currency === "TWD"){
-
-        preview.textContent =
-            `台幣換算：NT$ ${formatMoney(price)}`;
-
-        message.textContent =
-            "1 TWD = 1 TWD";
-
-        return;
-
-    }
-
-    preview.textContent =
-        "台幣換算：計算中……";
-
-    message.textContent =
-        "正在取得目前匯率……";
-
-    try{
-
-        const rate =
-            await getCurrencyToTwdRate(
-                currency
-            );
-
-        const twd =
-            price * rate;
-
-        preview.textContent =
-            `台幣換算：NT$ ${formatMoney(twd)}`;
-
-        message.textContent =
-            `目前換算約 1 ${currency} = NT$ ${rate.toLocaleString(
-                "zh-TW",
-                {
-                    maximumFractionDigits:4
-                }
-            )}`;
-
-    }catch(error){
-
-        console.error(error);
-
-        preview.textContent =
-            "台幣換算：暫時無法取得匯率";
-
-        message.textContent =
-            "匯率取得失敗，請稍後再試。";
-
-    }
-
-}
 
 async function getCurrencyToTwdRate(
     currency
@@ -3973,7 +4873,9 @@ async function getCurrencyToTwdRate(
     if(
         currency === "TWD"
     ){
+
         return 1;
+
     }
 
     if(
@@ -4020,6 +4922,227 @@ async function getCurrencyToTwdRate(
         rate;
 
     return rate;
+
+}
+
+function getCurrencyLabel(
+    currency
+){
+
+    const labels = {
+
+        TWD:"新台幣",
+
+        JPY:"日圓",
+
+        KRW:"韓元",
+
+        USD:"美元",
+
+        CNY:"人民幣",
+
+        HKD:"港幣",
+
+        EUR:"歐元",
+
+        GBP:"英鎊",
+
+        AUD:"澳幣",
+
+        CAD:"加幣",
+
+        SGD:"新加坡幣",
+
+        THB:"泰銖",
+
+        VND:"越南盾"
+
+    };
+
+    return (
+        labels[currency] ||
+        currency ||
+        "TWD"
+    );
+
+}
+
+/* =========================
+   VISA
+========================= */
+
+function openVisaModal(){
+
+    if(!currentTrip){
+        return;
+    }
+
+    const info =
+        parseTripDescription(
+            currentTrip.description
+        );
+
+    const visa =
+        info.visa || null;
+
+    document.getElementById(
+        "visaNameInput"
+    ).value =
+        visa?.name || "";
+
+    document.getElementById(
+        "visaUrlInput"
+    ).value =
+        visa?.url || "";
+
+    document.getElementById(
+        "visaPriceInput"
+    ).value =
+        visa?.price ?? "";
+
+    document.getElementById(
+        "visaCurrencyInput"
+    ).value =
+        visa?.currency ||
+        "TWD";
+
+    document.getElementById(
+        "visaTwdPreview"
+    ).textContent =
+        visa?.twd !== undefined &&
+        visa?.twd !== null
+        ?
+        `台幣換算：NT$ ${formatMoney(
+            visa.twd
+        )}`
+        :
+        "台幣換算：NT$ 0";
+
+    document.getElementById(
+        "visaRateMessage"
+    ).textContent = "";
+
+    openModal(
+        "visaModal"
+    );
+
+    if(
+        visa?.price !== undefined &&
+        visa?.price !== null &&
+        visa?.price !== ""
+    ){
+
+        updateVisaTwd();
+
+    }
+
+}
+
+async function updateVisaTwd(){
+
+    const priceInput =
+        document.getElementById(
+            "visaPriceInput"
+        );
+
+    const currencyInput =
+        document.getElementById(
+            "visaCurrencyInput"
+        );
+
+    const preview =
+        document.getElementById(
+            "visaTwdPreview"
+        );
+
+    const message =
+        document.getElementById(
+            "visaRateMessage"
+        );
+
+    if(
+        !priceInput ||
+        !currencyInput
+    ){
+        return;
+    }
+
+    const price =
+        Number(
+            priceInput.value || 0
+        );
+
+    const currency =
+        currencyInput.value;
+
+    if(!price){
+
+        preview.textContent =
+            "台幣換算：NT$ 0";
+
+        message.textContent =
+            "";
+
+        return;
+
+    }
+
+    if(
+        currency === "TWD"
+    ){
+
+        preview.textContent =
+            `台幣換算：NT$ ${formatMoney(
+                price
+            )}`;
+
+        message.textContent =
+            "1 TWD = 1 TWD";
+
+        return;
+
+    }
+
+    preview.textContent =
+        "台幣換算：計算中……";
+
+    message.textContent =
+        "正在取得目前匯率……";
+
+    try{
+
+        const rate =
+            await getCurrencyToTwdRate(
+                currency
+            );
+
+        const twd =
+            price * rate;
+
+        preview.textContent =
+            `台幣換算：NT$ ${formatMoney(
+                twd
+            )}`;
+
+        message.textContent =
+            `目前換算約 1 ${currency} = NT$ ${rate.toLocaleString(
+                "zh-TW",
+                {
+                    maximumFractionDigits:4
+                }
+            )}`;
+
+    }catch(error){
+
+        console.error(error);
+
+        preview.textContent =
+            "台幣換算：暫時無法取得匯率";
+
+        message.textContent =
+            "匯率取得失敗，請稍後再試。";
+
+    }
 
 }
 
@@ -4112,7 +5235,8 @@ async function saveVisa(){
     if(saveButton){
 
         saveButton.disabled = true;
-        saveButton.textContent = "儲存中……";
+        saveButton.textContent =
+            "儲存中……";
 
     }
 
@@ -4120,7 +5244,9 @@ async function saveVisa(){
 
         let twd = price;
 
-        if(currency !== "TWD"){
+        if(
+            currency !== "TWD"
+        ){
 
             const rate =
                 await getCurrencyToTwdRate(
@@ -4166,7 +5292,8 @@ async function saveVisa(){
             },
 
             flight:
-                info.flight || null
+                info.flight ||
+                null
 
         };
 
@@ -4205,7 +5332,9 @@ async function saveVisa(){
         currentTrip =
             data;
 
-        closeModal("visaModal");
+        closeModal(
+            "visaModal"
+        );
 
         await renderTripDetail();
 
@@ -4228,8 +5357,11 @@ async function saveVisa(){
 
         if(saveButton){
 
-            saveButton.disabled = false;
-            saveButton.textContent = "儲存";
+            saveButton.disabled =
+                false;
+
+            saveButton.textContent =
+                "儲存";
 
         }
 
@@ -4284,7 +5416,8 @@ async function deleteVisa(){
                         visa:null,
 
                         flight:
-                            info.flight || null
+                            info.flight ||
+                            null
 
                     })
 
@@ -4298,7 +5431,9 @@ async function deleteVisa(){
 
     if(error){
 
-        alert(error.message);
+        alert(
+            error.message
+        );
 
         return;
 
@@ -4327,51 +5462,237 @@ function openFlightModal(){
         );
 
     const flight =
-        info.flight || null;
+        info.flight || {};
 
-    /*
-       沒有航班資料：
-       開啟完全空白的輸入頁。
-       有資料：
-       載入原本資料讓使用者編輯。
-    */
+    const outbound =
+        flight.outbound || {};
 
-    document.getElementById(
-        "flightAirlineInput"
-    ).value =
-        flight?.airline || "";
+    const returnFlight =
+        flight.return || {};
 
     document.getElementById(
-        "flightNumberInput"
+        "outboundAirlineInput"
     ).value =
-        flight?.flightNumber || "";
+        outbound.airline || "";
 
     document.getElementById(
-        "flightDepartureAirportInput"
+        "outboundFlightNumberInput"
     ).value =
-        flight?.departureAirport || "";
+        outbound.flightNumber || "";
 
     document.getElementById(
-        "flightArrivalAirportInput"
+        "outboundDepartureAirportInput"
     ).value =
-        flight?.arrivalAirport || "";
+        outbound.departureAirport || "";
 
     document.getElementById(
-        "flightDepartureInput"
+        "outboundArrivalAirportInput"
     ).value =
-        flight?.departure || "";
+        outbound.arrivalAirport || "";
 
     document.getElementById(
-        "flightArrivalInput"
+        "outboundDepartureInput"
     ).value =
-        flight?.arrival || "";
+        outbound.departure || "";
+
+    document.getElementById(
+        "outboundArrivalInput"
+    ).value =
+        outbound.arrival || "";
+
+    document.getElementById(
+        "outboundBaggageInput"
+    ).value =
+        outbound.baggage ?? "";
+
+    document.getElementById(
+        "returnAirlineInput"
+    ).value =
+        returnFlight.airline || "";
+
+    document.getElementById(
+        "returnFlightNumberInput"
+    ).value =
+        returnFlight.flightNumber || "";
+
+    document.getElementById(
+        "returnDepartureAirportInput"
+    ).value =
+        returnFlight.departureAirport || "";
+
+    document.getElementById(
+        "returnArrivalAirportInput"
+    ).value =
+        returnFlight.arrivalAirport || "";
+
+    document.getElementById(
+        "returnDepartureInput"
+    ).value =
+        returnFlight.departure || "";
+
+    document.getElementById(
+        "returnArrivalInput"
+    ).value =
+        returnFlight.arrival || "";
+
+    document.getElementById(
+        "returnBaggageInput"
+    ).value =
+        returnFlight.baggage ?? "";
+
+    document.getElementById(
+        "flightTotalPriceInput"
+    ).value =
+        flight.totalPrice ?? "";
+
+    document.getElementById(
+        "flightCurrencyInput"
+    ).value =
+        flight.currency ||
+        "TWD";
 
     document.getElementById(
         "flightNotesInput"
     ).value =
-        flight?.notes || "";
+        flight.notes || "";
 
-    openModal("flightModal");
+    document.getElementById(
+        "flightTwdPreview"
+    ).textContent =
+        flight.twd !== undefined &&
+        flight.twd !== null
+        ?
+        `台幣換算：NT$ ${formatMoney(
+            flight.twd
+        )}`
+        :
+        "台幣換算：NT$ 0";
+
+    document.getElementById(
+        "flightRateMessage"
+    ).textContent = "";
+
+    openModal(
+        "flightModal"
+    );
+
+    if(
+        flight.totalPrice !== undefined &&
+        flight.totalPrice !== null &&
+        flight.totalPrice !== ""
+    ){
+
+        updateFlightTwd();
+
+    }
+
+}
+
+async function updateFlightTwd(){
+
+    const priceInput =
+        document.getElementById(
+            "flightTotalPriceInput"
+        );
+
+    const currencyInput =
+        document.getElementById(
+            "flightCurrencyInput"
+        );
+
+    const preview =
+        document.getElementById(
+            "flightTwdPreview"
+        );
+
+    const message =
+        document.getElementById(
+            "flightRateMessage"
+        );
+
+    if(
+        !priceInput ||
+        !currencyInput
+    ){
+        return;
+    }
+
+    const price =
+        Number(
+            priceInput.value || 0
+        );
+
+    const currency =
+        currencyInput.value;
+
+    if(!price){
+
+        preview.textContent =
+            "台幣換算：NT$ 0";
+
+        message.textContent =
+            "";
+
+        return;
+
+    }
+
+    if(
+        currency === "TWD"
+    ){
+
+        preview.textContent =
+            `台幣換算：NT$ ${formatMoney(
+                price
+            )}`;
+
+        message.textContent =
+            "1 TWD = 1 TWD";
+
+        return;
+
+    }
+
+    preview.textContent =
+        "台幣換算：計算中……";
+
+    message.textContent =
+        "正在取得目前匯率……";
+
+    try{
+
+        const rate =
+            await getCurrencyToTwdRate(
+                currency
+            );
+
+        const twd =
+            price * rate;
+
+        preview.textContent =
+            `台幣換算：NT$ ${formatMoney(
+                twd
+            )}`;
+
+        message.textContent =
+            `目前換算約 1 ${currency} = NT$ ${rate.toLocaleString(
+                "zh-TW",
+                {
+                    maximumFractionDigits:4
+                }
+            )}`;
+
+    }catch(error){
+
+        console.error(error);
+
+        preview.textContent =
+            "台幣換算：暫時無法取得匯率";
+
+        message.textContent =
+            "匯率取得失敗，請稍後再試。";
+
+    }
 
 }
 
@@ -4387,17 +5708,12 @@ async function saveFlight(){
 
     }
 
-    const info =
-        parseTripDescription(
-            currentTrip.description
-        );
-
-    const flight = {
+    const outbound = {
 
         airline:
             document
                 .getElementById(
-                    "flightAirlineInput"
+                    "outboundAirlineInput"
                 )
                 .value
                 .trim(),
@@ -4405,7 +5721,7 @@ async function saveFlight(){
         flightNumber:
             document
                 .getElementById(
-                    "flightNumberInput"
+                    "outboundFlightNumberInput"
                 )
                 .value
                 .trim(),
@@ -4413,7 +5729,7 @@ async function saveFlight(){
         departureAirport:
             document
                 .getElementById(
-                    "flightDepartureAirportInput"
+                    "outboundDepartureAirportInput"
                 )
                 .value
                 .trim(),
@@ -4421,7 +5737,7 @@ async function saveFlight(){
         arrivalAirport:
             document
                 .getElementById(
-                    "flightArrivalAirportInput"
+                    "outboundArrivalAirportInput"
                 )
                 .value
                 .trim(),
@@ -4429,101 +5745,296 @@ async function saveFlight(){
         departure:
             document
                 .getElementById(
-                    "flightDepartureInput"
+                    "outboundDepartureInput"
                 )
                 .value,
 
         arrival:
             document
                 .getElementById(
-                    "flightArrivalInput"
+                    "outboundArrivalInput"
                 )
                 .value,
 
-        notes:
+        baggage:
             document
                 .getElementById(
-                    "flightNotesInput"
+                    "outboundBaggageInput"
                 )
                 .value
-                .trim()
 
     };
 
-    /*
-       如果完全沒輸入，
-       不建立空白航班卡片。
-    */
+    const returnFlight = {
 
-    const hasFlightData =
-        Object.values(flight)
-            .some(
-                value =>
-                    String(
-                        value || ""
-                    ).trim() !== ""
-            );
+        airline:
+            document
+                .getElementById(
+                    "returnAirlineInput"
+                )
+                .value
+                .trim(),
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("trips")
-            .update({
+        flightNumber:
+            document
+                .getElementById(
+                    "returnFlightNumberInput"
+                )
+                .value
+                .trim(),
 
-                description:
-                    JSON.stringify({
+        departureAirport:
+            document
+                .getElementById(
+                    "returnDepartureAirportInput"
+                )
+                .value
+                .trim(),
 
-                        subtitle:
-                            info.subtitle || "",
+        arrivalAirport:
+            document
+                .getElementById(
+                    "returnArrivalAirportInput"
+                )
+                .value
+                .trim(),
 
-                        creator:
-                            info.creator || "",
+        departure:
+            document
+                .getElementById(
+                    "returnDepartureInput"
+                )
+                .value,
 
-                        description:
-                            info.description || "",
+        arrival:
+            document
+                .getElementById(
+                    "returnArrivalInput"
+                )
+                .value,
 
-                        other:
-                            info.other || "",
+        baggage:
+            document
+                .getElementById(
+                    "returnBaggageInput"
+                )
+                .value
 
-                        visa:
-                            info.visa || null,
+    };
 
-                        flight:
-                            hasFlightData
-                            ?
-                            flight
-                            :
-                            null
-
-                    })
-
-            })
-            .eq(
-                "id",
-                currentTrip.id
-            )
-            .select()
-            .single();
-
-    if(error){
-
-        alert(
-            "航班資訊儲存失敗：\n\n" +
-            error.message
+    const totalPrice =
+        Number(
+            document
+                .getElementById(
+                    "flightTotalPriceInput"
+                )
+                .value ||
+                0
         );
 
-        return;
+    const currency =
+        document
+            .getElementById(
+                "flightCurrencyInput"
+            )
+            .value;
+
+    const notes =
+        document
+            .getElementById(
+                "flightNotesInput"
+            )
+            .value
+            .trim();
+
+    const hasOutbound =
+        Object.values(
+            outbound
+        ).some(
+            value =>
+                String(
+                    value || ""
+                ).trim() !== ""
+        );
+
+    const hasReturn =
+        Object.values(
+            returnFlight
+        ).some(
+            value =>
+                String(
+                    value || ""
+                ).trim() !== ""
+        );
+
+    const hasAnyData =
+        hasOutbound ||
+        hasReturn ||
+        totalPrice > 0 ||
+        notes !== "";
+
+    let flight = null;
+
+    if(hasAnyData){
+
+        let twd =
+            totalPrice;
+
+        if(
+            currency !== "TWD" &&
+            totalPrice > 0
+        ){
+
+            const rate =
+                await getCurrencyToTwdRate(
+                    currency
+                );
+
+            twd =
+                totalPrice * rate;
+
+        }
+
+        flight = {
+
+            outbound:
+                hasOutbound
+                ?
+                outbound
+                :
+                null,
+
+            return:
+                hasReturn
+                ?
+                returnFlight
+                :
+                null,
+
+            totalPrice,
+
+            currency,
+
+            twd,
+
+            notes
+
+        };
 
     }
 
-    currentTrip =
-        data;
+    const saveButton =
+        document.getElementById(
+            "saveFlightButton"
+        );
 
-    closeModal("flightModal");
+    if(saveButton){
 
-    await renderTripDetail();
+        saveButton.disabled =
+            true;
+
+        saveButton.textContent =
+            "儲存中……";
+
+    }
+
+    try{
+
+        const info =
+            parseTripDescription(
+                currentTrip.description
+            );
+
+        const newInfo = {
+
+            subtitle:
+                info.subtitle || "",
+
+            creator:
+                info.creator || "",
+
+            description:
+                info.description || "",
+
+            other:
+                info.other || "",
+
+            visa:
+                info.visa || null,
+
+            flight
+
+        };
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("trips")
+                .update({
+
+                    description:
+                        JSON.stringify(
+                            newInfo
+                        )
+
+                })
+                .eq(
+                    "id",
+                    currentTrip.id
+                )
+                .select()
+                .single();
+
+        if(error){
+
+            alert(
+                "航班資訊儲存失敗：\n\n" +
+                error.message
+            );
+
+            return;
+
+        }
+
+        currentTrip =
+            data;
+
+        closeModal(
+            "flightModal"
+        );
+
+        await renderTripDetail();
+
+    }catch(error){
+
+        console.error(
+            "saveFlight:",
+            error
+        );
+
+        alert(
+            "航班資訊儲存失敗：\n\n" +
+            (
+                error?.message ||
+                String(error)
+            )
+        );
+
+    }finally{
+
+        if(saveButton){
+
+            saveButton.disabled =
+                false;
+
+            saveButton.textContent =
+                "儲存";
+
+        }
+
+    }
 
 }
 
@@ -4545,6 +6056,8 @@ async function deleteFlight(){
         parseTripDescription(
             currentTrip.description
         );
+
+    info.flight = null;
 
     const {
         data,
@@ -4586,7 +6099,9 @@ async function deleteFlight(){
 
     if(error){
 
-        alert(error.message);
+        alert(
+            error.message
+        );
 
         return;
 
@@ -4629,7 +6144,9 @@ async function deleteJourney(
 
     if(error){
 
-        alert(error.message);
+        alert(
+            error.message
+        );
 
         return;
 
@@ -4667,7 +6184,8 @@ async function openTrip(
     tripId
 ){
 
-    currentPage = "detail";
+    currentPage =
+        "detail";
 
     const {
         data:trip,
@@ -4684,13 +6202,16 @@ async function openTrip(
 
     if(error){
 
-        alert(error.message);
+        alert(
+            error.message
+        );
 
         return;
 
     }
 
-    currentTrip = trip;
+    currentTrip =
+        trip;
 
     currentDestination =
         trip.destination || "";
@@ -4703,7 +6224,8 @@ async function openTrip(
 
 function openPhotoPage(){
 
-    currentPage = "photos";
+    currentPage =
+        "photos";
 
     saveNavigationState();
 
@@ -4717,7 +6239,8 @@ function renderPhotoPage(){
         return;
     }
 
-    currentPage = "photos";
+    currentPage =
+        "photos";
 
     saveNavigationState();
 
@@ -4901,7 +6424,8 @@ async function renderTripDetail(){
         return;
     }
 
-    currentPage = "detail";
+    currentPage =
+        "detail";
 
     saveNavigationState();
 
@@ -4967,6 +6491,10 @@ async function renderTripDetail(){
     const stays =
         staysResult.data || [];
 
+    /* =========================
+       行程總計
+    ========================= */
+
     const itineraryTotal =
         items.reduce(
             (
@@ -4980,22 +6508,196 @@ async function renderTripDetail(){
             0
         );
 
+    /* =========================
+       住宿換算
+    ========================= */
+
+    const stayTwdList =
+        await Promise.all(
+            stays.map(
+                async stay => {
+
+                    const extra =
+                        parseStayNotes(
+                            stay.notes
+                        );
+
+                    const currency =
+                        extra.currency ||
+                        "TWD";
+
+                    const price =
+                        Number(
+                            stay.price || 0
+                        );
+
+                    let twd =
+                        price;
+
+                    try{
+
+                        const rate =
+                            await getCurrencyToTwdRate(
+                                currency
+                            );
+
+                        twd =
+                            price * rate;
+
+                    }catch(e){
+
+                        console.error(
+                            "住宿匯率：",
+                            e
+                        );
+
+                    }
+
+                    return {
+
+                        stay,
+
+                        extra,
+
+                        currency,
+
+                        price,
+
+                        twd
+
+                    };
+
+                }
+            )
+        );
+
     const stayTotal =
-        stays.reduce(
+        stayTwdList.reduce(
             (
                 sum,
-                stay
+                item
             ) =>
                 sum +
                 Number(
-                    stay.price || 0
+                    item.twd || 0
                 ),
             0
         );
 
+    /* =========================
+       簽證
+    ========================= */
+
+    let visaTotal = 0;
+
+    if(info.visa){
+
+        if(
+            info.visa.twd !== undefined &&
+            info.visa.twd !== null
+        ){
+
+            visaTotal =
+                Number(
+                    info.visa.twd || 0
+                );
+
+        }else{
+
+            try{
+
+                const visaCurrency =
+                    info.visa.currency ||
+                    "TWD";
+
+                const visaPrice =
+                    Number(
+                        info.visa.price || 0
+                    );
+
+                const rate =
+                    await getCurrencyToTwdRate(
+                        visaCurrency
+                    );
+
+                visaTotal =
+                    visaPrice * rate;
+
+            }catch(e){
+
+                console.error(
+                    "簽證匯率：",
+                    e
+                );
+
+            }
+
+        }
+
+    }
+
+    /* =========================
+       機票
+    ========================= */
+
+    let flightTotal = 0;
+
+    if(info.flight){
+
+        if(
+            info.flight.twd !== undefined &&
+            info.flight.twd !== null
+        ){
+
+            flightTotal =
+                Number(
+                    info.flight.twd || 0
+                );
+
+        }else{
+
+            try{
+
+                const flightCurrency =
+                    info.flight.currency ||
+                    "TWD";
+
+                const flightPrice =
+                    Number(
+                        info.flight.totalPrice ||
+                        0
+                    );
+
+                const rate =
+                    await getCurrencyToTwdRate(
+                        flightCurrency
+                    );
+
+                flightTotal =
+                    flightPrice * rate;
+
+            }catch(e){
+
+                console.error(
+                    "機票匯率：",
+                    e
+                );
+
+            }
+
+        }
+
+    }
+
     const total =
         itineraryTotal +
-        stayTotal;
+        stayTotal +
+        visaTotal +
+        flightTotal;
+
+    /* =========================
+       DAYS
+    ========================= */
 
     const days = {};
 
@@ -5011,17 +6713,12 @@ async function renderTripDetail(){
                 days[dayNumber] = [];
             }
 
-            days[dayNumber].push(item);
+            days[dayNumber].push(
+                item
+            );
 
         }
     );
-
-    /*
-       ⭐ 重點：
-       不再只顯示有行程的 Day。
-       會固定依照已建立的 Day 數量
-       顯示 Day 1、Day 2、Day 3……
-    */
 
     const savedDayCount =
         await syncTripDayCount();
@@ -5167,7 +6864,7 @@ async function renderTripDetail(){
                                     NT$ ${formatMoney(
                                         item.price
                                     )}
-                                </div>
+                                    </div>
                                 `
                                 :
                                 ""
@@ -5251,11 +6948,6 @@ async function renderTripDetail(){
         }
     );
 
-    /*
-       ⭐ 新增一天按鈕
-       永遠放在所有 Day 後面
-    */
-
     daysHtml += `
 
         <button
@@ -5268,15 +6960,29 @@ async function renderTripDetail(){
 
     `;
 
+    /* =========================
+       STAY HTML
+    ========================= */
+
     let staysHtml = "";
 
-    stays.forEach(
-        stay => {
+    stayTwdList.forEach(
+        stayData => {
 
-            const stayExtra =
-                parseStayNotes(
-                    stay.notes
-                );
+            const stay =
+                stayData.stay;
+
+            const extra =
+                stayData.extra;
+
+            const currency =
+                stayData.currency;
+
+            const price =
+                stayData.price;
+
+            const twd =
+                stayData.twd;
 
             staysHtml += `
 
@@ -5324,7 +7030,8 @@ async function renderTripDetail(){
                             ?
                             `🏨 ${formatDate(
                                 stay.check_in
-                            )} ${
+                            )}
+                            ${
                                 stay.check_out
                                 ?
                                 "－" +
@@ -5349,20 +7056,20 @@ async function renderTripDetail(){
                         }
 
                         ${
-                            stayExtra.other
+                            extra.other
                             ?
                             `其他：${escapeHtml(
-                                stayExtra.other
+                                extra.other
                             )}<br>`
                             :
                             ""
                         }
 
                         ${
-                            stayExtra.notes
+                            extra.notes
                             ?
                             `備註：${escapeHtml(
-                                stayExtra.notes
+                                extra.notes
                             )}`
                             :
                             ""
@@ -5371,16 +7078,47 @@ async function renderTripDetail(){
                     </div>
 
                     ${
-                        Number(
-                            stay.price || 0
-                        ) > 0
+                        price > 0
                         ?
                         `
-                        <div class="item-price">
-                            NT$ ${formatMoney(
-                                stay.price
+                        <div class="stay-price-main">
+
+                            ${escapeHtml(
+                                currency
                             )}
+                            ${formatMoney(
+                                price
+                            )}
+
                         </div>
+
+                        <div class="stay-price-twd">
+
+                            台幣換算約
+                            NT$ ${formatMoney(
+                                twd
+                            )}
+
+                        </div>
+                        `
+                        :
+                        ""
+                    }
+
+                    ${
+                        extra.url
+                        ?
+                        `
+                        <a
+                            class="stay-link"
+                            href="${safeUrl(
+                                extra.url
+                            )}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            查看住宿連結 →
+                        </a>
                         `
                         :
                         ""
@@ -5413,7 +7151,9 @@ async function renderTripDetail(){
         }
     );
 
-    /* VISA DISPLAY */
+    /* =========================
+       VISA HTML
+    ========================= */
 
     let visaHtml = "";
 
@@ -5445,24 +7185,31 @@ async function renderTripDetail(){
                         ?
                         `
                         <div class="visa-price">
-                            ${
-                                escapeHtml(
-                                    visa.currency || "TWD"
-                                )
-                            }
+
+                            ${escapeHtml(
+                                visa.currency ||
+                                "TWD"
+                            )}
                             ${formatMoney(
                                 visa.price
                             )}
+
                             →
                             NT$ ${formatMoney(
-                                visa.twd || visa.price
+                                visa.twd ||
+                                visa.price
                             )}
+
                         </div>
 
                         <div class="visa-price-detail">
-                            台幣換算約 NT$ ${formatMoney(
-                                visa.twd || visa.price
+
+                            台幣換算約
+                            NT$ ${formatMoney(
+                                visa.twd ||
+                                visa.price
                             )}
+
                         </div>
                         `
                         :
@@ -5516,7 +7263,9 @@ async function renderTripDetail(){
 
     }
 
-    /* FLIGHT DISPLAY */
+    /* =========================
+       FLIGHT HTML
+    ========================= */
 
     let flightHtml = "";
 
@@ -5524,6 +7273,12 @@ async function renderTripDetail(){
 
         const flight =
             info.flight;
+
+        const outbound =
+            flight.outbound || {};
+
+        const returnFlight =
+            flight.return || {};
 
         flightHtml = `
 
@@ -5533,123 +7288,399 @@ async function renderTripDetail(){
                     ✈️ 航班資訊
                 </div>
 
-                <div class="flight-grid">
+                ${
+                    Object.keys(
+                        outbound
+                    ).length
+                    ?
+                    `
+                    <div class="flight-direction">
 
-                    ${
-                        flight.airline
-                        ?
-                        `
-                        <div class="flight-field">
-                            <div class="flight-label">
-                                航空公司
-                            </div>
-                            <div class="flight-value">
-                                ${escapeHtml(
-                                    flight.airline
-                                )}
-                            </div>
+                        <div class="flight-direction-title">
+                            🛫 去程
                         </div>
-                        `
-                        :
-                        ""
-                    }
 
-                    ${
-                        flight.flightNumber
-                        ?
-                        `
-                        <div class="flight-field">
-                            <div class="flight-label">
-                                航班編號
-                            </div>
-                            <div class="flight-value">
-                                ${escapeHtml(
-                                    flight.flightNumber
-                                )}
-                            </div>
+                        <div class="flight-grid">
+
+                            ${
+                                outbound.airline
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        航空公司
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${escapeHtml(
+                                            outbound.airline
+                                        )}
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                outbound.flightNumber
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        航班編號
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${escapeHtml(
+                                            outbound.flightNumber
+                                        )}
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                outbound.departureAirport
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        出發機場
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${escapeHtml(
+                                            outbound.departureAirport
+                                        )}
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                outbound.arrivalAirport
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        抵達機場
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${escapeHtml(
+                                            outbound.arrivalAirport
+                                        )}
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                outbound.departure
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        出發時間
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${formatDateTime(
+                                            outbound.departure
+                                        )}
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                outbound.arrival
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        抵達時間
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${formatDateTime(
+                                            outbound.arrival
+                                        )}
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                outbound.baggage !== undefined &&
+                                outbound.baggage !== ""
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        行李
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${escapeHtml(
+                                            outbound.baggage
+                                        )} kg
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
                         </div>
-                        `
-                        :
-                        ""
-                    }
 
-                    ${
-                        flight.departureAirport
-                        ?
-                        `
-                        <div class="flight-field">
-                            <div class="flight-label">
-                                出發機場
-                            </div>
-                            <div class="flight-value">
-                                ${escapeHtml(
-                                    flight.departureAirport
-                                )}
-                            </div>
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+                ${
+                    Object.keys(
+                        returnFlight
+                    ).length
+                    ?
+                    `
+                    <div class="flight-direction">
+
+                        <div class="flight-direction-title">
+                            🛬 回程
                         </div>
-                        `
-                        :
-                        ""
-                    }
 
-                    ${
-                        flight.arrivalAirport
-                        ?
-                        `
-                        <div class="flight-field">
-                            <div class="flight-label">
-                                抵達機場
-                            </div>
-                            <div class="flight-value">
-                                ${escapeHtml(
-                                    flight.arrivalAirport
-                                )}
-                            </div>
+                        <div class="flight-grid">
+
+                            ${
+                                returnFlight.airline
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        航空公司
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${escapeHtml(
+                                            returnFlight.airline
+                                        )}
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                returnFlight.flightNumber
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        航班編號
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${escapeHtml(
+                                            returnFlight.flightNumber
+                                        )}
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                returnFlight.departureAirport
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        出發機場
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${escapeHtml(
+                                            returnFlight.departureAirport
+                                        )}
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                returnFlight.arrivalAirport
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        抵達機場
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${escapeHtml(
+                                            returnFlight.arrivalAirport
+                                        )}
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                returnFlight.departure
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        出發時間
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${formatDateTime(
+                                            returnFlight.departure
+                                        )}
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                returnFlight.arrival
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        抵達時間
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${formatDateTime(
+                                            returnFlight.arrival
+                                        )}
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                returnFlight.baggage !== undefined &&
+                                returnFlight.baggage !== ""
+                                ?
+                                `
+                                <div class="flight-field">
+
+                                    <div class="flight-label">
+                                        行李
+                                    </div>
+
+                                    <div class="flight-value">
+                                        ${escapeHtml(
+                                            returnFlight.baggage
+                                        )} kg
+                                    </div>
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
                         </div>
-                        `
-                        :
-                        ""
-                    }
 
-                    ${
-                        flight.departure
-                        ?
-                        `
-                        <div class="flight-field">
-                            <div class="flight-label">
-                                出發時間
-                            </div>
-                            <div class="flight-value">
-                                ${formatDateTime(
-                                    flight.departure
-                                )}
-                            </div>
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+                ${
+                    Number(
+                        flight.totalPrice || 0
+                    ) > 0
+                    ?
+                    `
+                    <div class="flight-total">
+
+                        <div class="flight-total-label">
+                            機票總價
                         </div>
-                        `
-                        :
-                        ""
-                    }
 
-                    ${
-                        flight.arrival
-                        ?
-                        `
-                        <div class="flight-field">
-                            <div class="flight-label">
-                                抵達時間
-                            </div>
-                            <div class="flight-value">
-                                ${formatDateTime(
-                                    flight.arrival
-                                )}
-                            </div>
+                        <div class="flight-total-price">
+
+                            ${escapeHtml(
+                                flight.currency ||
+                                "TWD"
+                            )}
+                            ${formatMoney(
+                                flight.totalPrice
+                            )}
+
                         </div>
-                        `
-                        :
-                        ""
-                    }
 
-                </div>
+                        <div class="flight-total-twd">
+
+                            台幣換算約
+                            NT$ ${formatMoney(
+                                flight.twd ||
+                                flight.totalPrice
+                            )}
+
+                        </div>
+
+                    </div>
+                    `
+                    :
+                    ""
+                }
 
                 ${
                     flight.notes
@@ -5693,6 +7724,10 @@ async function renderTripDetail(){
         `;
 
     }
+
+    /* =========================
+       PAGE
+    ========================= */
 
     document.getElementById(
         "app"
@@ -5770,6 +7805,7 @@ async function renderTripDetail(){
                         📅 ${formatDate(
                             trip.start_date
                         )}
+
                         ${
                             trip.end_date
                             ?
@@ -5780,6 +7816,7 @@ async function renderTripDetail(){
                             :
                             ""
                         }
+
                     </div>
                     `
                     :
@@ -5798,20 +7835,24 @@ async function renderTripDetail(){
                         )}
                     </div>
 
-                    <div
-                        style="
-                            font-size:12px;
-                            opacity:.65;
-                            margin-top:5px;
-                        "
-                    >
+                    <div class="total-breakdown">
+
                         行程 NT$ ${formatMoney(
                             itineraryTotal
                         )}
-                        ＋
-                        住宿 NT$ ${formatMoney(
+
+                        ＋ 住宿 NT$ ${formatMoney(
                             stayTotal
                         )}
+
+                        ＋ 簽證 NT$ ${formatMoney(
+                            visaTotal
+                        )}
+
+                        ＋ 機票 NT$ ${formatMoney(
+                            flightTotal
+                        )}
+
                     </div>
 
                 </div>
@@ -5826,7 +7867,14 @@ async function renderTripDetail(){
                         旅程
                     </h2>
 
-                    <div style="display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;">
+                    <div
+                        style="
+                            display:flex;
+                            gap:7px;
+                            flex-wrap:wrap;
+                            justify-content:flex-end;
+                        "
+                    >
 
                         <button
                             type="button"
@@ -5869,13 +7917,15 @@ async function renderTripDetail(){
                         </div>
 
                         <div class="trip-tool-subtitle">
+
                             ${
                                 info.flight
                                 ?
                                 "已填寫・點擊查看／編輯"
                                 :
-                                "點開後手動輸入航班資訊"
+                                "去程／回程・日期・行李・價格"
                             }
+
                         </div>
 
                     </button>
@@ -5986,32 +8036,6 @@ async function addNextDay(){
 
 }
 
-async function addDayAndItem(){
-
-    if(!currentTrip){
-        return;
-    }
-
-    const count =
-        getTripDayCount(
-            currentTrip.id
-        );
-
-    saveTripDayCount(
-        currentTrip.id,
-        Math.max(
-            1,
-            count
-        )
-    );
-
-    openItemModal(
-        1,
-        null
-    );
-
-}
-
 function openItemModal(
     day,
     itemId
@@ -6031,7 +8055,8 @@ function openItemModal(
             );
 
         if(
-            currentDay > currentCount
+            currentDay >
+            currentCount
         ){
 
             saveTripDayCount(
@@ -6082,21 +8107,29 @@ function openItemModal(
             'input[name="itemRating"]'
         ).forEach(
             radio => {
-                radio.checked = false;
+
+                radio.checked =
+                    false;
+
             }
         );
 
-        openModal("itemModal");
+        openModal(
+            "itemModal"
+        );
 
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            document
-                .getElementById(
-                    "itemTitleInput"
-                )
-                ?.focus();
+                document
+                    .getElementById(
+                        "itemTitleInput"
+                    )
+                    ?.focus();
 
-        },100);
+            },
+            100
+        );
 
         return;
 
@@ -6127,7 +8160,9 @@ async function loadItemForEdit(
 
     if(error){
 
-        alert(error.message);
+        alert(
+            error.message
+        );
 
         return;
 
@@ -6142,7 +8177,9 @@ async function loadItemForEdit(
         item.id;
 
     currentDay =
-        Number(item.day_number) || 1;
+        Number(
+            item.day_number
+        ) || 1;
 
     if(currentTrip){
 
@@ -6152,7 +8189,8 @@ async function loadItemForEdit(
             );
 
         if(
-            currentDay > currentCount
+            currentDay >
+            currentCount
         ){
 
             saveTripDayCount(
@@ -6220,7 +8258,9 @@ async function loadItemForEdit(
         }
     );
 
-    openModal("itemModal");
+    openModal(
+        "itemModal"
+    );
 
 }
 
@@ -6256,7 +8296,9 @@ async function saveItem(){
 
     if(!title){
 
-        alert("請輸入行程名稱");
+        alert(
+            "請輸入行程名稱"
+        );
 
         titleInput.focus();
 
@@ -6265,23 +8307,24 @@ async function saveItem(){
     }
 
     const dayNumber =
-        Number(currentDay);
+        Number(
+            currentDay
+        );
 
     if(
-        !Number.isFinite(dayNumber) ||
+        !Number.isFinite(
+            dayNumber
+        ) ||
         dayNumber < 1
     ){
 
-        alert("Day 資料有問題，請重新新增行程。");
+        alert(
+            "Day 資料有問題，請重新新增行程。"
+        );
 
         return;
 
     }
-
-    /*
-       只要在某個 Day 新增行程，
-       該 Day 就一定被保留。
-    */
 
     const existingDayCount =
         getTripDayCount(
@@ -6289,7 +8332,8 @@ async function saveItem(){
         );
 
     if(
-        dayNumber > existingDayCount
+        dayNumber >
+        existingDayCount
     ){
 
         saveTripDayCount(
@@ -6336,28 +8380,40 @@ async function saveItem(){
         );
 
     const notesText =
-        document.getElementById(
-            "itemNotesInput"
-        ).value.trim();
+        document
+            .getElementById(
+                "itemNotesInput"
+            )
+            .value
+            .trim();
 
     const otherText =
-        document.getElementById(
-            "itemOtherInput"
-        ).value.trim();
+        document
+            .getElementById(
+                "itemOtherInput"
+            )
+            .value
+            .trim();
 
     const priceValue =
-        document.getElementById(
-            "itemPriceInput"
-        ).value;
+        document
+            .getElementById(
+                "itemPriceInput"
+            )
+            .value;
 
     const price =
         priceValue === ""
         ?
         0
         :
-        Number(priceValue);
+        Number(
+            priceValue
+        );
 
-    if(!Number.isFinite(price)){
+    if(
+        !Number.isFinite(price)
+    ){
 
         alert(
             "價格格式不正確。"
@@ -6367,10 +8423,13 @@ async function saveItem(){
 
     }
 
-    const payload = {
+    /*
+       ⭐ 重要修正：
+       itineraries 沒有 owner_id。
+       所以這裡絕對不再送 owner_id。
+    */
 
-        owner_id:
-            user.id,
+    const payload = {
 
         trip_id:
             currentTrip.id,
@@ -6381,21 +8440,30 @@ async function saveItem(){
         title,
 
         location:
-            document.getElementById(
-                "itemLocationInput"
-            ).value.trim(),
+            document
+                .getElementById(
+                    "itemLocationInput"
+                )
+                .value
+                .trim(),
 
         transport:
-            document.getElementById(
-                "itemTransportInput"
-            ).value.trim(),
+            document
+                .getElementById(
+                    "itemTransportInput"
+                )
+                .value
+                .trim(),
 
         price,
 
         duration:
-            document.getElementById(
-                "itemDurationInput"
-            ).value.trim(),
+            document
+                .getElementById(
+                    "itemDurationInput"
+                )
+                .value
+                .trim(),
 
         notes:
             JSON.stringify({
@@ -6424,8 +8492,11 @@ async function saveItem(){
 
     if(saveButton){
 
-        saveButton.disabled = true;
-        saveButton.textContent = "儲存中……";
+        saveButton.disabled =
+            true;
+
+        saveButton.textContent =
+            "儲存中……";
 
     }
 
@@ -6477,9 +8548,12 @@ async function saveItem(){
 
         }
 
-        closeModal("itemModal");
+        closeModal(
+            "itemModal"
+        );
 
-        editingItemId = null;
+        editingItemId =
+            null;
 
         await renderTripDetail();
 
@@ -6502,8 +8576,11 @@ async function saveItem(){
 
         if(saveButton){
 
-            saveButton.disabled = false;
-            saveButton.textContent = "儲存";
+            saveButton.disabled =
+                false;
+
+            saveButton.textContent =
+                "儲存";
 
         }
 
@@ -6536,18 +8613,13 @@ async function deleteItem(
 
     if(error){
 
-        alert(error.message);
+        alert(
+            error.message
+        );
 
         return;
 
     }
-
-    /*
-       注意：
-       刪除行程不會刪除 Day。
-       例如 Day 2 的最後一個行程刪掉，
-       Day 2 還是會保留。
-    */
 
     await renderTripDetail();
 
@@ -6592,6 +8664,15 @@ function openStayModal(
         ).value = "";
 
         document.getElementById(
+            "stayCurrencyInput"
+        ).value =
+            "TWD";
+
+        document.getElementById(
+            "stayBookingUrlInput"
+        ).value = "";
+
+        document.getElementById(
             "stayBookingInput"
         ).value = "";
 
@@ -6603,13 +8684,27 @@ function openStayModal(
             "stayNotesInput"
         ).value = "";
 
-        openModal("stayModal");
+        document.getElementById(
+            "stayTwdPreview"
+        ).textContent =
+            "台幣換算：NT$ 0";
+
+        document.getElementById(
+            "stayRateMessage"
+        ).textContent =
+            "";
+
+        openModal(
+            "stayModal"
+        );
 
         return;
 
     }
 
-    loadStayForEdit(stayId);
+    loadStayForEdit(
+        stayId
+    );
 
 }
 
@@ -6632,7 +8727,9 @@ async function loadStayForEdit(
 
     if(error){
 
-        alert(error.message);
+        alert(
+            error.message
+        );
 
         return;
 
@@ -6674,6 +8771,17 @@ async function loadStayForEdit(
         stay.price || "";
 
     document.getElementById(
+        "stayCurrencyInput"
+    ).value =
+        extra.currency ||
+        "TWD";
+
+    document.getElementById(
+        "stayBookingUrlInput"
+    ).value =
+        extra.url || "";
+
+    document.getElementById(
         "stayBookingInput"
     ).value =
         stay.booking_info || "";
@@ -6688,34 +8796,256 @@ async function loadStayForEdit(
     ).value =
         extra.notes || "";
 
-    openModal("stayModal");
+    document.getElementById(
+        "stayTwdPreview"
+    ).textContent =
+        extra.twd !== undefined
+        ?
+        `台幣換算：NT$ ${formatMoney(
+            extra.twd
+        )}`
+        :
+        "台幣換算：NT$ 0";
+
+    document.getElementById(
+        "stayRateMessage"
+    ).textContent =
+        "";
+
+    openModal(
+        "stayModal"
+    );
+
+    if(
+        Number(
+            stay.price || 0
+        ) > 0
+    ){
+
+        updateStayTwd();
+
+    }
 
 }
 
-async function saveStay(){
+async function updateStayTwd(){
 
-    const name =
+    const priceInput =
         document.getElementById(
-            "stayNameInput"
-        ).value.trim();
+            "stayPriceInput"
+        );
 
-    if(!name){
+    const currencyInput =
+        document.getElementById(
+            "stayCurrencyInput"
+        );
 
-        alert("請輸入住宿名稱");
+    const preview =
+        document.getElementById(
+            "stayTwdPreview"
+        );
+
+    const message =
+        document.getElementById(
+            "stayRateMessage"
+        );
+
+    if(
+        !priceInput ||
+        !currencyInput
+    ){
+        return;
+    }
+
+    const price =
+        Number(
+            priceInput.value || 0
+        );
+
+    const currency =
+        currencyInput.value;
+
+    if(!price){
+
+        preview.textContent =
+            "台幣換算：NT$ 0";
+
+        message.textContent =
+            "";
 
         return;
 
     }
 
-    const other =
-        document.getElementById(
-            "stayOtherInput"
-        ).value.trim();
+    if(
+        currency === "TWD"
+    ){
 
-    const notes =
-        document.getElementById(
-            "stayNotesInput"
-        ).value.trim();
+        preview.textContent =
+            `台幣換算：NT$ ${formatMoney(
+                price
+            )}`;
+
+        message.textContent =
+            "1 TWD = 1 TWD";
+
+        return;
+
+    }
+
+    preview.textContent =
+        "台幣換算：計算中……";
+
+    message.textContent =
+        "正在取得目前匯率……";
+
+    try{
+
+        const rate =
+            await getCurrencyToTwdRate(
+                currency
+            );
+
+        const twd =
+            price * rate;
+
+        preview.textContent =
+            `台幣換算：NT$ ${formatMoney(
+                twd
+            )}`;
+
+        message.textContent =
+            `目前換算約 1 ${currency} = NT$ ${rate.toLocaleString(
+                "zh-TW",
+                {
+                    maximumFractionDigits:4
+                }
+            )}`;
+
+    }catch(error){
+
+        console.error(error);
+
+        preview.textContent =
+            "台幣換算：暫時無法取得匯率";
+
+        message.textContent =
+            "匯率取得失敗，請稍後再試。";
+
+    }
+
+}
+
+async function saveStay(){
+
+    if(!currentTrip){
+
+        alert(
+            "目前沒有選擇旅程。"
+        );
+
+        return;
+
+    }
+
+    const name =
+        document
+            .getElementById(
+                "stayNameInput"
+            )
+            .value
+            .trim();
+
+    if(!name){
+
+        alert(
+            "請輸入住宿名稱"
+        );
+
+        return;
+
+    }
+
+    const priceValue =
+        document
+            .getElementById(
+                "stayPriceInput"
+            )
+            .value;
+
+    const price =
+        priceValue === ""
+        ?
+        0
+        :
+        Number(
+            priceValue
+        );
+
+    if(
+        !Number.isFinite(price) ||
+        price < 0
+    ){
+
+        alert(
+            "價格格式不正確。"
+        );
+
+        return;
+
+    }
+
+    const currency =
+        document
+            .getElementById(
+                "stayCurrencyInput"
+            )
+            .value;
+
+    const url =
+        document
+            .getElementById(
+                "stayBookingUrlInput"
+            )
+            .value
+            .trim();
+
+    if(
+        url &&
+        !/^https?:\/\//i.test(url)
+    ){
+
+        alert(
+            "住宿連結請輸入完整網址，例如：https://..."
+        );
+
+        return;
+
+    }
+
+    let twd =
+        price;
+
+    try{
+
+        const rate =
+            await getCurrencyToTwdRate(
+                currency
+            );
+
+        twd =
+            price * rate;
+
+    }catch(error){
+
+        alert(
+            "目前無法取得匯率，請稍後再試。\n\n" +
+            error.message
+        );
+
+        return;
+
+    }
 
     const payload = {
 
@@ -6725,73 +9055,165 @@ async function saveStay(){
         name,
 
         address:
-            document.getElementById(
-                "stayAddressInput"
-            ).value.trim(),
+            document
+                .getElementById(
+                    "stayAddressInput"
+                )
+                .value
+                .trim(),
 
         check_in:
-            document.getElementById(
-                "stayCheckInInput"
-            ).value || null,
+            document
+                .getElementById(
+                    "stayCheckInInput"
+                )
+                .value ||
+            null,
 
         check_out:
-            document.getElementById(
-                "stayCheckOutInput"
-            ).value || null,
+            document
+                .getElementById(
+                    "stayCheckOutInput"
+                )
+                .value ||
+            null,
 
-        price:
-            Number(
-                document.getElementById(
-                    "stayPriceInput"
-                ).value || 0
-            ),
+        /*
+           stays.price 維持原本資料表欄位。
+           幣別、台幣換算、網址放在 notes JSON，
+           不需要新增 Supabase 欄位。
+        */
+
+        price,
 
         booking_info:
-            document.getElementById(
-                "stayBookingInput"
-            ).value.trim(),
+            document
+                .getElementById(
+                    "stayBookingInput"
+                )
+                .value
+                .trim(),
 
         notes:
             JSON.stringify({
-                other,
-                notes
+
+                currency,
+
+                twd,
+
+                url,
+
+                other:
+                    document
+                        .getElementById(
+                            "stayOtherInput"
+                        )
+                        .value
+                        .trim(),
+
+                notes:
+                    document
+                        .getElementById(
+                            "stayNotesInput"
+                        )
+                        .value
+                        .trim()
+
             })
 
     };
 
-    let result;
+    const saveButton =
+        document.getElementById(
+            "saveStayButton"
+        );
 
-    if(editingStayId){
+    if(saveButton){
 
-        result =
-            await supabaseClient
-                .from("stays")
-                .update(payload)
-                .eq(
-                    "id",
-                    editingStayId
-                );
+        saveButton.disabled =
+            true;
 
-    }else{
-
-        result =
-            await supabaseClient
-                .from("stays")
-                .insert(payload);
+        saveButton.textContent =
+            "儲存中……";
 
     }
 
-    if(result.error){
+    try{
 
-        alert(result.error.message);
+        let result;
 
-        return;
+        if(editingStayId){
+
+            result =
+                await supabaseClient
+                    .from("stays")
+                    .update(
+                        payload
+                    )
+                    .eq(
+                        "id",
+                        editingStayId
+                    );
+
+        }else{
+
+            result =
+                await supabaseClient
+                    .from("stays")
+                    .insert(
+                        payload
+                    );
+
+        }
+
+        if(result.error){
+
+            alert(
+                "住宿儲存失敗：\n\n" +
+                result.error.message
+            );
+
+            return;
+
+        }
+
+        closeModal(
+            "stayModal"
+        );
+
+        editingStayId =
+            null;
+
+        await renderTripDetail();
+
+    }catch(error){
+
+        console.error(
+            "saveStay:",
+            error
+        );
+
+        alert(
+            "住宿儲存失敗：\n\n" +
+            (
+                error?.message ||
+                String(error)
+            )
+        );
+
+    }finally{
+
+        if(saveButton){
+
+            saveButton.disabled =
+                false;
+
+            saveButton.textContent =
+                "儲存";
+
+        }
 
     }
-
-    closeModal("stayModal");
-
-    await renderTripDetail();
 
 }
 
@@ -6820,7 +9242,9 @@ async function deleteStay(
 
     if(error){
 
-        alert(error.message);
+        alert(
+            error.message
+        );
 
         return;
 
@@ -6834,7 +9258,9 @@ async function deleteStay(
    MODAL
 ========================= */
 
-function openModal(id){
+function openModal(
+    id
+){
 
     document
         .getElementById(id)
@@ -6843,7 +9269,9 @@ function openModal(id){
 
 }
 
-function closeModal(id){
+function closeModal(
+    id
+){
 
     document
         .getElementById(id)
@@ -6863,12 +9291,14 @@ function parseTripDescription(
     if(!value){
 
         return {
+
             subtitle:"",
             creator:"",
             description:"",
             visa:null,
             flight:null,
             other:""
+
         };
 
     }
@@ -6879,28 +9309,35 @@ function parseTripDescription(
             JSON.parse(value);
 
         if(
-            typeof parsed === "object"
+            typeof parsed ===
+            "object"
         ){
 
             return {
 
                 subtitle:
-                    parsed.subtitle || "",
+                    parsed.subtitle ||
+                    "",
 
                 creator:
-                    parsed.creator || "",
+                    parsed.creator ||
+                    "",
 
                 description:
-                    parsed.description || "",
+                    parsed.description ||
+                    "",
 
                 visa:
-                    parsed.visa || null,
+                    parsed.visa ||
+                    null,
 
                 flight:
-                    parsed.flight || null,
+                    parsed.flight ||
+                    null,
 
                 other:
-                    parsed.other || ""
+                    parsed.other ||
+                    ""
 
             };
 
@@ -6928,8 +9365,13 @@ function parseStayNotes(
     if(!value){
 
         return {
+
+            currency:"TWD",
+            twd:null,
+            url:"",
             other:"",
             notes:""
+
         };
 
     }
@@ -6940,16 +9382,34 @@ function parseStayNotes(
             JSON.parse(value);
 
         if(
-            typeof parsed === "object"
+            typeof parsed ===
+            "object"
         ){
 
             return {
 
+                currency:
+                    parsed.currency ||
+                    "TWD",
+
+                twd:
+                    parsed.twd !== undefined
+                    ?
+                    parsed.twd
+                    :
+                    null,
+
+                url:
+                    parsed.url ||
+                    "",
+
                 other:
-                    parsed.other || "",
+                    parsed.other ||
+                    "",
 
                 notes:
-                    parsed.notes || ""
+                    parsed.notes ||
+                    ""
 
             };
 
@@ -6957,9 +9417,22 @@ function parseStayNotes(
 
     }catch(e){}
 
+    /*
+       舊版本 notes 不是 JSON：
+       視為一般備註，
+       並預設舊住宿價格是 TWD。
+    */
+
     return {
 
+        currency:"TWD",
+
+        twd:null,
+
+        url:"",
+
         other:"",
+
         notes:value
 
     };
@@ -6973,9 +9446,11 @@ function parseItemNotes(
     if(!value){
 
         return {
+
             text:"",
             rating:"",
             other:""
+
         };
 
     }
@@ -6986,19 +9461,23 @@ function parseItemNotes(
             JSON.parse(value);
 
         if(
-            typeof parsed === "object"
+            typeof parsed ===
+            "object"
         ){
 
             return {
 
                 text:
-                    parsed.text || "",
+                    parsed.text ||
+                    "",
 
                 rating:
-                    parsed.rating || "",
+                    parsed.rating ||
+                    "",
 
                 other:
-                    parsed.other || ""
+                    parsed.other ||
+                    ""
 
             };
 
@@ -7024,16 +9503,31 @@ function getRatingText(
     rating
 ){
 
-    if(rating === "recommend"){
+    if(
+        rating ===
+        "recommend"
+    ){
+
         return "👍🏻 推薦";
+
     }
 
-    if(rating === "normal"){
+    if(
+        rating ===
+        "normal"
+    ){
+
         return "👌 普通";
+
     }
 
-    if(rating === "no"){
+    if(
+        rating ===
+        "no"
+    ){
+
         return "👎🏻 不用去";
+
     }
 
     return "";
@@ -7046,7 +9540,9 @@ function getMapUrl(
 
     return (
         "https://www.google.com/maps/search/?api=1&query=" +
-        encodeURIComponent(address)
+        encodeURIComponent(
+            address
+        )
     );
 
 }
@@ -7068,7 +9564,9 @@ function safeUrl(
         /^https?:\/\//i.test(value)
     ){
 
-        return escapeHtml(value);
+        return escapeHtml(
+            value
+        );
 
     }
 
@@ -7084,7 +9582,10 @@ function formatMoney(
         value || 0
     )
     .toLocaleString(
-        "zh-TW"
+        "zh-TW",
+        {
+            maximumFractionDigits:2
+        }
     );
 
 }
@@ -7097,7 +9598,9 @@ function formatDate(
         return "";
     }
 
-    return value.replaceAll(
+    return String(
+        value
+    ).replaceAll(
         "-",
         "/"
     );
@@ -7123,35 +9626,64 @@ function formatDateTime(
             )
         ){
 
-            return String(value)
-                .replace("T"," ");
+            return String(
+                value
+            ).replace(
+                "T",
+                " "
+            );
 
         }
 
         return (
+
             date.getFullYear() +
             "/" +
+
             String(
                 date.getMonth() + 1
-            ).padStart(2,"0") +
+            ).padStart(
+                2,
+                "0"
+            ) +
+
             "/" +
+
             String(
                 date.getDate()
-            ).padStart(2,"0") +
+            ).padStart(
+                2,
+                "0"
+            ) +
+
             " " +
+
             String(
                 date.getHours()
-            ).padStart(2,"0") +
+            ).padStart(
+                2,
+                "0"
+            ) +
+
             ":" +
+
             String(
                 date.getMinutes()
-            ).padStart(2,"0")
+            ).padStart(
+                2,
+                "0"
+            )
+
         );
 
     }catch(e){
 
-        return String(value)
-            .replace("T"," ");
+        return String(
+            value
+        ).replace(
+            "T",
+            " "
+        );
 
     }
 
@@ -7164,11 +9696,26 @@ function escapeHtml(
     return String(
         value ?? ""
     )
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
 
 }
 
@@ -7179,12 +9726,28 @@ function escapeJs(
     return String(
         value ?? ""
     )
-    .replaceAll("\\","\\\\")
-    .replaceAll("'","\\'")
-    .replaceAll("\n","\\n")
-    .replaceAll("\r","\\r");
+    .replaceAll(
+        "\\",
+        "\\\\"
+    )
+    .replaceAll(
+        "'",
+        "\\'"
+    )
+    .replaceAll(
+        "\n",
+        "\\n"
+    )
+    .replaceAll(
+        "\r",
+        "\\r"
+    );
 
 }
+
+/* =========================
+   START
+========================= */
 
 init();
 
