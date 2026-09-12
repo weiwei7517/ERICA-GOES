@@ -1628,6 +1628,7 @@ function getDestinations(){
     }catch(e){
         return [...DEFAULT_DESTINATIONS];
     }
+
 }
 
 function saveDestinations(list){
@@ -4746,37 +4747,6 @@ async function saveItem(){
 
     }
 
-    const {
-        data:{
-            user
-        },
-        error:userError
-    } =
-        await supabaseClient
-            .auth
-            .getUser();
-
-    if(userError){
-
-        alert(
-            "無法確認登入狀態：\n\n" +
-            userError.message
-        );
-
-        return;
-
-    }
-
-    if(!user){
-
-        alert(
-            "登入狀態已失效，請重新登入。"
-        );
-
-        return;
-
-    }
-
     const selectedRating =
         document.querySelector(
             'input[name="itemRating"]:checked'
@@ -4814,10 +4784,13 @@ async function saveItem(){
 
     }
 
-    const payload = {
+    /*
+     * 注意：
+     * itineraries 資料表沒有 owner_id，
+     * 所以這裡只送資料表實際使用的欄位。
+     */
 
-        owner_id:
-            user.id,
+    const payload = {
 
         trip_id:
             currentTrip.id,
@@ -4923,6 +4896,11 @@ async function saveItem(){
             return;
 
         }
+
+        /*
+         * 這裡只關閉視窗並重新繪製「目前旅程頁」，
+         * 不重新整理整個網頁，也不回首頁。
+         */
 
         closeModal("itemModal");
 
@@ -5130,6 +5108,16 @@ async function loadStayForEdit(
 
 async function saveStay(){
 
+    if(!currentTrip){
+
+        alert(
+            "目前沒有選擇旅程，請回到旅程後再新增。"
+        );
+
+        return;
+
+    }
+
     const name =
         document.getElementById(
             "stayNameInput"
@@ -5153,6 +5141,28 @@ async function saveStay(){
             "stayNotesInput"
         ).value.trim();
 
+    const priceValue =
+        document.getElementById(
+            "stayPriceInput"
+        ).value;
+
+    const price =
+        priceValue === ""
+        ?
+        0
+        :
+        Number(priceValue);
+
+    if(!Number.isFinite(price)){
+
+        alert(
+            "價格格式不正確。"
+        );
+
+        return;
+
+    }
+
     const payload = {
 
         trip_id:
@@ -5175,12 +5185,7 @@ async function saveStay(){
                 "stayCheckOutInput"
             ).value || null,
 
-        price:
-            Number(
-                document.getElementById(
-                    "stayPriceInput"
-                ).value || 0
-            ),
+        price,
 
         booking_info:
             document.getElementById(
@@ -5195,39 +5200,92 @@ async function saveStay(){
 
     };
 
-    let result;
+    const modalButtons =
+        document.querySelectorAll(
+            "#stayModal .modal-footer button"
+        );
 
-    if(editingStayId){
+    const saveButton =
+        modalButtons[1];
 
-        result =
-            await supabaseClient
-                .from("stays")
-                .update(payload)
-                .eq(
-                    "id",
-                    editingStayId
-                );
+    if(saveButton){
 
-    }else{
-
-        result =
-            await supabaseClient
-                .from("stays")
-                .insert(payload);
+        saveButton.disabled = true;
+        saveButton.textContent = "儲存中……";
 
     }
 
-    if(result.error){
+    try{
 
-        alert(result.error.message);
+        let result;
 
-        return;
+        if(editingStayId){
+
+            result =
+                await supabaseClient
+                    .from("stays")
+                    .update(payload)
+                    .eq(
+                        "id",
+                        editingStayId
+                    );
+
+        }else{
+
+            result =
+                await supabaseClient
+                    .from("stays")
+                    .insert(payload);
+
+        }
+
+        if(result.error){
+
+            alert(
+                "住宿儲存失敗：\n\n" +
+                result.error.message
+            );
+
+            return;
+
+        }
+
+        /*
+         * 只更新目前旅程頁，
+         * 不重新整理整個網站，也不回首頁。
+         */
+
+        closeModal("stayModal");
+
+        editingStayId = null;
+
+        await renderTripDetail();
+
+    }catch(error){
+
+        console.error(
+            "saveStay exception:",
+            error
+        );
+
+        alert(
+            "住宿儲存時發生錯誤：\n\n" +
+            (
+                error?.message ||
+                String(error)
+            )
+        );
+
+    }finally{
+
+        if(saveButton){
+
+            saveButton.disabled = false;
+            saveButton.textContent = "儲存";
+
+        }
 
     }
-
-    closeModal("stayModal");
-
-    await renderTripDetail();
 
 }
 
