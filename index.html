@@ -37,6 +37,10 @@ button{
     cursor:pointer;
 }
 
+a{
+    color:inherit;
+}
+
 .app{
     max-width:900px;
     margin:0 auto;
@@ -347,6 +351,51 @@ button{
 }
 
 /* =========================
+   COOPERATION
+========================= */
+
+.cooperation-card{
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 4px 18px rgba(0,0,0,.035);
+}
+
+.cooperation-empty{
+    color:#999;
+    font-size:14px;
+    line-height:1.7;
+}
+
+.cooperation-title{
+    font-size:18px;
+    font-weight:750;
+}
+
+.cooperation-description{
+    margin-top:6px;
+    color:#777;
+    font-size:14px;
+    line-height:1.7;
+}
+
+.cooperation-link{
+    display:inline-block;
+    margin-top:12px;
+    padding:8px 12px;
+    background:#f0efeb;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:13px;
+}
+
+.cooperation-actions{
+    display:flex;
+    gap:7px;
+    margin-top:14px;
+}
+
+/* =========================
    JOURNEYS
 ========================= */
 
@@ -455,6 +504,33 @@ button{
     margin-top:5px;
 }
 
+.info-box{
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.035);
+}
+
+.info-box-title{
+    font-size:19px;
+    font-weight:750;
+    margin-bottom:10px;
+}
+
+.info-box-content{
+    color:#666;
+    font-size:14px;
+    line-height:1.8;
+    white-space:pre-wrap;
+}
+
+.info-box-actions{
+    display:flex;
+    gap:7px;
+    margin-top:14px;
+}
+
 .day-card{
     background:white;
     border-radius:20px;
@@ -501,6 +577,27 @@ button{
     font-weight:700;
 }
 
+.item-rating{
+    display:inline-block;
+    margin-top:8px;
+    padding:5px 9px;
+    background:#f3f2ee;
+    border-radius:8px;
+    font-size:12px;
+    color:#555;
+}
+
+.map-link{
+    display:inline-block;
+    margin-top:6px;
+    padding:5px 9px;
+    background:#f0efeb;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:12px;
+    color:#555;
+}
+
 .item-actions{
     margin-top:10px;
     display:flex;
@@ -522,6 +619,38 @@ button{
 
 .stay-section h3{
     margin-bottom:12px;
+}
+
+/* =========================
+   PHOTO PAGE
+========================= */
+
+.photo-empty{
+    min-height:420px;
+    background:white;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:#aaa;
+    box-shadow:0 5px 20px rgba(0,0,0,.035);
+}
+
+.photo-empty-inner{
+    padding:30px;
+}
+
+.photo-empty-title{
+    font-size:20px;
+    color:#666;
+    margin-bottom:8px;
+}
+
+.photo-empty-text{
+    font-size:13px;
+    color:#aaa;
+    line-height:1.7;
 }
 
 /* =========================
@@ -596,6 +725,48 @@ button{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:12px;
+}
+
+/* =========================
+   RATING
+========================= */
+
+.rating-group{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.rating-option{
+    position:relative;
+}
+
+.rating-option input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
+
+.rating-option label{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:45px;
+    padding:8px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    background:#fafafa;
+    color:#666;
+    font-size:13px;
+    cursor:pointer;
+    text-align:center;
+    transition:.2s ease;
+}
+
+.rating-option input:checked + label{
+    background:#292929;
+    border-color:#292929;
+    color:white;
 }
 
 /* =========================
@@ -690,6 +861,10 @@ button{
         grid-template-columns:1fr;
     }
 
+    .rating-group{
+        grid-template-columns:1fr;
+    }
+
     .modal-backdrop{
         padding:0;
     }
@@ -705,6 +880,7 @@ button{
 <body>
 
 <div id="app"></div>
+
 
 <!-- =========================
      INTRO MODAL
@@ -765,6 +941,88 @@ button{
     </div>
 </div>
 
+
+<!-- =========================
+     COOPERATION MODAL
+========================= -->
+
+<div id="cooperationModal" class="modal-backdrop">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2>
+                編輯合作
+            </h2>
+
+            <button
+                class="close-btn"
+                onclick="closeModal('cooperationModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="field">
+
+            <label>合作名稱</label>
+
+            <input
+                id="cooperationTitleInput"
+                type="text"
+                placeholder="例如：eSIM 網路"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>合作說明</label>
+
+            <textarea
+                id="cooperationDescriptionInput"
+                placeholder="例如：出國上網推薦使用這個 eSIM"
+            ></textarea>
+
+        </div>
+
+        <div class="field">
+
+            <label>合作連結</label>
+
+            <input
+                id="cooperationLinkInput"
+                type="url"
+                placeholder="https://..."
+            >
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                class="btn btn-light"
+                onclick="closeModal('cooperationModal')"
+            >
+                取消
+            </button>
+
+            <button
+                class="btn"
+                onclick="saveCooperation()"
+            >
+                儲存
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <!-- =========================
      DESTINATION MODAL
 ========================= -->
@@ -821,6 +1079,7 @@ button{
     </div>
 
 </div>
+
 
 <!-- =========================
      JOURNEY MODAL
@@ -918,6 +1177,28 @@ button{
 
         </div>
 
+        <div class="field">
+
+            <label>簽證</label>
+
+            <textarea
+                id="journeyVisaInput"
+                placeholder="例如：台灣護照免簽 90 天"
+            ></textarea>
+
+        </div>
+
+        <div class="field">
+
+            <label>其他</label>
+
+            <textarea
+                id="journeyOtherInput"
+                placeholder="其他想補充的資訊"
+            ></textarea>
+
+        </div>
+
         <div class="modal-footer">
 
             <button
@@ -939,6 +1220,7 @@ button{
     </div>
 
 </div>
+
 
 <!-- =========================
      ITINERARY MODAL
@@ -977,12 +1259,12 @@ button{
 
         <div class="field">
 
-            <label>地點</label>
+            <label>地址</label>
 
             <input
                 id="itemLocationInput"
                 type="text"
-                placeholder="例如：京都"
+                placeholder="輸入完整地址"
             >
 
         </div>
@@ -1028,31 +1310,62 @@ button{
 
         </div>
 
-        <div class="row">
 
-            <div class="field">
+        <div class="field">
 
-                <label>開始時間</label>
+            <label>推薦程度</label>
 
-                <input
-                    id="itemStartInput"
-                    type="time"
-                >
+            <div class="rating-group">
 
-            </div>
+                <div class="rating-option">
 
-            <div class="field">
+                    <input
+                        type="radio"
+                        name="itemRating"
+                        id="ratingRecommend"
+                        value="recommend"
+                    >
 
-                <label>結束時間</label>
+                    <label for="ratingRecommend">
+                        👍🏻 推薦
+                    </label>
 
-                <input
-                    id="itemEndInput"
-                    type="time"
-                >
+                </div>
+
+                <div class="rating-option">
+
+                    <input
+                        type="radio"
+                        name="itemRating"
+                        id="ratingNormal"
+                        value="normal"
+                    >
+
+                    <label for="ratingNormal">
+                        👌 普通
+                    </label>
+
+                </div>
+
+                <div class="rating-option">
+
+                    <input
+                        type="radio"
+                        name="itemRating"
+                        id="ratingNo"
+                        value="no"
+                    >
+
+                    <label for="ratingNo">
+                        👎🏻 不用去
+                    </label>
+
+                </div>
 
             </div>
 
         </div>
+
 
         <div class="field">
 
@@ -1064,6 +1377,7 @@ button{
             ></textarea>
 
         </div>
+
 
         <div class="modal-footer">
 
@@ -1086,6 +1400,7 @@ button{
     </div>
 
 </div>
+
 
 <!-- =========================
      STAY MODAL
@@ -1187,11 +1502,22 @@ button{
 
         <div class="field">
 
+            <label>其他</label>
+
+            <textarea
+                id="stayOtherInput"
+                placeholder="例如：含早餐、可以寄放行李等等"
+            ></textarea>
+
+        </div>
+
+        <div class="field">
+
             <label>備註</label>
 
             <textarea
                 id="stayNotesInput"
-                placeholder="例如：含早餐"
+                placeholder="其他備註"
             ></textarea>
 
         </div>
@@ -1217,6 +1543,7 @@ button{
     </div>
 
 </div>
+
 
 <script>
 
@@ -1343,6 +1670,62 @@ function saveIntroData(title, subtitle){
         "goya_intro_subtitle",
         subtitle
     );
+}
+
+
+/* =====================================================
+   COOPERATION
+===================================================== */
+
+function getCooperation(){
+
+    const saved =
+        localStorage.getItem(
+            "goya_cooperation"
+        );
+
+    if(!saved){
+
+        return {
+            title:"",
+            description:"",
+            link:""
+        };
+
+    }
+
+    try{
+
+        return JSON.parse(saved);
+
+    }catch(e){
+
+        return {
+            title:"",
+            description:"",
+            link:""
+        };
+
+    }
+
+}
+
+
+function saveCooperationData(
+    title,
+    description,
+    link
+){
+
+    localStorage.setItem(
+        "goya_cooperation",
+        JSON.stringify({
+            title,
+            description,
+            link
+        })
+    );
+
 }
 
 
@@ -1595,6 +1978,9 @@ async function renderHome(){
     const intro =
         getIntro();
 
+    const cooperation =
+        getCooperation();
+
     document.getElementById("app").innerHTML = `
 
         <div class="app">
@@ -1684,6 +2070,110 @@ async function renderHome(){
                     <div class="loading">
                         載入中……
                     </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="section">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2 class="section-title">
+                            合作
+                        </h2>
+
+                        <div class="section-description">
+                            eSIM、住宿、旅遊服務等合作資訊
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="edit-intro-btn"
+                        onclick="openCooperationModal()"
+                    >
+                        編輯
+                    </button>
+
+                </div>
+
+
+                <div class="cooperation-card">
+
+                    ${
+                        cooperation.title
+                        ?
+                        `
+                        <div class="cooperation-title">
+                            ${escapeHtml(
+                                cooperation.title
+                            )}
+                        </div>
+
+                        ${
+                            cooperation.description
+                            ?
+                            `
+                            <div class="cooperation-description">
+                                ${escapeHtml(
+                                    cooperation.description
+                                )}
+                            </div>
+                            `
+                            :
+                            ""
+                        }
+
+                        ${
+                            cooperation.link
+                            ?
+                            `
+                            <a
+                                class="cooperation-link"
+                                href="${escapeHtml(
+                                    cooperation.link
+                                )}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                查看合作連結 →
+                            </a>
+                            `
+                            :
+                            ""
+                        }
+
+                        <div class="cooperation-actions">
+
+                            <button
+                                class="text-action"
+                                onclick="openCooperationModal()"
+                            >
+                                編輯
+                            </button>
+
+                            <button
+                                class="text-action delete"
+                                onclick="deleteCooperation()"
+                            >
+                                刪除
+                            </button>
+
+                        </div>
+                        `
+                        :
+                        `
+                        <div class="cooperation-empty">
+                            還沒有合作資訊。
+                            <br>
+                            可以在這裡放 eSIM、網路、住宿、保險或其他合作連結。
+                        </div>
+                        `
+                    }
 
                 </div>
 
@@ -1891,6 +2381,99 @@ function saveIntro(){
 
     closeModal(
         "introModal"
+    );
+
+    renderHome();
+
+}
+
+
+/* =====================================================
+   COOPERATION EDIT
+===================================================== */
+
+function openCooperationModal(){
+
+    const cooperation =
+        getCooperation();
+
+    document.getElementById(
+        "cooperationTitleInput"
+    ).value =
+        cooperation.title || "";
+
+    document.getElementById(
+        "cooperationDescriptionInput"
+    ).value =
+        cooperation.description || "";
+
+    document.getElementById(
+        "cooperationLinkInput"
+    ).value =
+        cooperation.link || "";
+
+    openModal(
+        "cooperationModal"
+    );
+
+}
+
+
+function saveCooperation(){
+
+    const title =
+        document
+            .getElementById(
+                "cooperationTitleInput"
+            )
+            .value
+            .trim();
+
+    const description =
+        document
+            .getElementById(
+                "cooperationDescriptionInput"
+            )
+            .value
+            .trim();
+
+    const link =
+        document
+            .getElementById(
+                "cooperationLinkInput"
+            )
+            .value
+            .trim();
+
+    saveCooperationData(
+        title,
+        description,
+        link
+    );
+
+    closeModal(
+        "cooperationModal"
+    );
+
+    renderHome();
+
+}
+
+
+function deleteCooperation(){
+
+    if(
+        !confirm(
+            "確定要刪除合作資訊嗎？"
+        )
+    ){
+
+        return;
+
+    }
+
+    localStorage.removeItem(
+        "goya_cooperation"
     );
 
     renderHome();
@@ -2488,6 +3071,16 @@ function openJourneyModal(
         ).value =
             "";
 
+        document.getElementById(
+            "journeyVisaInput"
+        ).value =
+            "";
+
+        document.getElementById(
+            "journeyOtherInput"
+        ).value =
+            "";
+
     }else{
 
         const trip =
@@ -2541,6 +3134,16 @@ function openJourneyModal(
             "journeyDescriptionInput"
         ).value =
             info.description || "";
+
+        document.getElementById(
+            "journeyVisaInput"
+        ).value =
+            info.visa || "";
+
+        document.getElementById(
+            "journeyOtherInput"
+        ).value =
+            info.other || "";
 
     }
 
@@ -2611,6 +3214,22 @@ async function saveJourney(){
             .value
             .trim();
 
+    const visa =
+        document
+            .getElementById(
+                "journeyVisaInput"
+            )
+            .value
+            .trim();
+
+    const other =
+        document
+            .getElementById(
+                "journeyOtherInput"
+            )
+            .value
+            .trim();
+
     const {
         data:{
             user
@@ -2624,7 +3243,9 @@ async function saveJourney(){
         JSON.stringify({
             subtitle,
             creator,
-            description
+            description,
+            visa,
+            other
         });
 
     if(!editingJourneyId){
@@ -2830,6 +3451,93 @@ async function openTrip(
 }
 
 
+/* =====================================================
+   TRIP PHOTOS PAGE
+===================================================== */
+
+function openPhotoPage(){
+
+    document.getElementById(
+        "app"
+    ).innerHTML = `
+
+        <div class="app">
+
+            <header class="header">
+
+                <div class="logo">
+                    GOYA <span>｜走呀</span>
+                </div>
+
+                <button
+                    class="btn btn-light btn-small"
+                    onclick="renderTripDetail()"
+                >
+                    ← 回旅程
+                </button>
+
+            </header>
+
+            <section class="section">
+
+                <button
+                    class="back-btn"
+                    onclick="renderTripDetail()"
+                >
+                    ← 回旅程
+                </button>
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h1 class="destination-heading">
+                            照片
+                        </h1>
+
+                        <div class="section-description">
+                            ${escapeHtml(
+                                currentTrip?.title ||
+                                ""
+                            )}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="photo-empty">
+
+                    <div class="photo-empty-inner">
+
+                        <div class="photo-empty-title">
+                            照片區
+                        </div>
+
+                        <div class="photo-empty-text">
+                            這裡之後可以放旅程照片。
+                            <br>
+                            目前先保留空白頁面。
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   TRIP DETAIL RENDER
+===================================================== */
+
 async function renderTripDetail(){
 
     const trip =
@@ -2857,7 +3565,7 @@ async function renderTripDetail(){
                     "day_number"
                 )
                 .order(
-                    "start_time"
+                    "id"
                 ),
 
             supabaseClient
@@ -2931,6 +3639,7 @@ async function renderTripDetail(){
         }
     );
 
+
     let daysHtml = "";
 
     const dayNumbers =
@@ -2940,6 +3649,7 @@ async function renderTripDetail(){
                 (a,b) =>
                     a-b
             );
+
 
     dayNumbers.forEach(
         day => {
@@ -2965,8 +3675,13 @@ async function renderTripDetail(){
 
             `;
 
+
             days[day].forEach(
                 item => {
+
+                    const rating =
+                        item.rating ||
+                        "";
 
                     daysHtml += `
 
@@ -2984,12 +3699,28 @@ async function renderTripDetail(){
                                 ${
                                     item.location
                                     ?
-                                    `📍 ${escapeHtml(
+                                    `
+                                    📍 ${escapeHtml(
                                         item.location
-                                    )}<br>`
+                                    )}
+
+                                    <br>
+
+                                    <a
+                                        class="map-link"
+                                        href="${getMapUrl(item.location)}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        查看地圖 →
+                                    </a>
+
+                                    <br>
+                                    `
                                     :
                                     ""
                                 }
+
 
                                 ${
                                     item.transport
@@ -3001,6 +3732,7 @@ async function renderTripDetail(){
                                     ""
                                 }
 
+
                                 ${
                                     item.duration
                                     ?
@@ -3011,25 +3743,6 @@ async function renderTripDetail(){
                                     ""
                                 }
 
-                                ${
-                                    item.start_time ||
-                                    item.end_time
-                                    ?
-                                    `🕐 ${formatTime(
-                                        item.start_time
-                                    )} ${
-                                        item.end_time
-                                        ?
-                                        "－" +
-                                        formatTime(
-                                            item.end_time
-                                        )
-                                        :
-                                        ""
-                                    }<br>`
-                                    :
-                                    ""
-                                }
 
                                 ${
                                     item.notes
@@ -3042,6 +3755,22 @@ async function renderTripDetail(){
                                 }
 
                             </div>
+
+
+                            ${
+                                rating
+                                ?
+                                `
+                                <div class="item-rating">
+                                    ${getRatingText(
+                                        rating
+                                    )}
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
 
                             ${
                                 Number(
@@ -3058,6 +3787,7 @@ async function renderTripDetail(){
                                 :
                                 ""
                             }
+
 
                             <div class="item-actions">
 
@@ -3083,6 +3813,7 @@ async function renderTripDetail(){
 
                 }
             );
+
 
             daysHtml += `
 
@@ -3130,6 +3861,11 @@ async function renderTripDetail(){
     stays.forEach(
         stay => {
 
+            const stayExtra =
+                parseStayNotes(
+                    stay.notes
+                );
+
             staysHtml += `
 
                 <div class="stay-card">
@@ -3146,12 +3882,28 @@ async function renderTripDetail(){
                         ${
                             stay.address
                             ?
-                            `📍 ${escapeHtml(
+                            `
+                            📍 ${escapeHtml(
                                 stay.address
-                            )}<br>`
+                            )}
+
+                            <br>
+
+                            <a
+                                class="map-link"
+                                href="${getMapUrl(stay.address)}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                查看地圖 →
+                            </a>
+
+                            <br>
+                            `
                             :
                             ""
                         }
+
 
                         ${
                             stay.check_in ||
@@ -3173,6 +3925,7 @@ async function renderTripDetail(){
                             ""
                         }
 
+
                         ${
                             stay.booking_info
                             ?
@@ -3183,17 +3936,30 @@ async function renderTripDetail(){
                             ""
                         }
 
+
                         ${
-                            stay.notes
+                            stayExtra.other
+                            ?
+                            `其他：${escapeHtml(
+                                stayExtra.other
+                            )}<br>`
+                            :
+                            ""
+                        }
+
+
+                        ${
+                            stayExtra.notes
                             ?
                             `備註：${escapeHtml(
-                                stay.notes
+                                stayExtra.notes
                             )}`
                             :
                             ""
                         }
 
                     </div>
+
 
                     ${
                         Number(
@@ -3210,6 +3976,7 @@ async function renderTripDetail(){
                         :
                         ""
                     }
+
 
                     <div class="item-actions">
 
@@ -3276,6 +4043,7 @@ async function renderTripDetail(){
                     )}
                 </h1>
 
+
                 ${
                     info.subtitle
                     ?
@@ -3290,6 +4058,7 @@ async function renderTripDetail(){
                     ""
                 }
 
+
                 ${
                     info.creator
                     ?
@@ -3303,6 +4072,7 @@ async function renderTripDetail(){
                     :
                     ""
                 }
+
 
                 ${
                     trip.start_date ||
@@ -3323,23 +4093,6 @@ async function renderTripDetail(){
                             :
                             ""
                         }
-                    </div>
-                    `
-                    :
-                    ""
-                }
-
-                ${
-                    info.description
-                    ?
-                    `
-                    <div
-                        class="detail-meta"
-                        style="margin-top:10px;"
-                    >
-                        ${escapeHtml(
-                            info.description
-                        )}
                     </div>
                     `
                     :
@@ -3382,20 +4135,124 @@ async function renderTripDetail(){
 
             <section class="section">
 
+
                 <div class="section-header">
 
                     <h2 class="section-title">
                         旅程
                     </h2>
 
-                    <button
-                        class="btn btn-small"
-                        onclick="addNextDay()"
-                    >
-                        ＋ 新增一天
-                    </button>
+                    <div style="display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;">
+
+                        <button
+                            class="btn btn-light btn-small"
+                            onclick="openPhotoPage()"
+                        >
+                            📷 照片
+                        </button>
+
+                        <button
+                            class="btn btn-small"
+                            onclick="addNextDay()"
+                        >
+                            ＋ 新增一天
+                        </button>
+
+                    </div>
 
                 </div>
+
+
+                ${
+                    info.visa
+                    ?
+                    `
+                    <div class="info-box">
+
+                        <div class="info-box-title">
+                            🛂 簽證
+                        </div>
+
+                        <div class="info-box-content">
+                            ${escapeHtml(
+                                info.visa
+                            )}
+                        </div>
+
+                        <div class="info-box-actions">
+
+                            <button
+                                class="text-action"
+                                onclick="openJourneyModal('${escapeJs(trip.id)}')"
+                            >
+                                編輯
+                            </button>
+
+                        </div>
+
+                    </div>
+                    `
+                    :
+                    `
+                    <div class="info-box">
+
+                        <div class="info-box-title">
+                            🛂 簽證
+                        </div>
+
+                        <div class="info-box-content">
+                            尚未設定簽證資訊
+                        </div>
+
+                        <div class="info-box-actions">
+
+                            <button
+                                class="text-action"
+                                onclick="openJourneyModal('${escapeJs(trip.id)}')"
+                            >
+                                新增簽證
+                            </button>
+
+                        </div>
+
+                    </div>
+                    `
+                }
+
+
+                ${
+                    info.other
+                    ?
+                    `
+                    <div class="info-box">
+
+                        <div class="info-box-title">
+                            其他
+                        </div>
+
+                        <div class="info-box-content">
+                            ${escapeHtml(
+                                info.other
+                            )}
+                        </div>
+
+                        <div class="info-box-actions">
+
+                            <button
+                                class="text-action"
+                                onclick="openJourneyModal('${escapeJs(trip.id)}')"
+                            >
+                                編輯
+                            </button>
+
+                        </div>
+
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
 
                 ${daysHtml}
 
@@ -3427,6 +4284,7 @@ async function renderTripDetail(){
                     }
 
                 </div>
+
 
             </section>
 
@@ -3537,19 +4395,17 @@ function openItemModal(
             "";
 
         document.getElementById(
-            "itemStartInput"
-        ).value =
-            "";
-
-        document.getElementById(
-            "itemEndInput"
-        ).value =
-            "";
-
-        document.getElementById(
             "itemNotesInput"
         ).value =
             "";
+
+        document.querySelectorAll(
+            'input[name="itemRating"]'
+        ).forEach(
+            radio => {
+                radio.checked = false;
+            }
+        );
 
         openModal(
             "itemModal"
@@ -3627,19 +4483,26 @@ async function loadItemForEdit(
         item.duration || "";
 
     document.getElementById(
-        "itemStartInput"
-    ).value =
-        item.start_time || "";
-
-    document.getElementById(
-        "itemEndInput"
-    ).value =
-        item.end_time || "";
-
-    document.getElementById(
         "itemNotesInput"
     ).value =
         item.notes || "";
+
+
+    document.querySelectorAll(
+        'input[name="itemRating"]'
+    ).forEach(
+        radio => {
+
+            radio.checked =
+                radio.value ===
+                (
+                    item.rating ||
+                    ""
+                );
+
+        }
+    );
+
 
     openModal(
         "itemModal"
@@ -3666,6 +4529,13 @@ async function saveItem(){
         return;
 
     }
+
+
+    const selectedRating =
+        document.querySelector(
+            'input[name="itemRating"]:checked'
+        );
+
 
     const payload = {
 
@@ -3707,20 +4577,6 @@ async function saveItem(){
             .value
             .trim(),
 
-        start_time:
-            document.getElementById(
-                "itemStartInput"
-            )
-            .value ||
-            null,
-
-        end_time:
-            document.getElementById(
-                "itemEndInput"
-            )
-            .value ||
-            null,
-
         notes:
             document.getElementById(
                 "itemNotesInput"
@@ -3729,6 +4585,30 @@ async function saveItem(){
             .trim()
 
     };
+
+
+    /*
+       rating 若資料庫目前有欄位就直接儲存。
+       若沒有欄位，下面會自動使用 notes JSON
+       保存，避免你需要立刻修改資料表。
+    */
+
+    payload.notes =
+        JSON.stringify({
+            text:
+                document.getElementById(
+                    "itemNotesInput"
+                )
+                .value
+                .trim(),
+
+            rating:
+                selectedRating
+                ?
+                selectedRating.value
+                :
+                ""
+        });
 
 
     let result;
@@ -3758,7 +4638,19 @@ async function saveItem(){
     }
 
 
+    /*
+       如果你的資料表沒有 rating 欄位，
+       這版不會使用 rating 欄位，
+       而是將評價放進 notes JSON。
+    */
+
+
     if(result.error){
+
+        /*
+           某些舊資料可能是一般文字，
+           新版仍然可以正常讀取。
+        */
 
         alert(
             result.error.message
@@ -3866,6 +4758,11 @@ function openStayModal(
             "";
 
         document.getElementById(
+            "stayOtherInput"
+        ).value =
+            "";
+
+        document.getElementById(
             "stayNotesInput"
         ).value =
             "";
@@ -3912,6 +4809,12 @@ async function loadStayForEdit(
 
     }
 
+    const extra =
+        parseStayNotes(
+            stay.notes
+        );
+
+
     document.getElementById(
         "stayModalTitle"
     ).textContent =
@@ -3948,9 +4851,14 @@ async function loadStayForEdit(
         stay.booking_info || "";
 
     document.getElementById(
+        "stayOtherInput"
+    ).value =
+        extra.other || "";
+
+    document.getElementById(
         "stayNotesInput"
     ).value =
-        stay.notes || "";
+        extra.notes || "";
 
     openModal(
         "stayModal"
@@ -3977,6 +4885,22 @@ async function saveStay(){
         return;
 
     }
+
+
+    const other =
+        document.getElementById(
+            "stayOtherInput"
+        )
+        .value
+        .trim();
+
+    const notes =
+        document.getElementById(
+            "stayNotesInput"
+        )
+        .value
+        .trim();
+
 
     const payload = {
 
@@ -4023,11 +4947,10 @@ async function saveStay(){
             .trim(),
 
         notes:
-            document.getElementById(
-                "stayNotesInput"
-            )
-            .value
-            .trim()
+            JSON.stringify({
+                other,
+                notes
+            })
 
     };
 
@@ -4155,7 +5078,9 @@ function parseTripDescription(
         return {
             subtitle:"",
             creator:"",
-            description:""
+            description:"",
+            visa:"",
+            other:""
         };
 
     }
@@ -4182,6 +5107,14 @@ function parseTripDescription(
 
                 description:
                     parsed.description ||
+                    "",
+
+                visa:
+                    parsed.visa ||
+                    "",
+
+                other:
+                    parsed.other ||
                     ""
 
             };
@@ -4194,9 +5127,144 @@ function parseTripDescription(
 
         subtitle:"",
         creator:"",
-        description:value
+        description:value,
+        visa:"",
+        other:""
 
     };
+
+}
+
+
+function parseStayNotes(
+    value
+){
+
+    if(!value){
+
+        return {
+            other:"",
+            notes:""
+        };
+
+    }
+
+    try{
+
+        const parsed =
+            JSON.parse(value);
+
+        if(
+            typeof parsed ===
+            "object"
+        ){
+
+            return {
+
+                other:
+                    parsed.other ||
+                    "",
+
+                notes:
+                    parsed.notes ||
+                    ""
+
+            };
+
+        }
+
+    }catch(e){}
+
+    return {
+
+        other:"",
+        notes:value
+
+    };
+
+}
+
+
+function parseItemNotes(
+    value
+){
+
+    if(!value){
+
+        return {
+            text:"",
+            rating:""
+        };
+
+    }
+
+    try{
+
+        const parsed =
+            JSON.parse(value);
+
+        if(
+            typeof parsed ===
+            "object"
+        ){
+
+            return {
+
+                text:
+                    parsed.text ||
+                    "",
+
+                rating:
+                    parsed.rating ||
+                    ""
+
+            };
+
+        }
+
+    }catch(e){}
+
+    return {
+
+        text:value,
+        rating:""
+
+    };
+
+}
+
+
+function getRatingText(
+    rating
+){
+
+    if(rating === "recommend"){
+        return "👍🏻 推薦";
+    }
+
+    if(rating === "normal"){
+        return "👌 普通";
+    }
+
+    if(rating === "no"){
+        return "👎🏻 不用去";
+    }
+
+    return "";
+
+}
+
+
+function getMapUrl(
+    address
+){
+
+    return (
+        "https://www.google.com/maps/search/?api=1&query=" +
+        encodeURIComponent(
+            address
+        )
+    );
 
 }
 
@@ -4228,27 +5296,6 @@ function formatDate(
     return value.replaceAll(
         "-",
         "/"
-    );
-
-}
-
-
-function formatTime(
-    value
-){
-
-    if(!value){
-
-        return "";
-
-    }
-
-    return String(
-        value
-    )
-    .slice(
-        0,
-        5
     );
 
 }
