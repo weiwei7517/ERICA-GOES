@@ -9,14 +9,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-* {
-    box-sizing: border-box;
+/* =========================
+   RESET & BASE
+========================= */
+*{
+    box-sizing:border-box;
 }
 
-body {
-    margin: 0;
-    background: #f5f4f1;
-    color: #292929;
+body{
+    margin:0;
+    background:#f5f4f1;
+    color:#292929;
     font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -29,506 +32,642 @@ body {
 button,
 input,
 textarea,
-select {
-    font: inherit;
+select{
+    font:inherit;
 }
 
-button {
-    cursor: pointer;
+button{
+    cursor:pointer;
 }
 
-a {
-    color: inherit;
+a{
+    color:inherit;
 }
 
-.app {
-    max-width: 900px;
-    margin: 0 auto;
-    min-height: 100vh;
-    padding-bottom: 60px;
+/* =========================
+   LAYOUT
+========================= */
+.app{
+    max-width:900px;
+    margin:0 auto;
+    min-height:100vh;
+    padding-bottom:60px;
+}
+
+.view-container{
+    display:none;
+}
+
+.view-container.active{
+    display:block;
 }
 
 /* =========================
    HEADER
 ========================= */
-.header {
-    padding: 28px 20px 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
+.header{
+    padding:28px 20px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
 }
 
-.logo {
-    font-size: 34px;
-    font-weight: 900;
-    letter-spacing: 1.5px;
-    color: #292929;
-    line-height: 1;
+.logo{
+    font-size:34px;
+    font-weight:900;
+    letter-spacing:1.5px;
+    color:#292929;
+    line-height:1;
 }
 
-.logo span {
-    font-size: 30px;
-    font-weight: 600;
-    color: #555;
+.logo span{
+    font-size:30px;
+    font-weight:600;
+    color:#555;
 }
 
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:8px;
 }
 
-.user-email {
-    font-size: 13px;
-    color: #777;
+.user-email{
+    font-size:13px;
+    color:#777;
 }
 
-.btn {
-    border: none;
-    border-radius: 12px;
-    padding: 10px 15px;
-    background: #292929;
-    color: white;
+/* =========================
+   BUTTONS
+========================= */
+.btn{
+    border:none;
+    border-radius:12px;
+    padding:10px 15px;
+    background:#292929;
+    color:white;
 }
 
-.btn-light {
-    background: #e8e6e1;
-    color: #292929;
+.btn-light{
+    background:#e8e6e1;
+    color:#292929;
 }
 
-.btn-small {
-    padding: 7px 10px;
-    font-size: 13px;
+.btn-small{
+    padding:7px 10px;
+    font-size:13px;
 }
 
-.btn-danger {
-    background: #eee3e1;
-    color: #9a4b43;
+.btn-danger{
+    background:#eee3e1;
+    color:#9a4b43;
 }
 
 /* =========================
    LOGIN
 ========================= */
-.login-box {
-    max-width: 420px;
-    margin: 100px auto;
-    background: white;
-    border-radius: 24px;
-    padding: 30px;
-    box-shadow: 0 10px 35px rgba(0,0,0,.06);
+.login-box{
+    max-width:420px;
+    margin:100px auto;
+    background:white;
+    border-radius:24px;
+    padding:30px;
+    box-shadow:0 10px 35px rgba(0,0,0,.06);
 }
 
-.login-box h1 {
-    margin: 0 0 8px;
+.login-box h1{
+    margin:0 0 8px;
 }
 
-.login-box p {
-    color: #777;
-    margin-bottom: 25px;
+.login-box p{
+    color:#777;
+    margin-bottom:25px;
 }
 
-.field {
-    margin-bottom: 15px;
+.field{
+    margin-bottom:15px;
 }
 
-.field label {
-    display: block;
-    margin-bottom: 7px;
-    font-size: 14px;
-    color: #666;
+.field label{
+    display:block;
+    margin-bottom:7px;
+    font-size:14px;
+    color:#666;
 }
 
 .field input,
 .field textarea,
-.field select {
-    width: 100%;
-    border: 1px solid #ddd;
-    background: #fafafa;
-    border-radius: 12px;
-    padding: 12px;
-    outline: none;
+.field select{
+    width:100%;
+    border:1px solid #ddd;
+    background:#fafafa;
+    border-radius:12px;
+    padding:12px;
+    outline:none;
 }
 
-.field textarea {
-    min-height: 100px;
-    resize: vertical;
+.field textarea{
+    min-height:100px;
+    resize:vertical;
 }
 
 .field input:focus,
 .field textarea:focus,
-.field select:focus {
-    border-color: #999;
-    background: white;
+.field select:focus{
+    border-color:#999;
+    background:white;
 }
 
-/* 共用：價格與幣值群組 */
-.price-group {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-top: 8px;
-}
-.currency-input {
-    width: 80px !important;
-}
-.price-input {
-    flex: 1;
-}
-
-.login-message {
-    margin-top: 15px;
-    color: #a34e45;
-    font-size: 14px;
+.login-message{
+    margin-top:15px;
+    color:#a34e45;
+    font-size:14px;
 }
 
 /* =========================
    PAGE TITLE
 ========================= */
-.home-intro {
-    padding: 24px 20px 20px;
+.home-intro{
+    padding:24px 20px 20px;
 }
 
-.title-row {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 15px;
+.title-row{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:15px;
 }
 
-.home-title {
-    margin: 0;
-    font-size: 24px;
-    line-height: 1.2;
-    letter-spacing: -.3px;
-    font-weight: 700;
+.home-title{
+    margin:0;
+    font-size:24px;
+    line-height:1.2;
+    letter-spacing:-.3px;
+    font-weight:700;
 }
 
-.home-subtitle {
-    margin: 6px 0 0;
-    color: #999;
-    font-size: 12px;
-    line-height: 1.5;
-    letter-spacing: .2px;
+.home-subtitle{
+    margin:6px 0 0;
+    color:#999;
+    font-size:12px;
+    line-height:1.5;
+    letter-spacing:.2px;
 }
 
-.edit-intro-btn {
-    flex-shrink: 0;
-    border: 1px solid #dedcd7;
-    background: rgba(255,255,255,.65);
-    border-radius: 10px;
-    padding: 7px 13px;
-    color: #555;
-    font-size: 12px;
-    transition: .2s ease;
+.edit-intro-btn{
+    flex-shrink:0;
+    border:1px solid #dedcd7;
+    background:rgba(255,255,255,.65);
+    border-radius:10px;
+    padding:7px 13px;
+    color:#555;
+    font-size:12px;
+    transition:.2s ease;
 }
 
-.edit-intro-btn:hover {
-    background: #fff;
-    border-color: #ccc8c0;
-    color: #292929;
+.edit-intro-btn:hover{
+    background:#fff;
+    border-color:#ccc8c0;
+    color:#292929;
 }
 
 /* =========================
    SECTION
 ========================= */
-.section {
-    padding: 10px 20px;
+.section{
+    padding:10px 20px;
 }
 
-.section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    margin-bottom: 15px;
+.section-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:15px;
 }
 
-.section-title {
-    margin: 0;
-    font-size: 22px;
+.section-title{
+    margin:0;
+    font-size:22px;
 }
 
-.section-description {
-    color: #888;
-    font-size: 13px;
+.section-description{
+    color:#888;
+    font-size:13px;
 }
 
 /* =========================
    DESTINATION LIST
 ========================= */
-.destination-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.destination-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
 }
 
-.destination-card {
-    background: white;
-    border-radius: 18px;
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    box-shadow: 0 4px 18px rgba(0,0,0,.035);
+.destination-card{
+    background:white;
+    border-radius:18px;
+    padding:16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    box-shadow:0 4px 18px rgba(0,0,0,.035);
 }
 
-.destination-main {
-    flex: 1;
-    min-width: 0;
-    cursor: pointer;
+.destination-main{
+    flex:1;
+    min-width:0;
+    cursor:pointer;
 }
 
-.destination-name {
-    font-size: 19px;
+.destination-name{
+    font-size:19px;
+    font-weight:700;
+}
+
+.destination-count{
+    margin-top:4px;
+    color:#999;
+    font-size:13px;
+}
+
+.destination-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+/* =========================
+   BUTTONS / ACTIONS
+========================= */
+.icon-btn{
+    width:auto;
+    min-width:34px;
+    height:34px;
+    padding:0 9px;
+    border:1px solid #e1dfda;
+    border-radius:9px;
+    background:#faf9f6;
+    color:#555;
+    font-size:13px;
+    transition:.2s ease;
+}
+
+.icon-btn:hover{
+    background:#f0efeb;
+    border-color:#d4d1ca;
+    color:#292929;
+}
+
+.icon-btn:disabled{
+    opacity:.3;
+    cursor:not-allowed;
+}
+
+.text-action{
+    width:auto;
+    height:34px;
+    padding:0 10px;
+    border:1px solid #e1dfda;
+    border-radius:9px;
+    background:#faf9f6;
+    color:#555;
+    font-size:13px;
+    transition:.2s ease;
+}
+
+.text-action:hover{
+    background:#f0efeb;
+    border-color:#d4d1ca;
+    color:#292929;
+}
+
+.text-action.delete{
+    color:#8a625d;
+}
+
+.text-action.delete:hover{
+    background:#f3e9e6;
+    border-color:#e3d2ce;
+    color:#8a4e47;
+}
+
+.add-destination{
+    width:100%;
+    border:1px dashed #c8c6c1;
+    background:transparent;
+    color:#555;
+    border-radius:16px;
+    padding:15px;
+    margin-top:3px;
+}
+
+/* =========================
+   VISA / COOPERATION
+========================= */
+.cooperation-section{
+    padding-bottom: 25px;
+}
+
+.cooperation-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.cooperation-card{
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 4px 18px rgba(0,0,0,.035);
+}
+
+.cooperation-empty{
+    color:#999;
+    font-size:14px;
+    line-height:1.7;
+}
+
+.cooperation-top{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.cooperation-main{
+    flex:1;
+}
+
+.cooperation-title{
+    font-size:18px;
+    font-weight:750;
+}
+
+.cooperation-description{
+    margin-top:6px;
+    color:#777;
+    font-size:14px;
+    line-height:1.7;
+}
+
+.cooperation-link{
+    display:inline-block;
+    margin-top:12px;
+    padding:8px 12px;
+    background:#f0efeb;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:13px;
+    word-break: break-all;
+}
+
+.cooperation-price{
+    margin-top: 10px;
     font-weight: 700;
 }
 
-.destination-count {
-    margin-top: 4px;
-    color: #999;
-    font-size: 13px;
-}
-
-.destination-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.icon-btn {
-    width: auto;
-    min-width: 34px;
-    height: 34px;
-    padding: 0 9px;
-    border: 1px solid #e1dfda;
-    border-radius: 9px;
-    background: #faf9f6;
-    color: #555;
-    font-size: 13px;
-    transition: .2s ease;
-}
-
-.icon-btn:hover {
-    background: #f0efeb;
-    border-color: #d4d1ca;
-    color: #292929;
-}
-
-.text-action {
-    width: auto;
-    height: 34px;
-    padding: 0 10px;
-    border: 1px solid #e1dfda;
-    border-radius: 9px;
-    background: #faf9f6;
-    color: #555;
-    font-size: 13px;
-    transition: .2s ease;
-}
-
-.text-action:hover {
-    background: #f0efeb;
-    border-color: #d4d1ca;
-    color: #292929;
-}
-
-.text-action.delete {
-    color: #8a625d;
-}
-
-.text-action.delete:hover {
-    background: #f3e9e6;
-    border-color: #e3d2ce;
-    color: #8a4e47;
-}
-
-.add-destination {
-    width: 100%;
-    border: 1px dashed #c8c6c1;
-    background: transparent;
-    color: #555;
-    border-radius: 16px;
-    padding: 15px;
-    margin-top: 3px;
+.cooperation-actions{
+    display:flex;
+    gap:7px;
+    margin-top:14px;
 }
 
 /* =========================
-   DETAIL & VISA
+   JOURNEYS
 ========================= */
-.back-btn {
-    border: none;
-    background: transparent;
-    color: #555;
-    padding: 0;
-    margin-bottom: 15px;
+.back-btn{
+    border:none;
+    background:transparent;
+    color:#555;
+    padding:0;
+    margin-bottom:15px;
 }
 
-.detail-header {
-    padding: 20px;
+.destination-heading{
+    font-size:32px;
+    margin:0;
 }
 
-.detail-title {
-    margin: 0;
-    font-size: 34px;
+.journey-list{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
 }
 
-.info-box {
-    background: white;
-    border-radius: 18px;
-    padding: 18px;
-    margin-bottom: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.035);
+.journey-card{
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.04);
 }
 
-.info-box-title {
-    font-size: 19px;
-    font-weight: 750;
-    margin-bottom: 15px;
+.journey-top{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
 }
 
-.visa-card {
-    border: 1px solid #e7e5e0;
-    border-radius: 15px;
-    padding: 14px;
-    margin-bottom: 10px;
-    background: #faf9f6;
+.journey-main{
+    flex:1;
+    cursor:pointer;
 }
 
-.visa-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
+.journey-title{
+    font-size:21px;
+    font-weight:750;
 }
 
-.add-item-btn {
-    width: 100%;
-    border: 1px dashed #ccc;
-    background: #faf9f6;
-    padding: 11px;
-    border-radius: 12px;
-    color: #666;
-    margin-top: 10px;
+.journey-subtitle{
+    margin-top:7px;
+    color:#777;
+    font-size:14px;
+}
+
+.journey-creator{
+    margin-top:10px;
+    color:#555;
+    font-size:14px;
+}
+
+.journey-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:flex-start;
 }
 
 /* =========================
-   DAY / ITEM / STAY
+   DETAIL
 ========================= */
-.day-card {
-    background: white;
-    border-radius: 20px;
-    padding: 18px;
-    margin-bottom: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.035);
+.detail-header{
+    padding:20px;
 }
 
-.day-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 15px;
+.detail-title{
+    margin:0;
+    font-size:34px;
 }
 
-.day-title {
-    font-size: 21px;
-    font-weight: 750;
+.detail-subtitle{
+    color:#888;
+    margin:7px 0;
+    font-size:14px;
+}
+
+.detail-meta{
+    color:#888;
+    font-size:14px;
+    line-height:1.8;
+}
+
+.total-box{
+    margin-top:20px;
+    background:#292929;
+    color:white;
+    border-radius:20px;
+    padding:20px;
+}
+
+.total-label{
+    font-size:13px;
+    opacity:.7;
+}
+
+.total-price-wrapper{
+    display:flex;
+    align-items:baseline;
+    margin-top:5px;
+}
+
+.total-currency{
+    font-size:20px;
+    font-weight:600;
+    opacity:0.8;
+    margin-right:8px;
+}
+
+.total-price{
+    font-size:34px;
+    font-weight:800;
+}
+
+.info-box{
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.035);
+}
+
+.info-box-title{
+    font-size:19px;
+    font-weight:750;
+    margin-bottom:10px;
+}
+
+.info-box-content{
+    color:#666;
+    font-size:14px;
+    line-height:1.8;
+    white-space:pre-wrap;
+}
+
+.info-box-actions{
+    display:flex;
+    gap:7px;
+    margin-top:14px;
+}
+
+.day-card{
+    background:white;
+    border-radius:20px;
+    padding:18px;
+    margin-bottom:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.035);
+}
+
+.day-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.day-title{
+    font-size:21px;
+    font-weight:750;
 }
 
 .item-card,
-.stay-card {
-    border: 1px solid #e7e5e0;
-    border-radius: 15px;
-    padding: 14px;
-    margin-bottom: 10px;
+.stay-card{
+    border:1px solid #e7e5e0;
+    border-radius:15px;
+    padding:14px;
+    margin-bottom:10px;
 }
 
-/* 隱藏不想顯示的視圖 */
-.view-section {
-    display: none;
+.item-title{
+    font-weight:700;
+    font-size:16px;
 }
 
-.view-section.active {
-    display: block;
+.item-info{
+    color:#777;
+    font-size:13px;
+    line-height:1.8;
+    margin-top:5px;
 }
-</style>
-</head>
-<body>
 
-<div class="app">
-    <!-- HEADER -->
-    <header class="header">
-        <div class="logo">GOYA<span>.</span></div>
-        <div class="header-right">
-            <span class="user-email">user@example.com</span>
-            <button class="btn btn-light btn-small">登出</button>
-        </div>
-    </header>
+.item-price-wrapper{
+    margin-top:8px;
+    display:flex;
+    align-items:center;
+    gap:4px;
+}
 
-    <!-- 視圖 1: 首頁 / 行程列表 -->
-    <div id="view-home" class="view-section active">
-        <section class="home-intro">
-            <div class="title-row">
-                <div>
-                    <h1 class="home-title">你的旅程</h1>
-                    <p class="home-subtitle">開始規劃下一次的冒險</p>
-                </div>
-                <button class="edit-intro-btn">編輯個人資料</button>
-            </div>
-        </section>
+.item-price{
+    font-weight:700;
+}
 
-        <section class="section">
-            <div class="section-header">
-                <h2 class="section-title">目的地列表</h2>
-            </div>
-            
-            <div class="destination-list">
-                <!-- Sample Destination Card -->
-                <div class="destination-card" onclick="switchView('view-detail')">
-                    <div class="destination-main">
-                        <div class="destination-name">日本 京都</div>
-                        <div class="destination-count">3 天 • 12 個行程</div>
-                    </div>
-                    <div class="destination-actions">
-                        <button class="icon-btn" onclick="event.stopPropagation()">✎</button>
-                        <button class="text-action delete" onclick="event.stopPropagation()">刪除</button>
-                    </div>
-                </div>
-                
-                <button class="add-destination">+ 新增目的地</button>
-            </div>
-        </section>
-    </div>
+.item-rating{
+    display:inline-block;
+    margin-top:8px;
+    padding:5px 9px;
+    background:#f3f2ee;
+    border-radius:8px;
+    font-size:12px;
+    color:#555;
+}
 
-    <!-- 視圖 2: 行程詳細與簽證設定 -->
-    <div id="view-detail" class="view-section">
-        <div class="detail-header">
-            <button class="back-btn" onclick="switchView('view-home')">← 返回列表</button>
-            <h1 class="detail-title">日本 京都</h1>
-        </div>
+.map-link{
+    display:inline-block;
+    margin-top:6px;
+    padding:5px 9px;
+    background:#f0efeb;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:12px;
+    color:#555;
+}
 
-        <section class="section">
-            <!-- 簽證區塊 -->
-            <div class="info-box">
-                <div class="info-box-title">簽證管理</div>
-                
-                <!-- 簽證列表容器 -->
-                <div id="visa-list-container">
-                    <!-- JavaScript 會將簽證渲染在這裡 -->
-                </div>
+.item-actions{
+    margin-top:10px;
+    display:flex;
+    gap:6px;
+}
 
-                <button class="add-item-btn" onclick="addVisa()">+ 新增簽證</button>
-            </div>
+.add-item-btn{
+    width:100%;
+    border:1px dashed #ccc;
+    background:#faf9f6;
+    padding:11px;
+    border-radius:12px;
+    color:#666;
+}
 
-            <!-- 住宿區塊範例 (展示價格與幣值功能) -->
-            <div class="info-box">
-                <div class="info-box-title">住宿資訊</div>
-                <div class="stay-card">
-                    <div class="field">
-                        <label>住宿名稱</label>
-                        <input type="text" placeholder="例如：京都世紀飯店">
-                    </div>
-                    <div class="field">
-                        <label>住宿花費</label>
-                        <div class="pr
+.stay-section{
+    margin-top:2
