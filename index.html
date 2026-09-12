@@ -724,6 +724,17 @@ a{
     color:#666;
 }
 
+.add-day-btn{
+    width:100%;
+    border:1px dashed #bdbab3;
+    background:#f5f4f1;
+    padding:13px;
+    border-radius:13px;
+    color:#555;
+    margin-top:0;
+    margin-bottom:15px;
+}
+
 .stay-section{
     margin-top:25px;
 }
@@ -1106,355 +1117,162 @@ a{
 
 <div id="app"></div>
 
-<!-- =========================
-     INTRO MODAL
-========================= -->
-
+<!-- INTRO MODAL -->
 <div id="introModal" class="modal-backdrop">
     <div class="modal">
-
         <div class="modal-header">
             <h2>編輯主頁文案</h2>
-
-            <button
-                type="button"
-                class="close-btn"
-                onclick="closeModal('introModal')"
-            >
-                ×
-            </button>
+            <button type="button" class="close-btn" onclick="closeModal('introModal')">×</button>
         </div>
 
         <div class="field">
             <label>主標題</label>
-            <input
-                id="introTitleInput"
-                type="text"
-                placeholder="例如：去哪裡玩？"
-            >
+            <input id="introTitleInput" type="text" placeholder="例如：去哪裡玩？">
         </div>
 
         <div class="field">
             <label>副標題</label>
-            <input
-                id="introSubtitleInput"
-                type="text"
-                placeholder="例如：小資也能輕鬆飛"
-            >
+            <input id="introSubtitleInput" type="text" placeholder="例如：小資也能輕鬆飛">
         </div>
 
         <div class="modal-footer">
-            <button
-                type="button"
-                class="btn btn-light"
-                onclick="closeModal('introModal')"
-            >
-                取消
-            </button>
-
-            <button
-                type="button"
-                class="btn"
-                onclick="saveIntro()"
-            >
-                儲存
-            </button>
+            <button type="button" class="btn btn-light" onclick="closeModal('introModal')">取消</button>
+            <button type="button" class="btn" onclick="saveIntro()">儲存</button>
         </div>
-
     </div>
 </div>
 
-<!-- =========================
-     COOPERATION MODAL
-========================= -->
-
+<!-- COOPERATION MODAL -->
 <div id="cooperationModal" class="modal-backdrop">
     <div class="modal">
-
         <div class="modal-header">
             <h2>編輯合作</h2>
-
-            <button
-                type="button"
-                class="close-btn"
-                onclick="closeModal('cooperationModal')"
-            >
-                ×
-            </button>
+            <button type="button" class="close-btn" onclick="closeModal('cooperationModal')">×</button>
         </div>
 
         <div class="field">
             <label>合作名稱</label>
-            <input
-                id="cooperationTitleInput"
-                type="text"
-                placeholder="例如：eSIM 網路"
-            >
+            <input id="cooperationTitleInput" type="text" placeholder="例如：eSIM 網路">
         </div>
 
         <div class="field">
             <label>合作說明</label>
-            <textarea
-                id="cooperationDescriptionInput"
-                placeholder="例如：出國上網推薦使用這個 eSIM"
-            ></textarea>
+            <textarea id="cooperationDescriptionInput" placeholder="例如：出國上網推薦使用這個 eSIM"></textarea>
         </div>
 
         <div class="field">
             <label>合作連結</label>
-            <input
-                id="cooperationLinkInput"
-                type="url"
-                placeholder="https://..."
-            >
+            <input id="cooperationLinkInput" type="url" placeholder="https://...">
         </div>
 
         <div class="modal-footer">
-            <button
-                type="button"
-                class="btn btn-light"
-                onclick="closeModal('cooperationModal')"
-            >
-                取消
-            </button>
-
-            <button
-                type="button"
-                class="btn"
-                onclick="saveCooperation()"
-            >
-                儲存
-            </button>
+            <button type="button" class="btn btn-light" onclick="closeModal('cooperationModal')">取消</button>
+            <button type="button" class="btn" onclick="saveCooperation()">儲存</button>
         </div>
-
     </div>
 </div>
 
-<!-- =========================
-     DESTINATION MODAL
-========================= -->
-
+<!-- DESTINATION MODAL -->
 <div id="destinationModal" class="modal-backdrop">
     <div class="modal">
-
         <div class="modal-header">
-            <h2 id="destinationModalTitle">
-                新增目的地
-            </h2>
-
-            <button
-                type="button"
-                class="close-btn"
-                onclick="closeModal('destinationModal')"
-            >
-                ×
-            </button>
+            <h2 id="destinationModalTitle">新增目的地</h2>
+            <button type="button" class="close-btn" onclick="closeModal('destinationModal')">×</button>
         </div>
 
         <div class="field">
             <label>目的地名稱</label>
-
-            <input
-                id="destinationInput"
-                type="text"
-                placeholder="例如：日本"
-            >
+            <input id="destinationInput" type="text" placeholder="例如：日本">
         </div>
 
         <div class="modal-footer">
-            <button
-                type="button"
-                class="btn btn-light"
-                onclick="closeModal('destinationModal')"
-            >
-                取消
-            </button>
-
-            <button
-                type="button"
-                class="btn"
-                onclick="saveDestination()"
-            >
-                儲存
-            </button>
+            <button type="button" class="btn btn-light" onclick="closeModal('destinationModal')">取消</button>
+            <button type="button" class="btn" onclick="saveDestination()">儲存</button>
         </div>
-
     </div>
 </div>
 
-<!-- =========================
-     JOURNEY MODAL
-========================= -->
-
+<!-- JOURNEY MODAL -->
 <div id="journeyModal" class="modal-backdrop">
     <div class="modal">
-
         <div class="modal-header">
-            <h2 id="journeyModalTitle">
-                新增旅程
-            </h2>
-
-            <button
-                type="button"
-                class="close-btn"
-                onclick="closeModal('journeyModal')"
-            >
-                ×
-            </button>
+            <h2 id="journeyModalTitle">新增旅程</h2>
+            <button type="button" class="close-btn" onclick="closeModal('journeyModal')">×</button>
         </div>
 
         <div class="field">
             <label>主標題</label>
-
-            <input
-                id="journeyTitleInput"
-                type="text"
-                placeholder="例如：大阪 5 天 4 夜"
-            >
+            <input id="journeyTitleInput" type="text" placeholder="例如：大阪 5 天 4 夜">
         </div>
 
         <div class="field">
             <label>副標題</label>
-
-            <input
-                id="journeySubtitleInput"
-                type="text"
-                placeholder="例如：五天四夜只要兩萬"
-            >
+            <input id="journeySubtitleInput" type="text" placeholder="例如：五天四夜只要兩萬">
         </div>
 
         <div class="field">
             <label>創作者名稱</label>
-
-            <input
-                id="journeyCreatorInput"
-                type="text"
-                placeholder="例如：IVY"
-            >
+            <input id="journeyCreatorInput" type="text" placeholder="例如：IVY">
         </div>
 
         <div class="row">
             <div class="field">
                 <label>開始日期</label>
-
-                <input
-                    id="journeyStartInput"
-                    type="date"
-                >
+                <input id="journeyStartInput" type="date">
             </div>
 
             <div class="field">
                 <label>結束日期</label>
-
-                <input
-                    id="journeyEndInput"
-                    type="date"
-                >
+                <input id="journeyEndInput" type="date">
             </div>
         </div>
 
         <div class="field">
             <label>旅程介紹</label>
-
-            <textarea
-                id="journeyDescriptionInput"
-                placeholder="可以寫這趟旅程的特色、適合誰等等"
-            ></textarea>
+            <textarea id="journeyDescriptionInput" placeholder="可以寫這趟旅程的特色、適合誰等等"></textarea>
         </div>
 
         <div class="field">
             <label>其他</label>
-
-            <textarea
-                id="journeyOtherInput"
-                placeholder="其他想補充的資訊"
-            ></textarea>
+            <textarea id="journeyOtherInput" placeholder="其他想補充的資訊"></textarea>
         </div>
 
         <div class="modal-footer">
-            <button
-                type="button"
-                class="btn btn-light"
-                onclick="closeModal('journeyModal')"
-            >
-                取消
-            </button>
-
-            <button
-                type="button"
-                class="btn"
-                onclick="saveJourney()"
-            >
-                儲存
-            </button>
+            <button type="button" class="btn btn-light" onclick="closeModal('journeyModal')">取消</button>
+            <button type="button" class="btn" onclick="saveJourney()">儲存</button>
         </div>
-
     </div>
 </div>
 
-<!-- =========================
-     VISA MODAL
-========================= -->
-
+<!-- VISA MODAL -->
 <div id="visaModal" class="modal-backdrop">
     <div class="modal">
 
         <div class="modal-header">
-
             <h2>簽證</h2>
-
-            <button
-                type="button"
-                class="close-btn"
-                onclick="closeModal('visaModal')"
-            >
-                ×
-            </button>
-
+            <button type="button" class="close-btn" onclick="closeModal('visaModal')">×</button>
         </div>
 
         <div class="field">
             <label>簽證名稱</label>
-
-            <input
-                id="visaNameInput"
-                type="text"
-                placeholder="例如：日本簽證"
-            >
+            <input id="visaNameInput" type="text" placeholder="例如：日本簽證">
         </div>
 
         <div class="field">
             <label>網址</label>
-
-            <input
-                id="visaUrlInput"
-                type="url"
-                placeholder="https://..."
-            >
+            <input id="visaUrlInput" type="url" placeholder="https://...">
         </div>
 
         <div class="row">
-
             <div class="field">
                 <label>價格</label>
-
-                <input
-                    id="visaPriceInput"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    placeholder="0"
-                    oninput="updateVisaTwd()"
-                >
+                <input id="visaPriceInput" type="number" min="0" step="0.01" placeholder="0" oninput="updateVisaTwd()">
             </div>
 
             <div class="field">
                 <label>幣值</label>
 
-                <select
-                    id="visaCurrencyInput"
-                    onchange="updateVisaTwd()"
-                >
+                <select id="visaCurrencyInput" onchange="updateVisaTwd()">
                     <option value="TWD">TWD｜新台幣</option>
                     <option value="JPY">JPY｜日圓</option>
                     <option value="KRW">KRW｜韓元</option>
@@ -1469,68 +1287,28 @@ a{
                     <option value="THB">THB｜泰銖</option>
                     <option value="VND">VND｜越南盾</option>
                 </select>
-
             </div>
-
         </div>
 
-        <div
-            id="visaTwdPreview"
-            style="
-                background:#f5f4f1;
-                border-radius:12px;
-                padding:13px;
-                color:#666;
-                font-size:14px;
-                margin-top:-2px;
-            "
-        >
+        <div id="visaTwdPreview" style="background:#f5f4f1;border-radius:12px;padding:13px;color:#666;font-size:14px;margin-top:-2px;">
             台幣換算：NT$ 0
         </div>
 
-        <div
-            id="visaRateMessage"
-            style="
-                color:#999;
-                font-size:12px;
-                margin-top:7px;
-            "
-        ></div>
+        <div id="visaRateMessage" style="color:#999;font-size:12px;margin-top:7px;"></div>
 
         <div class="modal-footer">
-
-            <button
-                type="button"
-                class="btn btn-light"
-                onclick="closeModal('visaModal')"
-            >
-                取消
-            </button>
-
-            <button
-                type="button"
-                class="btn"
-                id="saveVisaButton"
-                onclick="saveVisa()"
-            >
-                儲存
-            </button>
-
+            <button type="button" class="btn btn-light" onclick="closeModal('visaModal')">取消</button>
+            <button type="button" class="btn" id="saveVisaButton" onclick="saveVisa()">儲存</button>
         </div>
-
     </div>
 </div>
 
-<!-- =========================
-     FLIGHT MODAL
-========================= -->
-
+<!-- FLIGHT MODAL -->
 <div id="flightModal" class="modal-backdrop">
     <div class="modal">
 
         <div class="modal-header">
-
-            <h2>✈️ 航班訊息</h2>
+            <h2>✈️ 航班資訊</h2>
 
             <button
                 type="button"
@@ -1539,178 +1317,88 @@ a{
             >
                 ×
             </button>
-
         </div>
 
         <div class="field">
             <label>航空公司</label>
-
-            <input
-                id="flightAirlineInput"
-                type="text"
-                placeholder="例如：台灣虎航"
-            >
+            <input id="flightAirlineInput" type="text" placeholder="例如：台灣虎航">
         </div>
 
         <div class="field">
             <label>航班編號</label>
-
-            <input
-                id="flightNumberInput"
-                type="text"
-                placeholder="例如：IT202"
-            >
+            <input id="flightNumberInput" type="text" placeholder="例如：IT202">
         </div>
 
         <div class="row">
-
             <div class="field">
                 <label>出發機場</label>
-
-                <input
-                    id="flightDepartureAirportInput"
-                    type="text"
-                    placeholder="例如：桃園機場 TPE"
-                >
+                <input id="flightDepartureAirportInput" type="text" placeholder="例如：桃園機場 TPE">
             </div>
 
             <div class="field">
                 <label>抵達機場</label>
-
-                <input
-                    id="flightArrivalAirportInput"
-                    type="text"
-                    placeholder="例如：關西機場 KIX"
-                >
+                <input id="flightArrivalAirportInput" type="text" placeholder="例如：關西機場 KIX">
             </div>
-
         </div>
 
         <div class="row">
-
             <div class="field">
                 <label>出發時間</label>
-
-                <input
-                    id="flightDepartureInput"
-                    type="datetime-local"
-                >
+                <input id="flightDepartureInput" type="datetime-local">
             </div>
 
             <div class="field">
                 <label>抵達時間</label>
-
-                <input
-                    id="flightArrivalInput"
-                    type="datetime-local"
-                >
+                <input id="flightArrivalInput" type="datetime-local">
             </div>
-
         </div>
 
         <div class="field">
             <label>備註</label>
-
-            <textarea
-                id="flightNotesInput"
-                placeholder="例如：含 20kg 行李、需要提前 2 小時到機場"
-            ></textarea>
+            <textarea id="flightNotesInput" placeholder="例如：含 20kg 行李、需要提前 2 小時到機場"></textarea>
         </div>
 
         <div class="modal-footer">
-
-            <button
-                type="button"
-                class="btn btn-light"
-                onclick="closeModal('flightModal')"
-            >
-                取消
-            </button>
-
-            <button
-                type="button"
-                class="btn"
-                onclick="saveFlight()"
-            >
-                儲存
-            </button>
-
+            <button type="button" class="btn btn-light" onclick="closeModal('flightModal')">取消</button>
+            <button type="button" class="btn" onclick="saveFlight()">儲存</button>
         </div>
 
     </div>
 </div>
 
-<!-- =========================
-     ITINERARY MODAL
-========================= -->
-
+<!-- ITINERARY MODAL -->
 <div id="itemModal" class="modal-backdrop">
     <div class="modal">
 
         <div class="modal-header">
-            <h2 id="itemModalTitle">
-                新增行程
-            </h2>
-
-            <button
-                type="button"
-                class="close-btn"
-                onclick="closeModal('itemModal')"
-            >
-                ×
-            </button>
+            <h2 id="itemModalTitle">新增行程</h2>
+            <button type="button" class="close-btn" onclick="closeModal('itemModal')">×</button>
         </div>
 
         <div class="field">
             <label>行程名稱</label>
-
-            <input
-                id="itemTitleInput"
-                type="text"
-                placeholder="例如：伏見稻荷大社"
-            >
+            <input id="itemTitleInput" type="text" placeholder="例如：伏見稻荷大社">
         </div>
 
         <div class="field">
             <label>地址</label>
-
-            <input
-                id="itemLocationInput"
-                type="text"
-                placeholder="輸入完整地址"
-            >
+            <input id="itemLocationInput" type="text" placeholder="輸入完整地址">
         </div>
 
         <div class="field">
             <label>交通</label>
-
-            <input
-                id="itemTransportInput"
-                type="text"
-                placeholder="例如：搭 JR"
-            >
+            <input id="itemTransportInput" type="text" placeholder="例如：搭 JR">
         </div>
 
         <div class="row">
             <div class="field">
                 <label>價格（台幣）</label>
-
-                <input
-                    id="itemPriceInput"
-                    type="number"
-                    min="0"
-                    placeholder="0"
-                >
+                <input id="itemPriceInput" type="number" min="0" placeholder="0">
             </div>
 
             <div class="field">
                 <label>需要時間</label>
-
-                <input
-                    id="itemDurationInput"
-                    type="text"
-                    placeholder="例如：2 小時"
-                >
+                <input id="itemDurationInput" type="text" placeholder="例如：2 小時">
             </div>
         </div>
 
@@ -1720,42 +1408,18 @@ a{
             <div class="rating-group">
 
                 <div class="rating-option">
-                    <input
-                        type="radio"
-                        name="itemRating"
-                        id="ratingRecommend"
-                        value="recommend"
-                    >
-
-                    <label for="ratingRecommend">
-                        👍🏻 推薦
-                    </label>
+                    <input type="radio" name="itemRating" id="ratingRecommend" value="recommend">
+                    <label for="ratingRecommend">👍🏻 推薦</label>
                 </div>
 
                 <div class="rating-option">
-                    <input
-                        type="radio"
-                        name="itemRating"
-                        id="ratingNormal"
-                        value="normal"
-                    >
-
-                    <label for="ratingNormal">
-                        👌 普通
-                    </label>
+                    <input type="radio" name="itemRating" id="ratingNormal" value="normal">
+                    <label for="ratingNormal">👌 普通</label>
                 </div>
 
                 <div class="rating-option">
-                    <input
-                        type="radio"
-                        name="itemRating"
-                        id="ratingNo"
-                        value="no"
-                    >
-
-                    <label for="ratingNo">
-                        👎🏻 不用去
-                    </label>
+                    <input type="radio" name="itemRating" id="ratingNo" value="no">
+                    <label for="ratingNo">👎🏻 不用去</label>
                 </div>
 
             </div>
@@ -1763,31 +1427,16 @@ a{
 
         <div class="field">
             <label>備註</label>
-
-            <textarea
-                id="itemNotesInput"
-                placeholder="例如：記得提前預約"
-            ></textarea>
+            <textarea id="itemNotesInput" placeholder="例如：記得提前預約"></textarea>
         </div>
 
         <div class="field">
             <label>其他</label>
-
-            <textarea
-                id="itemOtherInput"
-                placeholder="可以補充其他資訊"
-            ></textarea>
+            <textarea id="itemOtherInput" placeholder="可以補充其他資訊"></textarea>
         </div>
 
         <div class="modal-footer">
-
-            <button
-                type="button"
-                class="btn btn-light"
-                onclick="closeModal('itemModal')"
-            >
-                取消
-            </button>
+            <button type="button" class="btn btn-light" onclick="closeModal('itemModal')">取消</button>
 
             <button
                 id="saveItemButton"
@@ -1797,24 +1446,17 @@ a{
             >
                 儲存
             </button>
-
         </div>
 
     </div>
 </div>
 
-<!-- =========================
-     STAY MODAL
-========================= -->
-
+<!-- STAY MODAL -->
 <div id="stayModal" class="modal-backdrop">
     <div class="modal">
 
         <div class="modal-header">
-
-            <h2 id="stayModalTitle">
-                新增住宿
-            </h2>
+            <h2 id="stayModalTitle">新增住宿</h2>
 
             <button
                 type="button"
@@ -1823,108 +1465,53 @@ a{
             >
                 ×
             </button>
-
         </div>
 
         <div class="field">
             <label>住宿名稱</label>
-
-            <input
-                id="stayNameInput"
-                type="text"
-                placeholder="例如：大阪難波飯店"
-            >
+            <input id="stayNameInput" type="text" placeholder="例如：大阪難波飯店">
         </div>
 
         <div class="field">
             <label>地址</label>
-
-            <input
-                id="stayAddressInput"
-                type="text"
-                placeholder="住宿地址"
-            >
+            <input id="stayAddressInput" type="text" placeholder="住宿地址">
         </div>
 
         <div class="row">
-
             <div class="field">
                 <label>入住</label>
-
-                <input
-                    id="stayCheckInInput"
-                    type="date"
-                >
+                <input id="stayCheckInInput" type="date">
             </div>
 
             <div class="field">
                 <label>退房</label>
-
-                <input
-                    id="stayCheckOutInput"
-                    type="date"
-                >
+                <input id="stayCheckOutInput" type="date">
             </div>
-
         </div>
 
         <div class="field">
             <label>價格（台幣）</label>
-
-            <input
-                id="stayPriceInput"
-                type="number"
-                min="0"
-                placeholder="0"
-            >
+            <input id="stayPriceInput" type="number" min="0" placeholder="0">
         </div>
 
         <div class="field">
             <label>訂房資訊</label>
-
-            <input
-                id="stayBookingInput"
-                type="text"
-                placeholder="例如：Booking.com"
-            >
+            <input id="stayBookingInput" type="text" placeholder="例如：Booking.com">
         </div>
 
         <div class="field">
             <label>其他</label>
-
-            <textarea
-                id="stayOtherInput"
-                placeholder="例如：含早餐、可以寄放行李等等"
-            ></textarea>
+            <textarea id="stayOtherInput" placeholder="例如：含早餐、可以寄放行李等等"></textarea>
         </div>
 
         <div class="field">
             <label>備註</label>
-
-            <textarea
-                id="stayNotesInput"
-                placeholder="其他備註"
-            ></textarea>
+            <textarea id="stayNotesInput" placeholder="其他備註"></textarea>
         </div>
 
         <div class="modal-footer">
-
-            <button
-                type="button"
-                class="btn btn-light"
-                onclick="closeModal('stayModal')"
-            >
-                取消
-            </button>
-
-            <button
-                type="button"
-                class="btn"
-                onclick="saveStay()"
-            >
-                儲存
-            </button>
-
+            <button type="button" class="btn btn-light" onclick="closeModal('stayModal')">取消</button>
+            <button type="button" class="btn" onclick="saveStay()">儲存</button>
         </div>
 
     </div>
@@ -2145,6 +1732,120 @@ function saveCooperationData(
             link
         })
     );
+
+}
+
+/* =========================
+   DAY COUNT
+========================= */
+
+function getTripDayCount(tripId){
+
+    if(!tripId){
+        return 1;
+    }
+
+    const key =
+        "goya_trip_day_count_" +
+        String(tripId);
+
+    const saved =
+        Number(
+            localStorage.getItem(key)
+        );
+
+    if(
+        Number.isFinite(saved) &&
+        saved >= 1
+    ){
+
+        return saved;
+
+    }
+
+    return 1;
+
+}
+
+function saveTripDayCount(
+    tripId,
+    count
+){
+
+    if(!tripId){
+        return;
+    }
+
+    const safeCount =
+        Math.max(
+            1,
+            Number(count) || 1
+        );
+
+    localStorage.setItem(
+        "goya_trip_day_count_" +
+        String(tripId),
+        String(safeCount)
+    );
+
+}
+
+async function syncTripDayCount(){
+
+    if(!currentTrip){
+        return 1;
+    }
+
+    let savedCount =
+        getTripDayCount(
+            currentTrip.id
+        );
+
+    const {
+        data
+    } =
+        await supabaseClient
+            .from("itineraries")
+            .select("day_number")
+            .eq(
+                "trip_id",
+                currentTrip.id
+            )
+            .order(
+                "day_number",
+                {
+                    ascending:false
+                }
+            )
+            .limit(1);
+
+    let databaseMaxDay = 0;
+
+    if(
+        data &&
+        data.length
+    ){
+
+        databaseMaxDay =
+            Number(
+                data[0].day_number
+            ) || 0;
+
+    }
+
+    const finalCount =
+        Math.max(
+            1,
+            savedCount,
+            databaseMaxDay
+        );
+
+    saveTripDayCount(
+        currentTrip.id,
+        finalCount
+    );
+
+    return finalCount;
 
 }
 
@@ -4053,6 +3754,12 @@ async function saveJourney(){
             order
         );
 
+        /* 新旅程固定從 Day 1 開始 */
+        saveTripDayCount(
+            data.id,
+            1
+        );
+
     }else{
 
         const {
@@ -4620,42 +4327,49 @@ function openFlightModal(){
         );
 
     const flight =
-        info.flight || {};
+        info.flight || null;
+
+    /*
+       沒有航班資料：
+       開啟完全空白的輸入頁。
+       有資料：
+       載入原本資料讓使用者編輯。
+    */
 
     document.getElementById(
         "flightAirlineInput"
     ).value =
-        flight.airline || "";
+        flight?.airline || "";
 
     document.getElementById(
         "flightNumberInput"
     ).value =
-        flight.flightNumber || "";
+        flight?.flightNumber || "";
 
     document.getElementById(
         "flightDepartureAirportInput"
     ).value =
-        flight.departureAirport || "";
+        flight?.departureAirport || "";
 
     document.getElementById(
         "flightArrivalAirportInput"
     ).value =
-        flight.arrivalAirport || "";
+        flight?.arrivalAirport || "";
 
     document.getElementById(
         "flightDepartureInput"
     ).value =
-        flight.departure || "";
+        flight?.departure || "";
 
     document.getElementById(
         "flightArrivalInput"
     ).value =
-        flight.arrival || "";
+        flight?.arrival || "";
 
     document.getElementById(
         "flightNotesInput"
     ).value =
-        flight.notes || "";
+        flight?.notes || "";
 
     openModal("flightModal");
 
@@ -4736,6 +4450,20 @@ async function saveFlight(){
 
     };
 
+    /*
+       如果完全沒輸入，
+       不建立空白航班卡片。
+    */
+
+    const hasFlightData =
+        Object.values(flight)
+            .some(
+                value =>
+                    String(
+                        value || ""
+                    ).trim() !== ""
+            );
+
     const {
         data,
         error
@@ -4762,7 +4490,12 @@ async function saveFlight(){
                         visa:
                             info.visa || null,
 
-                        flight
+                        flight:
+                            hasFlightData
+                            ?
+                            flight
+                            :
+                            null
 
                     })
 
@@ -4918,6 +4651,11 @@ async function deleteJourney(
 
     localStorage.removeItem(
         "goya_trip_photos_" +
+        String(tripId)
+    );
+
+    localStorage.removeItem(
+        "goya_trip_day_count_" +
         String(tripId)
     );
 
@@ -5264,50 +5002,53 @@ async function renderTripDetail(){
     items.forEach(
         item => {
 
-            if(!days[item.day_number]){
-                days[item.day_number] = [];
+            const dayNumber =
+                Number(
+                    item.day_number
+                ) || 1;
+
+            if(!days[dayNumber]){
+                days[dayNumber] = [];
             }
 
-            days[item.day_number].push(item);
+            days[dayNumber].push(item);
 
         }
     );
 
-    let daysHtml = "";
+    /*
+       ⭐ 重點：
+       不再只顯示有行程的 Day。
+       會固定依照已建立的 Day 數量
+       顯示 Day 1、Day 2、Day 3……
+    */
 
-    const dayNumbers =
-        Object.keys(days)
-            .map(Number)
-            .sort(
-                (a,b) => a-b
-            );
+    const savedDayCount =
+        await syncTripDayCount();
+
+    const dayNumbers = [];
+
+    for(
+        let day = 1;
+        day <= savedDayCount;
+        day++
+    ){
+
+        dayNumbers.push(day);
+
+    }
+
+    let daysHtml = "";
 
     dayNumbers.forEach(
         day => {
 
-            daysHtml += `
+            const dayItems =
+                days[day] || [];
 
-                <div class="day-card">
+            let itemsHtml = "";
 
-                    <div class="day-header">
-
-                        <div class="day-title">
-                            Day ${day}
-                        </div>
-
-                        <button
-                            type="button"
-                            class="btn btn-light btn-small"
-                            onclick="openItemModal(${day}, null)"
-                        >
-                            ＋ 新增行程
-                        </button>
-
-                    </div>
-
-            `;
-
-            days[day].forEach(
+            dayItems.forEach(
                 item => {
 
                     const itemExtra =
@@ -5320,7 +5061,7 @@ async function renderTripDetail(){
                         item.rating ||
                         "";
 
-                    daysHtml += `
+                    itemsHtml += `
 
                         <div class="item-card">
 
@@ -5437,7 +5178,7 @@ async function renderTripDetail(){
                                 <button
                                     type="button"
                                     class="btn btn-light btn-small"
-                                    onclick="openItemModal(${item.day_number}, '${escapeJs(item.id)}')"
+                                    onclick="openItemModal(${day}, '${escapeJs(item.id)}')"
                                 >
                                     編輯
                                 </button>
@@ -5461,6 +5202,40 @@ async function renderTripDetail(){
 
             daysHtml += `
 
+                <div class="day-card">
+
+                    <div class="day-header">
+
+                        <div class="day-title">
+                            Day ${day}
+                        </div>
+
+                        <button
+                            type="button"
+                            class="btn btn-light btn-small"
+                            onclick="openItemModal(${day}, null)"
+                        >
+                            ＋ 新增行程
+                        </button>
+
+                    </div>
+
+                    ${
+                        itemsHtml ||
+                        `
+                        <div
+                            style="
+                                text-align:center;
+                                padding:25px 10px;
+                                color:#aaa;
+                                font-size:13px;
+                            "
+                        >
+                            這一天還沒有安排行程
+                        </div>
+                        `
+                    }
+
                     <button
                         type="button"
                         class="add-item-btn"
@@ -5476,29 +5251,22 @@ async function renderTripDetail(){
         }
     );
 
-    if(!dayNumbers.length){
+    /*
+       ⭐ 新增一天按鈕
+       永遠放在所有 Day 後面
+    */
 
-        daysHtml = `
+    daysHtml += `
 
-            <div class="empty">
+        <button
+            type="button"
+            class="add-day-btn"
+            onclick="addNextDay()"
+        >
+            ＋ 新增一天
+        </button>
 
-                還沒有行程。
-
-                <br><br>
-
-                <button
-                    type="button"
-                    class="btn"
-                    onclick="openItemModal(1, null)"
-                >
-                    ＋ 新增 Day 1 行程
-                </button>
-
-            </div>
-
-        `;
-
-    }
+    `;
 
     let staysHtml = "";
 
@@ -5645,9 +5413,7 @@ async function renderTripDetail(){
         }
     );
 
-    /* =========================
-       VISA DISPLAY
-    ========================= */
+    /* VISA DISPLAY */
 
     let visaHtml = "";
 
@@ -5750,9 +5516,7 @@ async function renderTripDetail(){
 
     }
 
-    /* =========================
-       FLIGHT DISPLAY
-    ========================= */
+    /* FLIGHT DISPLAY */
 
     let flightHtml = "";
 
@@ -5766,7 +5530,7 @@ async function renderTripDetail(){
             <div class="info-box flight-display">
 
                 <div class="info-box-title">
-                    ✈️ 航班訊息
+                    ✈️ 航班資訊
                 </div>
 
                 <div class="flight-grid">
@@ -5776,17 +5540,14 @@ async function renderTripDetail(){
                         ?
                         `
                         <div class="flight-field">
-
                             <div class="flight-label">
                                 航空公司
                             </div>
-
                             <div class="flight-value">
                                 ${escapeHtml(
                                     flight.airline
                                 )}
                             </div>
-
                         </div>
                         `
                         :
@@ -5798,17 +5559,14 @@ async function renderTripDetail(){
                         ?
                         `
                         <div class="flight-field">
-
                             <div class="flight-label">
                                 航班編號
                             </div>
-
                             <div class="flight-value">
                                 ${escapeHtml(
                                     flight.flightNumber
                                 )}
                             </div>
-
                         </div>
                         `
                         :
@@ -5820,17 +5578,14 @@ async function renderTripDetail(){
                         ?
                         `
                         <div class="flight-field">
-
                             <div class="flight-label">
                                 出發機場
                             </div>
-
                             <div class="flight-value">
                                 ${escapeHtml(
                                     flight.departureAirport
                                 )}
                             </div>
-
                         </div>
                         `
                         :
@@ -5842,17 +5597,14 @@ async function renderTripDetail(){
                         ?
                         `
                         <div class="flight-field">
-
                             <div class="flight-label">
                                 抵達機場
                             </div>
-
                             <div class="flight-value">
                                 ${escapeHtml(
                                     flight.arrivalAirport
                                 )}
                             </div>
-
                         </div>
                         `
                         :
@@ -5864,17 +5616,14 @@ async function renderTripDetail(){
                         ?
                         `
                         <div class="flight-field">
-
                             <div class="flight-label">
                                 出發時間
                             </div>
-
                             <div class="flight-value">
                                 ${formatDateTime(
                                     flight.departure
                                 )}
                             </div>
-
                         </div>
                         `
                         :
@@ -5886,17 +5635,14 @@ async function renderTripDetail(){
                         ?
                         `
                         <div class="flight-field">
-
                             <div class="flight-label">
                                 抵達時間
                             </div>
-
                             <div class="flight-value">
                                 ${formatDateTime(
                                     flight.arrival
                                 )}
                             </div>
-
                         </div>
                         `
                         :
@@ -6094,10 +5840,6 @@ async function renderTripDetail(){
 
                 </div>
 
-                <!-- =========================
-                     簽證 / 航班
-                ========================= -->
-
                 <div class="trip-tools">
 
                     <button
@@ -6123,11 +5865,17 @@ async function renderTripDetail(){
                     >
 
                         <div class="trip-tool-title">
-                            ✈️ 航班訊息
+                            ✈️ 航班資訊
                         </div>
 
                         <div class="trip-tool-subtitle">
-                            航班・機場・時間
+                            ${
+                                info.flight
+                                ?
+                                "已填寫・點擊查看／編輯"
+                                :
+                                "點開後手動輸入航班資訊"
+                            }
                         </div>
 
                     </button>
@@ -6221,42 +5969,41 @@ async function addNextDay(){
         return;
     }
 
-    const {
-        data
-    } =
-        await supabaseClient
-            .from("itineraries")
-            .select("day_number")
-            .eq(
-                "trip_id",
-                currentTrip.id
-            )
-            .order(
-                "day_number",
-                {
-                    ascending:false
-                }
-            )
-            .limit(1);
+    const currentCount =
+        getTripDayCount(
+            currentTrip.id
+        );
 
-    const maxDay =
-        data &&
-        data.length
-        ?
-        Number(
-            data[0].day_number
-        )
-        :
-        0;
+    const nextDay =
+        currentCount + 1;
 
-    openItemModal(
-        maxDay + 1,
-        null
+    saveTripDayCount(
+        currentTrip.id,
+        nextDay
     );
+
+    await renderTripDetail();
 
 }
 
 async function addDayAndItem(){
+
+    if(!currentTrip){
+        return;
+    }
+
+    const count =
+        getTripDayCount(
+            currentTrip.id
+        );
+
+    saveTripDayCount(
+        currentTrip.id,
+        Math.max(
+            1,
+            count
+        )
+    );
 
     openItemModal(
         1,
@@ -6275,6 +6022,26 @@ function openItemModal(
 
     editingItemId =
         itemId || null;
+
+    if(currentTrip){
+
+        const currentCount =
+            getTripDayCount(
+                currentTrip.id
+            );
+
+        if(
+            currentDay > currentCount
+        ){
+
+            saveTripDayCount(
+                currentTrip.id,
+                currentDay
+            );
+
+        }
+
+    }
 
     if(!editingItemId){
 
@@ -6376,6 +6143,26 @@ async function loadItemForEdit(
 
     currentDay =
         Number(item.day_number) || 1;
+
+    if(currentTrip){
+
+        const currentCount =
+            getTripDayCount(
+                currentTrip.id
+            );
+
+        if(
+            currentDay > currentCount
+        ){
+
+            saveTripDayCount(
+                currentTrip.id,
+                currentDay
+            );
+
+        }
+
+    }
 
     document.getElementById(
         "itemModalTitle"
@@ -6488,6 +6275,27 @@ async function saveItem(){
         alert("Day 資料有問題，請重新新增行程。");
 
         return;
+
+    }
+
+    /*
+       只要在某個 Day 新增行程，
+       該 Day 就一定被保留。
+    */
+
+    const existingDayCount =
+        getTripDayCount(
+            currentTrip.id
+        );
+
+    if(
+        dayNumber > existingDayCount
+    ){
+
+        saveTripDayCount(
+            currentTrip.id,
+            dayNumber
+        );
 
     }
 
@@ -6733,6 +6541,13 @@ async function deleteItem(
         return;
 
     }
+
+    /*
+       注意：
+       刪除行程不會刪除 Day。
+       例如 Day 2 的最後一個行程刪掉，
+       Day 2 還是會保留。
+    */
 
     await renderTripDetail();
 
