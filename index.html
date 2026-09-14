@@ -218,6 +218,38 @@ a{
     color:#292929;  
 }  
   
+/* =========================
+   PUBLIC VIEW / GUEST MODE
+========================= */
+.guest-mode .edit-intro-btn,
+.guest-mode .destination-actions,
+.guest-mode .add-destination,
+.guest-mode .cooperation-actions,
+.guest-mode .trip-tools,
+.guest-mode .info-box-actions,
+.guest-mode .journey-actions,
+.guest-mode .item-actions,
+.guest-mode .add-item-btn,
+.guest-mode .add-day-btn,
+.guest-mode .photo-toolbar,
+.guest-mode .app button[onclick*="Modal"],
+.guest-mode .app button[onclick*="delete"],
+.guest-mode .app button[onclick*="move"],
+.guest-mode .app button[onclick*="addNextDay"],
+.guest-mode .app button[onclick*="addItineraryItem"],
+.guest-mode .app button[onclick*="openPhotoFilePicker"]{
+    display:none !important;
+}
+
+.guest-login-btn{
+    border:1px solid #dedcd7;
+    background:#faf9f6;
+    color:#555;
+    border-radius:10px;
+    padding:7px 12px;
+    font-size:12px;
+}
+
 /* =========================  
    SECTION  
 ========================= */  
@@ -1479,15 +1511,6 @@ a{
             <textarea  
                 id="journeyOtherInput"  
                 placeholder="其他想補充的資訊"  
-            ></textarea>  
-        </div>  
-  
-        <div class="field">  
-            <label>📝 旅遊備註</label>  
-  
-            <textarea  
-                id="journeyTravelNoteInput"  
-                placeholder="這趟旅程想記錄的備註"  
             ></textarea>  
         </div>  
   
@@ -3216,25 +3239,22 @@ function sortTripsBySavedOrder(
    INIT  
 ========================= */  
   
-async function init(){  
-  
-    const {  
-        data:{  
-            session  
-        }  
-    } =  
-        await supabaseClient  
-            .auth  
-            .getSession();  
-  
-    if(!session){  
-  
-        renderLogin();  
-  
-        return;  
-  
-    }  
-  
+async function init(){
+
+    const {
+        data:{
+            session
+        }
+    } =
+        await supabaseClient
+            .auth
+            .getSession();
+
+    document.body.classList.toggle(
+        "guest-mode",
+        !session
+    );
+
     await restoreNavigation();  
   
 }  
@@ -3434,6 +3454,10 @@ async function login(){
   
     }  
   
+    document.body.classList.remove(
+        "guest-mode"
+    );
+
     clearNavigationState();  
   
     renderHome();  
@@ -3446,6 +3470,10 @@ async function logout(){
         .auth  
         .signOut();  
   
+    document.body.classList.remove(
+        "guest-mode"
+    );
+
     clearNavigationState();  
   
     renderLogin();  
@@ -3473,6 +3501,11 @@ async function renderHome(){
             .auth  
             .getUser();  
   
+    document.body.classList.toggle(
+        "guest-mode",
+        !user
+    );
+
     const intro =  
         getIntro();  
   
@@ -3493,19 +3526,35 @@ async function renderHome(){
   
                 <div class="header-right">  
   
-                    <div class="user-email">  
-                        ${escapeHtml(  
-                            user?.email || ""  
-                        )}  
-                    </div>  
-  
-                    <button  
-                        type="button"  
-                        class="btn btn-light btn-small"  
-                        onclick="logout()"  
-                    >  
-                        登出  
-                    </button>  
+                    ${
+                        user
+                        ?
+                        `
+                        <div class="user-email">
+                            ${escapeHtml(
+                                user.email || ""
+                            )}
+                        </div>
+
+                        <button
+                            type="button"
+                            class="btn btn-light btn-small"
+                            onclick="logout()"
+                        >
+                            登出
+                        </button>
+                        `
+                        :
+                        `
+                        <button
+                            type="button"
+                            class="guest-login-btn"
+                            onclick="renderLogin()"
+                        >
+                            管理登入
+                        </button>
+                        `
+                    }  
   
                 </div>  
   
@@ -3554,7 +3603,7 @@ async function renderHome(){
                         </h2>  
   
                         <div class="section-description">  
-                            可以自由新增、編輯、刪除、上下移動  
+                            ${ user ? "可以自由新增、編輯、刪除、上下移動" : "公開查看旅程內容" }  
                         </div>  
   
                     </div>  
@@ -3688,9 +3737,38 @@ async function renderHome(){
 }  
   
 async function renderDestinations(){  
-  
-    const list =  
-        getDestinations();  
+
+
+    let list =
+        getDestinations();
+
+    const isGuest =
+        document.body.classList.contains(
+            "guest-mode"
+        );
+
+    if(isGuest){
+
+        const {
+            data:publicTrips
+        } =
+            await supabaseClient
+                .from("trips")
+                .select("destination")
+                .not("destination", "is", null);
+
+        const publicDestinations =
+            (publicTrips || [])
+                .map(trip => String(trip.destination || "").trim())
+                .filter(Boolean);
+
+        list = [
+            ...new Set([
+                ...DEFAULT_DESTINATIONS,
+                ...publicDestinations
+            ])
+        ];
+    }  
   
     const container =  
         document.getElementById(  
@@ -4554,10 +4632,6 @@ function openJourneyModal(
             "journeyOtherInput"  
         ).value = "";  
   
-        document.getElementById(  
-            "journeyTravelNoteInput"  
-        ).value = "";  
-  
     }else{  
   
         const trip =  
@@ -4614,11 +4688,6 @@ function openJourneyModal(
             "journeyOtherInput"  
         ).value =  
             info.other || "";  
-  
-        document.getElementById(  
-            "journeyTravelNoteInput"  
-        ).value =  
-            info.travelNote || "";  
   
     }  
   
@@ -4696,14 +4765,6 @@ async function saveJourney(){
             .value  
             .trim();  
   
-    const travelNote =  
-        document  
-            .getElementById(  
-                "journeyTravelNoteInput"  
-            )  
-            .value  
-            .trim();  
-  
     const {  
         data:{  
             user  
@@ -4773,8 +4834,6 @@ async function saveJourney(){
             description,  
   
             other,  
-  
-            travelNote,  
   
             visa:  
                 oldInfo.visa,  
@@ -7949,23 +8008,6 @@ if(missingIds.length){
                     ""  
                 }  
   
-                ${  
-                    info.travelNote  
-                    ?  
-                    `  
-                    <div class="info-box" style="margin-top:15px;">  
-                        <div class="info-box-title">  
-                            📝 旅遊備註  
-                        </div>  
-                        <div class="info-box-content">  
-                            ${escapeHtml(info.travelNote)}  
-                        </div>  
-                    </div>  
-                    `  
-                    :  
-                    ""  
-                }  
-  
                 <div class="total-box">  
   
                     <div class="total-label">  
@@ -9490,8 +9532,7 @@ function parseTripDescription(
             description:"",  
             visa:null,  
             flight:null,  
-            other:"",  
-            travelNote:""  
+            other:""  
   
         };  
   
@@ -9531,10 +9572,6 @@ function parseTripDescription(
   
                 other:  
                     parsed.other ||  
-                    "",  
-  
-                travelNote:  
-                    parsed.travelNote ||  
                     ""  
   
             };  
@@ -9550,8 +9587,7 @@ function parseTripDescription(
         description:value,  
         visa:null,  
         flight:null,  
-        other:"",  
-        travelNote:""  
+        other:""  
   
     };  
   
