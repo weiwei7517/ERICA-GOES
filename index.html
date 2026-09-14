@@ -6487,6 +6487,105 @@ async function renderTripDetail(){
 
     const items =
         itineraryResult.data || [];
+        /* =========================
+   行程固定新增順序
+========================= */
+const itineraryOrderKey =
+    "goya_itinerary_order_" +
+    String(trip.id);
+
+let savedItineraryOrder = [];
+
+try{
+    savedItineraryOrder =
+        JSON.parse(
+            localStorage.getItem(
+                itineraryOrderKey
+            ) || "[]"
+        );
+}catch(e){
+    savedItineraryOrder = [];
+}
+
+const orderMap = new Map();
+
+savedItineraryOrder.forEach(
+    (id, index) => {
+        orderMap.set(
+            String(id),
+            index
+        );
+    }
+);
+
+/*
+   有記錄順序的照記錄排。
+   新的／還沒有記錄的行程接在最後。
+*/
+items.sort(
+    (a,b) => {
+
+        const aOrder =
+            orderMap.has(String(a.id))
+            ?
+            orderMap.get(String(a.id))
+            :
+            Number.MAX_SAFE_INTEGER;
+
+        const bOrder =
+            orderMap.has(String(b.id))
+            ?
+            orderMap.get(String(b.id))
+            :
+            Number.MAX_SAFE_INTEGER;
+
+        if(aOrder !== bOrder){
+            return aOrder - bOrder;
+        }
+
+        return 0;
+    }
+);
+
+/*
+   把舊有但尚未記錄順序的行程
+   接到目前順序最後面。
+*/
+const existingIds =
+    new Set(
+        savedItineraryOrder.map(
+            id => String(id)
+        )
+    );
+
+const missingIds =
+    items
+        .filter(
+            item =>
+                !existingIds.has(
+                    String(item.id)
+                )
+        )
+        .map(
+            item =>
+                String(item.id)
+        );
+
+if(missingIds.length){
+
+    savedItineraryOrder =
+        [
+            ...savedItineraryOrder,
+            ...missingIds
+        ];
+
+    localStorage.setItem(
+        itineraryOrderKey,
+        JSON.stringify(
+            savedItineraryOrder
+        )
+    );
+}
 
     const stays =
         staysResult.data || [];
@@ -8547,7 +8646,57 @@ async function saveItem(){
             return;
 
         }
+/* =========================
+   新增行程 → 固定接在最後
+========================= */
+if(
+    !editingItemId &&
+    result.data
+){
 
+    const itineraryOrderKey =
+        "goya_itinerary_order_" +
+        String(currentTrip.id);
+
+    let itineraryOrder = [];
+
+    try{
+
+        itineraryOrder =
+            JSON.parse(
+                localStorage.getItem(
+                    itineraryOrderKey
+                ) || "[]"
+            );
+
+    }catch(e){
+
+        itineraryOrder = [];
+
+    }
+
+    const newId =
+        String(
+            result.data.id
+        );
+
+    itineraryOrder =
+        itineraryOrder.filter(
+            id =>
+                String(id) !== newId
+        );
+
+    itineraryOrder.push(
+        newId
+    );
+
+    localStorage.setItem(
+        itineraryOrderKey,
+        JSON.stringify(
+            itineraryOrder
+        )
+    );
+}
         closeModal(
             "itemModal"
         );
