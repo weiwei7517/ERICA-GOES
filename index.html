@@ -218,38 +218,6 @@ a{
     color:#292929;  
 }  
   
-/* =========================
-   PUBLIC VIEW / GUEST MODE
-========================= */
-.guest-mode .edit-intro-btn,
-.guest-mode .destination-actions,
-.guest-mode .add-destination,
-.guest-mode .cooperation-actions,
-.guest-mode .trip-tools,
-.guest-mode .info-box-actions,
-.guest-mode .journey-actions,
-.guest-mode .item-actions,
-.guest-mode .add-item-btn,
-.guest-mode .add-day-btn,
-.guest-mode .photo-toolbar,
-.guest-mode .app button[onclick*="Modal"],
-.guest-mode .app button[onclick*="delete"],
-.guest-mode .app button[onclick*="move"],
-.guest-mode .app button[onclick*="addNextDay"],
-.guest-mode .app button[onclick*="addItineraryItem"],
-.guest-mode .app button[onclick*="openPhotoFilePicker"]{
-    display:none !important;
-}
-
-.guest-login-btn{
-    border:1px solid #dedcd7;
-    background:#faf9f6;
-    color:#555;
-    border-radius:10px;
-    padding:7px 12px;
-    font-size:12px;
-}
-
 /* =========================  
    SECTION  
 ========================= */  
@@ -2465,6 +2433,7 @@ const DEFAULT_DESTINATIONS = [
     "黃刀鎮極光"  
 ];  
   
+let currentUser = null;
 let currentPage = "home";  
 let currentDestination = "";  
 let currentTrip = null;  
@@ -2667,22 +2636,83 @@ function getCooperation(){
   
 }  
   
-function saveCooperationData(  
-    title,  
-    description,  
-    link  
-){  
+function saveCooperationData(title, description, link){
+
+    localStorage.setItem("goya_cooperation", JSON.stringify({title, description, link}));
+
+    if(currentUser){
+        supabaseClient
+            .from("goya_public_settings")
+            .upsert({
+                id:"main",
+                owner_id:currentUser.id,
+                cooperation_title:title,
+                cooperation_description:description,
+                cooperation_link:link
+            }, {onConflict:"id"})
+            .then(({error}) => {
+                if(error) console.warn("合作資訊同步失敗：", error.message);
+            });
+    }
+
+}
+
+async function loadPublicSettings(){
+
+    const { data, error } = await supabaseClient
+        .from("goya_public_settings")
+        .select("*")
+        .eq("id", "main")
+        .maybeSingle();
+
+    if(error){
+        console.warn("公開設定載入失敗：", error.message);
+        return null;
+    }
+
+    return data || null;
+}
+
+async function syncPublicSettingsFromLocal(){
+
+    if(!currentUser){
+        return;
+    }
+
+    const payload = {
+        id: "main",
+        owner_id: currentUser.id
+    };
+
+    const destinationSaved = localStorage.getItem("goya_destinations");
+    if(destinationSaved !== null){
+        try{ payload.destinations = JSON.parse(destinationSaved); }catch(e){}
+    }
+
+    const introTitle = localStorage.getItem("goya_intro_title");
+    const introSubtitle = localStorage.getItem("goya_intro_subtitle");
+    if(introTitle !== null) payload.intro_title = introTitle;
+    if(introSubtitle !== null) payload.intro_subtitle = introSubtitle;
+
+    const cooperationSaved = localStorage.getItem("goya_cooperation");
+    if(cooperationSaved !== null){
+        try{
+            const c = JSON.parse(cooperationSaved) || {};
+            payload.cooperation_title = c.title || "";
+            payload.cooperation_description = c.description || "";
+            payload.cooperation_link = c.link || "";
+        }catch(e){}
+    }
+
+    const { error } = await supabaseClient
+        .from("goya_public_settings")
+        .upsert(payload, { onConflict:"id" });
+
+    if(error){
+        console.warn("公開設定同步失敗：", error.message);
+    }
+}
   
-    localStorage.setItem(  
-        "goya_cooperation",  
-        JSON.stringify({  
-            title,  
-            description,  
-            link  
-        })  
-    );  
-  
-}  
   
 /* =========================  
    DAY COUNT  
@@ -3241,24 +3271,14 @@ function sortTripsBySavedOrder(
   
 async function init(){
 
-    const {
-        data:{
-            session
-        }
-    } =
-        await supabaseClient
-            .auth
-            .getSession();
+    const { data:{ session } } = await supabaseClient.auth.getSession();
 
-    document.body.classList.toggle(
-        "guest-mode",
-        !session
-    );
+    currentUser = session?.user || null;
 
-    await restoreNavigation();  
-  
-}  
-  
+    await restoreNavigation();
+
+}
+
 async function restoreNavigation(){  
   
     const state =  
@@ -3435,15 +3455,13 @@ async function login(){
     message.textContent =  
         "登入中……";  
   
-    const {  
-        error  
-    } =  
-        await supabaseClient  
-            .auth  
-            .signInWithPassword({  
-                email,  
-                password  
-            });  
+    const {
+        data,
+        error
+    } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+    });  
   
     if(error){  
   
@@ -3454,10 +3472,6 @@ async function login(){
   
     }  
   
-    document.body.classList.remove(
-        "guest-mode"
-    );
-
     clearNavigationState();  
   
     renderHome();  
@@ -3466,13 +3480,8 @@ async function login(){
   
 async function logout(){  
   
-    await supabaseClient  
-        .auth  
-        .signOut();  
-  
-    document.body.classList.remove(
-        "guest-mode"
-    );
+    await supabaseClient.auth.signOut();
+    currentUser = null;
 
     clearNavigationState();  
   
@@ -3501,16 +3510,22 @@ async function renderHome(){
             .auth  
             .getUser();  
   
-    document.body.classList.toggle(
-        "guest-mode",
-        !user
-    );
+    if(currentUser){
+        await syncPublicSettingsFromLocal();
+    }
 
-    const intro =  
-        getIntro();  
-  
-    const cooperation =  
-        getCooperation();  
+    const publicSettings = await loadPublicSettings();
+
+    const intro = publicSettings ? {
+        title: publicSettings.intro_title || "去哪裡玩？",
+        subtitle: publicSettings.intro_subtitle || "小資也能輕鬆飛"
+    } : getIntro();
+
+    const cooperation = publicSettings ? {
+        title: publicSettings.cooperation_title || "",
+        description: publicSettings.cooperation_description || "",
+        link: publicSettings.cooperation_link || ""
+    } : getCooperation();  
   
     document.getElementById(  
         "app"  
@@ -3526,35 +3541,18 @@ async function renderHome(){
   
                 <div class="header-right">  
   
-                    ${
-                        user
-                        ?
-                        `
+                    ${currentUser ? `
                         <div class="user-email">
-                            ${escapeHtml(
-                                user.email || ""
-                            )}
+                            ${escapeHtml(currentUser.email || "")}
                         </div>
-
-                        <button
-                            type="button"
-                            class="btn btn-light btn-small"
-                            onclick="logout()"
-                        >
+                        <button type="button" class="btn btn-light btn-small" onclick="logout()">
                             登出
                         </button>
-                        `
-                        :
-                        `
-                        <button
-                            type="button"
-                            class="guest-login-btn"
-                            onclick="renderLogin()"
-                        >
+                    ` : `
+                        <button type="button" class="btn btn-light btn-small" onclick="renderLogin()">
                             管理登入
                         </button>
-                        `
-                    }  
+                    `}  
   
                 </div>  
   
@@ -3580,13 +3578,15 @@ async function renderHome(){
   
                     </div>  
   
+                    ${currentUser ? `
                     <button  
                         type="button"  
                         class="edit-intro-btn"  
                         onclick="openIntroModal()"  
                     >  
                         編輯  
-                    </button>  
+                    </button>
+                    ` : ""}  
   
                 </div>  
   
@@ -3603,7 +3603,7 @@ async function renderHome(){
                         </h2>  
   
                         <div class="section-description">  
-                            ${ user ? "可以自由新增、編輯、刪除、上下移動" : "公開查看旅程內容" }  
+                            可以自由新增、編輯、刪除、上下移動  
                         </div>  
   
                     </div>  
@@ -3639,13 +3639,15 @@ async function renderHome(){
   
                     </div>  
   
+                    ${currentUser ? `
                     <button  
                         type="button"  
                         class="edit-intro-btn"  
                         onclick="openCooperationModal()"  
                     >  
                         編輯  
-                    </button>  
+                    </button>
+                    ` : ""}  
   
                 </div>  
   
@@ -3737,37 +3739,29 @@ async function renderHome(){
 }  
   
 async function renderDestinations(){  
+  
+    const publicSettings = await loadPublicSettings();
+    let list = getDestinations();
 
-
-    let list =
-        getDestinations();
-
-    const isGuest =
-        document.body.classList.contains(
-            "guest-mode"
-        );
-
-    if(isGuest){
-
-        const {
-            data:publicTrips
-        } =
-            await supabaseClient
+    if(!currentUser){
+        if(publicSettings && Array.isArray(publicSettings.destinations) && publicSettings.destinations.length){
+            list = publicSettings.destinations;
+        }else{
+            const { data: publicTrips } = await supabaseClient
                 .from("trips")
                 .select("destination")
                 .not("destination", "is", null);
 
-        const publicDestinations =
-            (publicTrips || [])
-                .map(trip => String(trip.destination || "").trim())
-                .filter(Boolean);
+            const tripDestinations = Array.from(new Set(
+                (publicTrips || [])
+                    .map(item => String(item.destination || "").trim())
+                    .filter(Boolean)
+            ));
 
-        list = [
-            ...new Set([
-                ...DEFAULT_DESTINATIONS,
-                ...publicDestinations
-            ])
-        ];
+            if(tripDestinations.length){
+                list = tripDestinations;
+            }
+        }
     }  
   
     const container =  
@@ -3818,8 +3812,9 @@ async function renderDestinations(){
   
                 </div>  
   
-                <div class="destination-actions">  
-  
+                ${currentUser ? `
+                <div class="destination-actions">
+
                     <button  
                         type="button"  
                         class="icon-btn"  
@@ -3852,27 +3847,24 @@ async function renderDestinations(){
                         onclick="deleteDestination(${i})"  
                     >  
                         刪除  
-                    </button>  
-  
-                </div>  
-  
+                    </button>
+
+                </div>
+                ` : ""}
+
             </div>  
   
         `;  
   
     }  
   
-    html += `  
-  
-        <button  
-            type="button"  
-            class="add-destination"  
-            onclick="openDestinationModal(-1)"  
-        >  
-            ＋ 新增目的地  
-        </button>  
-  
-    `;  
+    if(currentUser){
+        html += `
+            <button type="button" class="add-destination" onclick="openDestinationModal(-1)">
+                ＋ 新增目的地
+            </button>
+        `;
+    }  
   
     container.innerHTML =  
         html;  
@@ -3931,7 +3923,7 @@ function openIntroModal(){
   
 }  
   
-function saveIntro(){  
+async function saveIntro(){  
   
     const title =  
         document  
@@ -3949,13 +3941,11 @@ function saveIntro(){
             .value  
             .trim();  
   
-    saveIntroData(  
-        title ||  
-            "去哪裡玩？",  
-  
-        subtitle ||  
-            "小資也能輕鬆飛"  
-    );  
+    saveIntroData(title || "去哪裡玩？", subtitle || "小資也能輕鬆飛");
+
+    if(currentUser){
+        await syncPublicSettingsFromLocal();
+    }  
   
     closeModal(  
         "introModal"  
@@ -3991,7 +3981,7 @@ function openCooperationModal(){
   
 }  
   
-function saveCooperation(){  
+async function saveCooperation(){  
   
     const title =  
         document  
@@ -4017,11 +4007,11 @@ function saveCooperation(){
             .value  
             .trim();  
   
-    saveCooperationData(  
-        title,  
-        description,  
-        link  
-    );  
+    saveCooperationData(title, description, link);
+
+    if(currentUser){
+        await syncPublicSettingsFromLocal();
+    }  
   
     closeModal(  
         "cooperationModal"  
@@ -4031,7 +4021,7 @@ function saveCooperation(){
   
 }  
   
-function deleteCooperation(){  
+async function deleteCooperation(){  
   
     if(  
         !confirm(  
@@ -4041,10 +4031,20 @@ function deleteCooperation(){
         return;  
     }  
   
-    localStorage.removeItem(  
-        "goya_cooperation"  
-    );  
-  
+    localStorage.removeItem("goya_cooperation");
+
+    if(currentUser){
+        await supabaseClient
+            .from("goya_public_settings")
+            .upsert({
+                id:"main",
+                owner_id:currentUser.id,
+                cooperation_title:"",
+                cooperation_description:"",
+                cooperation_link:""
+            }, {onConflict:"id"});
+    }
+
     renderHome();  
   
 }  
@@ -4335,13 +4335,11 @@ async function openDestination(
   
                     </div>  
   
-                    <button  
-                        type="button"  
-                        class="btn btn-small"  
-                        onclick="openJourneyModal(null)"  
-                    >  
-                        ＋ 新增旅程  
-                    </button>  
+                    ${currentUser ? `
+                    <button type="button" class="btn btn-small" onclick="openJourneyModal(null)">
+                        ＋ 新增旅程
+                    </button>
+                    ` : ""}  
   
                 </div>  
   
@@ -4418,13 +4416,11 @@ async function renderJourneys(){
   
                 <br><br>  
   
-                <button  
-                    type="button"  
-                    class="btn"  
-                    onclick="openJourneyModal(null)"  
-                >  
-                    ＋ 新增第一個旅程  
-                </button>  
+                ${currentUser ? `
+                <button type="button" class="btn" onclick="openJourneyModal(null)">
+                    ＋ 新增第一個旅程
+                </button>
+                ` : ""}  
   
             </div>  
   
@@ -4495,8 +4491,9 @@ async function renderJourneys(){
   
                         </div>  
   
-                        <div class="journey-actions">  
-  
+                        ${currentUser ? `
+                        <div class="journey-actions">
+
                             <button  
                                 type="button"  
                                 class="icon-btn"  
@@ -4529,10 +4526,11 @@ async function renderJourneys(){
                                 onclick="deleteJourney('${escapeJs(trip.id)}')"  
                             >  
                                 刪除  
-                            </button>  
-  
-                        </div>  
-  
+                            </button>
+
+                        </div>
+                        ` : ""}
+
                     </div>  
   
                 </div>  
